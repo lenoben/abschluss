@@ -1,0 +1,25 @@
+# uSockets CMakeLists.txt
+
+# Add all source files in the src directory
+file(GLOB SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/eventing/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/crypto/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/io_uring/*.c
+)
+
+# Create a static library (libuSockets.a) from the source files
+add_library(uSockets STATIC ${SOURCES})
+
+# Compiler flags for the library
+target_compile_options(uSockets PRIVATE
+    -flto
+    -DLIBUS_NO_SSL
+    -std=c11
+    -O3
+)
+
+# Include directories for this library
+target_include_directories(uSockets PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)

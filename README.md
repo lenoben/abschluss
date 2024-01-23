@@ -44,6 +44,18 @@
 
 ---
 
+## TOOLS, FRAMEWORKS, LIBRARIES
+
+- Docker
+- Cmake
+- uSockets
+- uWebSockets
+- Mlpack
+- C++
+- Visual Studio Code
+- PostgreSQL
+- Fl0.com
+
 ## TODO:
 
 -_subject to change on every commit_-
@@ -63,6 +75,14 @@
 - [ ] Build uWebSockets server
 - [ ] Test server
 - [ ] Build the server with model hosting capabilities
+
+## REFERENCES
+
+-_This list contains where ideas were also pulled from_-
+
+- placeholder
+
+---
 
 ## Disclaimer
 
