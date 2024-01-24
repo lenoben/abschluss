@@ -1,6 +1,10 @@
 # Server CMakeLists.txt
 cmake_minimum_required(VERSION 3.10)
-project(MLSERVER)
+project(senti_mlserver VERSION 0.1.0 LANGUAGES C CXX)
+
+# Set required standard to C++20.
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add include directories
 include_directories(${CMAKE_SOURCE_DIR}/include/uWebSockets/uSockets/src)
@@ -14,34 +18,31 @@ add_subdirectory(include/uWebSockets/uSockets/)
 file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 # Build executable
-add_executable(MLSERVER ${SOURCES})
+add_executable(senti_mlserver ${SOURCES})
 
 # Compiler flags for the executable
-target_compile_options(MLSERVER PRIVATE
+target_compile_options(senti_mlserver PRIVATE
     -march=native
-    -O3
     -Wpedantic
     -Wall
     -Wextra
     -Wsign-conversion
     -Wconversion
-    -std=c++20
-    -flto
 )
 
 # Link with uSockets library and zlib
-target_link_libraries(MLSERVER PRIVATE
+target_link_libraries(senti_mlserver PRIVATE
     uSockets
     -lz
 )
 
 # Link libraries
-target_link_libraries(MLSERVER PRIVATE -lz -lpqxx -lpq -larmadillo -lmlpack -fopenmp)
+target_link_libraries(senti_mlserver PRIVATE -lz -lpqxx -lpq -larmadillo -lmlpack -fopenmp)
 
 # Set compilation flags
-target_compile_options(MLSERVER PRIVATE -flto -Wconversion -fopenmp)
+target_compile_options(senti_mlserver PRIVATE -flto -Wconversion -fopenmp)
 
 # Set output directory
-set_target_properties(MLSERVER PROPERTIES
+set_target_properties(senti_mlserver PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/out
 )

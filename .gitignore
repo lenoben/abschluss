@@ -85,3 +85,8 @@ C++ gitignore
 ## Custom user ignore
 **/dump
 **/build
+**/docs/page/**
+**/out
+**/.vscode
+# This is needed but it is here as a shellscript will do the installation of this
+**/MLServer/include/uWebSockets/** 
