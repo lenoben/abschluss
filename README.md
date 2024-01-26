@@ -2,6 +2,13 @@
 
 ---
 
+# COMMIT IN-DEPTH DESCRIPTION
+
+- Added [parser python Script](./Model/ModelFlow/data/parser.py)
+  The requirements.txt for the python script is also available
+  The parser.py converts .txt.gz files into .json files
+  It accepts two arguments; inputfile path and outputfile path
+
 ## Project Tree:
 
 -_subject to change on every commit_-
