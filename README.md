@@ -2,12 +2,10 @@
 
 ---
 
-# COMMIT IN-DEPTH DESCRIPTION
+## COMMIT IN-DEPTH DESCRIPTION
 
-- Added [parser python Script](./Model/ModelFlow/data/parser.py)
-  The requirements.txt for the python script is also available
-  The parser.py converts .txt.gz files into .json files
-  It accepts two arguments; inputfile path and outputfile path
+- Created [Preprocessor class](./Model/ModelFlow/include/Preprocessing.hpp)
+- Added a [General header file](./Model/ModelFlow/include/ModelFlow.hpp)
 
 ## Project Tree:
 
@@ -34,7 +32,6 @@
  │  ├── ModelFlow/
  │  │  ├── build/
  │  │  ├── include/
- │  │  ├── lib/
  │  │  ├── src/
  │  │  ├── out/
  │  │  │  ├── Data/
@@ -62,12 +59,13 @@
 - Visual Studio Code
 - PostgreSQL
 - Fl0.com
+- Python3
 
 ## TODO:
 
 -_subject to change on every commit_-
 
-- [ ] Download the datasets
+- [x] Download the datasets
 - [ ] Convert the downloaded datasets into a useable formaT
 - [ ] Build the Preprocessor Class
 - [ ] Save the preprocessed datasets
