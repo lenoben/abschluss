@@ -4,8 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- Created [Preprocessor class](./Model/ModelFlow/include/Preprocessing.hpp)
-- Added a [General header file](./Model/ModelFlow/include/ModelFlow.hpp)
+- edited the [data_install script](./Model/ModelFlow/data/raw/data_install.sh)
+  > This is due to the fact that `_&_` will pose errors in the program
 
 ## Project Tree:
 
@@ -67,7 +67,7 @@
 
 - [x] Download the datasets
 - [ ] Convert the downloaded datasets into a useable formaT
-- [ ] Build the Preprocessor Class
+- [x] Build the Preprocessor Class
 - [ ] Save the preprocessed datasets
 - [ ] Vectorize the datasets for ML algorithms
 - - [ ] Test the String encoding policies of Mlpack
