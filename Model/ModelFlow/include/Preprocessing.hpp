@@ -1,21 +1,90 @@
+/**
+ * @file Preprocessing.hpp
+ * @author John Obi (johnobi2003@gmail.com)
+ * @brief The preprocessor class header file
+ * @version 0.1
+ * @date 2024-01-28
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef MODEL_FLOW_PREPROCESSING_HPP
 #define MODEL_FLOW_PREPROCESSING_HPP
 
 #include "ModelFlow.hpp"
 
+/**
+ * @class Preprocessor
+ *
+ * @brief The preprocessor class as the name entails deals with preprocessing the dataset gotten from
+ * https://snap.stanford.edu/data/web-Amazon-links.html into formats that we can use.
+ */
 class Preprocessor
 {
 public:
+
+    /** 
+     * @brief Construct a new Preprocessor object
+     * FileType is undefined, DatasetList is empty
+     */
     Preprocessor();
+
+    /**
+     * @brief Construct a new Preprocessor object
+     * 
+     * @param FT FileType of the preprocessor class
+     * DatasetList is empty
+     */
     Preprocessor(FileType FT);
-    Preprocessor(FileType FT, std::vector<std::string> &List);
+
+    /**
+     * @brief Construct a new Preprocessor object
+     * 
+     * @param FT FileType
+     * @param List Copy of the list
+     */
+    Preprocessor(FileType FT, std::vector<std::string> List);
+
+    /**
+     * @brief Prints the FileType of the class
+     */
     void printType();
+
+    /**
+     * @brief Appends to the already existing DatasetList of the class
+     * 
+     * @param List new list, must not be the same as the existing DatasetList and not empty
+     */
     void addList(std::vector<std::string> List);
+
+    /**
+     * @brief Prints the DatasetList of the class
+     */
     void viewList();
+
+    /**
+     * @brief Combines the existing DatasetList into a singular DatasetList of the same FileType
+     */
+    void Combine();
+
+    /**
+     * @brief Combines and transform into another FileType
+     * 
+     * @param FT FileType to combine to
+     */
+    void Combine(FileType FT);
+
+    /**
+     * @brief Appends the list to the existing DatasetList and combines them
+     * 
+     * @param List 
+     */
+    void Combine(std::vector<std::string> List);
 private:
-    Json Dataset = {};
-    FileType FT;
-    std::vector<std::string> DatasetList;
+    Json Dataset = {}; //Json object???
+    FileType FT; //File type
+    std::vector<std::string> DatasetList; //List of Dataset
 };
 
 #endif

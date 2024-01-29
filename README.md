@@ -4,8 +4,14 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- edited the [data_install script](./Model/ModelFlow/data/raw/data_install.sh)
-  > This is due to the fact that `_&_` will pose errors in the program
+- changed an overloaded constructor to take a string copy instead of a string reference [&list -->> list](./Model/ModelFlow/include/Preprocessing.hpp)
+  > The reason is due to the fact that i want the list stored inside the class to be dependent from the outside list.
+  > Enabling the user to reuse that list variable for something else.
+- Added [Combine methods](./Model/ModelFlow/src/Preprocessing.cpp)
+  > Still work in progress 🧩
+- Added [StringManipulation.hpp](./Model/ModelFlow/include/StringManipulation.hpp)
+  > Contains methods/fucntions the preprocessor class will use to manipulate strings
+- Added some documentations
 
 ## Project Tree:
 
