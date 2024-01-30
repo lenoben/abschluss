@@ -4,14 +4,18 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- changed an overloaded constructor to take a string copy instead of a string reference [&list -->> list](./Model/ModelFlow/include/Preprocessing.hpp)
-  > The reason is due to the fact that i want the list stored inside the class to be dependent from the outside list.
-  > Enabling the user to reuse that list variable for something else.
-- Added [Combine methods](./Model/ModelFlow/src/Preprocessing.cpp)
-  > Still work in progress 🧩
-- Added [StringManipulation.hpp](./Model/ModelFlow/include/StringManipulation.hpp)
-  > Contains methods/fucntions the preprocessor class will use to manipulate strings
-- Added some documentations
+- Added [removestopwords method](./Model/ModelFlow/src/Preprocessing.cpp)
+- Added more functıons in [StringManipulation.hpp](./Model/ModelFlow/include/StringManipulation.hpp)
+- Added a text file that contains the [characters](./Model/ModelFlow/configs/removechars.txt) to exclude
+  > Then after doing this i just found out that c++ has a function that removes punctuations -\_-!
+- Added [stopwords](./Model/ModelFlow/configs/stopwords.txt) in a text file
+- Added more includes to [ModelFlow.hpp](./Model/ModelFlow/include/ModelFlow.hpp)
+
+## Discussions and insights
+
+- should i remove the Json Dataset private member from the Preprocessor class?
+  > well i am not using RAM, just file system and it was there at first for holding the dataset in RAM _Bad idea_...
+- I should remember to add error handling, but that will be later...
 
 ## Project Tree:
 

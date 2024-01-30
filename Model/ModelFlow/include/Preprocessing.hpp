@@ -4,9 +4,9 @@
  * @brief The preprocessor class header file
  * @version 0.1
  * @date 2024-01-28
- * 
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  */
 
 #ifndef MODEL_FLOW_PREPROCESSING_HPP
@@ -23,8 +23,7 @@
 class Preprocessor
 {
 public:
-
-    /** 
+    /**
      * @brief Construct a new Preprocessor object
      * FileType is undefined, DatasetList is empty
      */
@@ -32,7 +31,7 @@ public:
 
     /**
      * @brief Construct a new Preprocessor object
-     * 
+     *
      * @param FT FileType of the preprocessor class
      * DatasetList is empty
      */
@@ -40,7 +39,7 @@ public:
 
     /**
      * @brief Construct a new Preprocessor object
-     * 
+     *
      * @param FT FileType
      * @param List Copy of the list
      */
@@ -53,7 +52,7 @@ public:
 
     /**
      * @brief Appends to the already existing DatasetList of the class
-     * 
+     *
      * @param List new list, must not be the same as the existing DatasetList and not empty
      */
     void addList(std::vector<std::string> List);
@@ -70,21 +69,27 @@ public:
 
     /**
      * @brief Combines and transform into another FileType
-     * 
+     *
      * @param FT FileType to combine to
      */
     void Combine(FileType FT);
 
     /**
      * @brief Appends the list to the existing DatasetList and combines them
-     * 
-     * @param List 
+     *
+     * @param List
      */
     void Combine(std::vector<std::string> List);
+
+    /**
+     * @brief Removes the stopwords from the files contained in the datasetlist
+     */
+    void removeStopWords();
+
 private:
-    Json Dataset = {}; //Json object???
-    FileType FT; //File type
-    std::vector<std::string> DatasetList; //List of Dataset
+    Json Dataset = {};                    // Json object???
+    FileType FT;                          // File type
+    std::vector<std::string> DatasetList; // List of Dataset
 };
 
 #endif

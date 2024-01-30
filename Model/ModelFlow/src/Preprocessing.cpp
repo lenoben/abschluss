@@ -1,5 +1,6 @@
 #include "Preprocessing.hpp"
 #include <iomanip>
+#include "StringManipulation.hpp"
 
 /**
  * @brief Construct a new Preprocessor object
@@ -165,4 +166,24 @@ void Preprocessor::Combine(std::vector<std::string> list)
 
     Combine();
     return;
+}
+
+/**
+ * @brief Removes the stopwords from the files contained in the datasetlist
+ */
+void Preprocessor::removeStopWords()
+{
+    auto it = std::find(DatasetList.begin(), DatasetList.end(), "text.txt");
+    if (it != DatasetList.end())
+    {
+        if (!removeStop(DatasetList))
+        {
+            std::cerr << "[WARN] " << std::setw(4) << " Could not remove stopWords\nCheck if text.txt exists, stopwords.txt exists and if the DatasetList is text.txt only " << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "[WARN] " << std::setw(4) << " Can only perform this if text.txt exists" << std::endl;
+        return;
+    }
 }
