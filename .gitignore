@@ -90,4 +90,6 @@ C++ gitignore
 # This is needed but it is here as a shellscript will do the installation of this
 **/MLServer/include/uWebSockets/** 
 **/.venv
+# ignore the datasets
 **.txt.gz
+**/json/*.json

@@ -1,5 +1,6 @@
 a
 an
+am
 and
 the
 is
@@ -22,7 +23,6 @@ was
 are
 be
 or
-not
 you
 your
 they

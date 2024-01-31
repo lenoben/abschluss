@@ -4,11 +4,10 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- Added [removestopwords method](./Model/ModelFlow/src/Preprocessing.cpp)
-- Added more functıons in [StringManipulation.hpp](./Model/ModelFlow/include/StringManipulation.hpp)
-- Added a text file that contains the [characters](./Model/ModelFlow/configs/removechars.txt) to exclude
-  > Then after doing this i just found out that c++ has a function that removes punctuations -\_-!
-- Added [stopwords](./Model/ModelFlow/configs/stopwords.txt) in a text file
+- Added [initializeScript private member](./Model/ModelFlow/include/Preprocessing.hpp)
+- Added [.txt.gz to .json headerfile](./Model/ModelFlow/include/TxtgzToJson.hpp)
+  > I put it in a namespace as i may reuse the same function names elsewhere
+- Edited [stopwords](./Model/ModelFlow/configs/stopwords.txt)
 - Added more includes to [ModelFlow.hpp](./Model/ModelFlow/include/ModelFlow.hpp)
 
 ## Discussions and insights
@@ -16,6 +15,7 @@
 - should i remove the Json Dataset private member from the Preprocessor class?
   > well i am not using RAM, just file system and it was there at first for holding the dataset in RAM _Bad idea_...
 - I should remember to add error handling, but that will be later...
+- Thinking whether to use sparse matrix or normal matrix; sparse matrix is more memory efficient but slower
 
 ## Project Tree:
 

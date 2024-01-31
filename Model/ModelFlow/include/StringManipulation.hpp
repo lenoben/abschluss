@@ -47,18 +47,18 @@ void removeNonFilename(std::string &path)
     path = extractFilename(CONST_PATH);
 }
 
-void to_lower(std::string &cleaned)
+void to_lower_str(std::string &cleaned)
 {
     // Convert the string to lowercase.
     std::transform(cleaned.begin(), cleaned.end(), cleaned.begin(), [](unsigned char c)
                    { return std::tolower(c); });
 }
 
-void to_lower(std::vector<std::string> &string_vector)
+void to_lower_vec(std::vector<std::string> &string_vector)
 {
     for (auto &word : string_vector)
     {
-        to_lower(word);
+        to_lower_str(word);
     }
 }
 
@@ -80,7 +80,7 @@ std::string cleanString(std::string dirty)
             }
         }
     }
-    to_lower(cleaned);
+    to_lower_str(cleaned);
     return cleaned;
 }
 
@@ -100,7 +100,7 @@ bool removeStop(std::vector<std::string> &DatasetList)
         stopWords.push_back(stopWord);
     }
     stopWordsFile.close();
-    to_lower(stopWords);
+    to_lower_vec(stopWords);
 
     std::ifstream inputFile(DatasetList[0]);
     std::ofstream outputFile("noStopWord.txt");
@@ -120,7 +120,7 @@ bool removeStop(std::vector<std::string> &DatasetList)
         // Process each word in the line
         while (iss >> word)
         {
-            to_lower(word);
+            to_lower_str(word);
             // Remove punctuation or other unwanted characters
             word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
 

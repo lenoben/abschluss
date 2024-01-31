@@ -12,8 +12,13 @@
 
 #include <filesystem>
 #include <fstream>
+#include <sstream>
 #include <iomanip>
 #include <typeinfo>
+
+#include <stdexcept>
+#include <array>
+#include <cstdlib>
 
 #include "json.hpp"
 
