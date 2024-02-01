@@ -144,4 +144,48 @@ bool removeStop(std::vector<std::string> &DatasetList)
     return true;
 }
 
+void combineJsonLineByLine(std::vector<std::string> &DatasetList)
+{
+    // Bad idea; storing it all in memory
+    Json hugeBuffer = Json::array();
+    std::string line;
+    // Try checking for .extensionname / if file exists error
+    for (const auto &dataset : DatasetList)
+    {
+        std::ifstream file(dataset);
+        // open file error check sire
+        while (std::getline(file, line))
+        {
+            Json temp_json = Json::parse(line);
+            if (temp_json.is_null())
+                continue;
+            if (temp_json.empty())
+                continue;
+            // Taking only text and score and discarding the rest of garbage
+            std::string score = temp_json["review/score"], text = temp_json["review/text"];
+            temp_json["score"] = std::stof(score);
+            temp_json["text"] = cleanString(text);
+            temp_json.erase("review/summary");
+            temp_json.erase("review/score");
+            temp_json.erase("review/text");
+            temp_json.erase("product/productId");
+            temp_json.erase("product/title");
+            temp_json.erase("product/price");
+            temp_json.erase("review/userId");
+            temp_json.erase("review/profileName");
+            temp_json.erase("review/time");
+            temp_json.erase("review/helpfulness");
+            // Pushing an object into the json array
+            hugeBuffer.push_back(temp_json);
+        }
+        std::cout << " Done with sending " << dataset << " into the buffer and closing it" << std::endl;
+        file.close();
+    }
+    std::cout << " Started sending them into the combined.json" << std::endl;
+    // TODO: Try checking if after opening one dataset file, out stream into it?? instead of holding huge buffer??
+    std::ofstream outputFile("combined.json");
+    outputFile << hugeBuffer;
+    outputFile.close();
+    DatasetList = {"combined.json"};
+}
 #endif

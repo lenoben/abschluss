@@ -4,11 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- Added [initializeScript private member](./Model/ModelFlow/include/Preprocessing.hpp)
-- Added [.txt.gz to .json headerfile](./Model/ModelFlow/include/TxtgzToJson.hpp)
-  > I put it in a namespace as i may reuse the same function names elsewhere
-- Edited [stopwords](./Model/ModelFlow/configs/stopwords.txt)
-- Added more includes to [ModelFlow.hpp](./Model/ModelFlow/include/ModelFlow.hpp)
+- Added [combine json line by line](./Model/ModelFlow/include/StringManipulation.hpp)
 
 ## Discussions and insights
 
