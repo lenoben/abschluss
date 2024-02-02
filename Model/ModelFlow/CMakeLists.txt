@@ -14,7 +14,7 @@ file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 add_executable(senti_model_flow ${SOURCES})
 
 # Link libraries
-target_link_libraries(senti_model_flow PRIVATE -larmadillo -lmlpack -fopenmp)
+target_link_libraries(senti_model_flow PRIVATE -larmadillo -lmlpack -lz)
 
 # Set compilation flags
 target_compile_options(senti_model_flow PRIVATE -flto -Wconversion -fopenmp)

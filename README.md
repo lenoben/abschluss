@@ -4,7 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- Added [combine json line by line](./Model/ModelFlow/include/StringManipulation.hpp)
+- Added [.txt.gz to txt](./Model/ModelFlow/include/TxtgzToTxt.hpp)
+- Modified [CMakeLists.txt](./Model/ModelFlow/CMakeLists.txt) to account for zlib compatibility
 
 ## Discussions and insights
 

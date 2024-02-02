@@ -20,6 +20,8 @@
 #include <array>
 #include <cstdlib>
 
+#include <zlib.h>
+
 #include "json.hpp"
 
 using Json = nlohmann::json;
