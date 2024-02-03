@@ -4,8 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- Added [.txt.gz to txt](./Model/ModelFlow/include/TxtgzToTxt.hpp)
-- Modified [CMakeLists.txt](./Model/ModelFlow/CMakeLists.txt) to account for zlib compatibility
+- Added [convert Json to txt](./Model/ModelFlow/include/StringManipulation.hpp)
 
 ## Discussions and insights
 
@@ -13,6 +12,8 @@
   > well i am not using RAM, just file system and it was there at first for holding the dataset in RAM _Bad idea_...
 - I should remember to add error handling, but that will be later...
 - Thinking whether to use sparse matrix or normal matrix; sparse matrix is more memory efficient but slower
+- Many functions arent supported with sparse matrix so normal matrix it is
+- Next is memory issues, hmmm
 
 ## Project Tree:
 

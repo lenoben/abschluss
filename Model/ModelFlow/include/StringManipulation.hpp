@@ -188,4 +188,108 @@ void combineJsonLineByLine(std::vector<std::string> &DatasetList)
     outputFile.close();
     DatasetList = {"combined.json"};
 }
+
+void saveVectors(std::vector<std::string> &vector, std::string filename)
+{
+    std::ofstream File(filename);
+    std::cout << " Saving to " << filename << std::endl;
+    for (const auto &vectorUnit : vector)
+    {
+        File << vectorUnit << std::endl;
+    }
+    File.close();
+    std::cout << " Saved " << filename << std::endl;
+}
+
+void sm_convertJsonToTxt(std::string JsonFile, std::vector<std::string> &DatasetList)
+{
+    // errorenous ??
+    std::ifstream file(JsonFile);
+
+    /**
+     * @brief This variable is to know which type of field it holds
+     *  True - means ["score"], False - means []"review/score"]
+     */
+    bool whichfield = false;
+    std::cout << DatasetList[0] << " about to be json parsed " << std::endl;
+    Json JsonBuffer = Json::parse(file);
+    std::cout << DatasetList[0] << " parsed " << std::endl;
+
+    // fields needed; score and text
+    std::vector<std::string> score, text;
+
+    if (!JsonBuffer.is_array())
+    {
+
+        // change it back to empty buffer;
+        JsonBuffer = {};
+
+        std::string line;
+        while (std::getline(file, line))
+        {
+
+            JsonBuffer = Json::parse(line);
+
+            if (JsonBuffer.is_null() || JsonBuffer.empty())
+                continue;
+
+            if (JsonBuffer.contains("review/score"))
+            {
+                whichfield = false;
+                score.push_back(std::to_string(JsonBuffer["review/score"].get<int>()));
+            }
+            if (JsonBuffer.contains("score"))
+            {
+                whichfield = true;
+                score.push_back(std::to_string(JsonBuffer["score"].get<int>()));
+            }
+
+            if (JsonBuffer.contains("review/text"))
+            {
+                text.push_back(JsonBuffer["review/text"]);
+            }
+            if (JsonBuffer.contains("text"))
+            {
+                text.push_back(JsonBuffer["text"]);
+            }
+        }
+        saveVectors(text, "text.txt");
+        saveVectors(score, "score.txt");
+        DatasetList = {"score.txt", "text.txt"};
+
+        return;
+    }
+    else
+    {
+        if (JsonBuffer[0].contains("score"))
+            whichfield = true;
+        // true - score, false - review/score
+        if (whichfield)
+        {
+
+            for (Json &field : JsonBuffer)
+            {
+                text.push_back(field["text"]);
+                score.push_back(std::to_string(field["score"].get<int>()));
+            }
+            saveVectors(text, "text.txt");
+            saveVectors(score, "score.txt");
+            DatasetList = {"score.txt", "text.txt"};
+            return;
+        }
+        else
+        {
+            for (const auto &field : JsonBuffer)
+            { // in here as "json.hpp" dont want to all composition
+                std::string temp_text = field["review/text"], temp_score = field["review/score"];
+                text.push_back(temp_text);
+                score.push_back(temp_score);
+            }
+            saveVectors(text, "text.txt");
+            saveVectors(score, "score.txt");
+            DatasetList = {"score.txt", "text.txt"};
+            return;
+        }
+    }
+}
 #endif
