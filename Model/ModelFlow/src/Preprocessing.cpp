@@ -1,6 +1,7 @@
 #include "Preprocessing.hpp"
 #include <iomanip>
 #include "StringManipulation.hpp"
+#include "TxtgzToTxt.hpp"
 
 /**
  * @brief Construct a new Preprocessor object
@@ -185,5 +186,38 @@ void Preprocessor::removeStopWords()
     {
         std::cout << "[WARN] " << std::setw(4) << " Can only perform this if text.txt exists" << std::endl;
         return;
+    }
+}
+
+/**
+ * @brief Converts .txt.gz to .txt
+ * @param directory The directory to save it, default is ''
+ */
+void Preprocessor::ConvertTxtgzToTxt(std::string directory = "")
+{
+    if (FT != FileType::TXTGZ)
+    {
+        std::cerr << "[WARN]" << std::setw(4) << "Cannot convert to TXT" << std::endl;
+        return;
+    }
+
+    for (auto filename : DatasetList)
+    {
+        std::string outputData = {};
+        if (gzTotzt::decompressGzip(filename + ".txt.gz", outputData))
+        {
+            removeNonFilename(filename);
+            if (gzTotzt::saveToFile(directory + filename + ".txt", outputData))
+            {
+                std::cout << "[INFO]" << std::setw(4) << ""
+                          << "Decompressed data saved to " << filename + ".txt" << std::endl;
+                // change filetype
+                FT = FileType::TXT;
+            }
+            else
+            {
+                std::cerr << "[WARN]" << std::setw(4) << "Error saving data" << std::endl;
+            }
+        }
     }
 }

@@ -86,6 +86,12 @@ public:
      */
     void removeStopWords();
 
+    /**
+     * @brief Converts .txt.gz to .txt
+     * @param directory The directory to save it, default is ''
+     */
+    void ConvertTxtgzToTxt(std::string directory);
+
 private:
     Json Dataset = {};                    // Json object???
     FileType FT;                          // File type

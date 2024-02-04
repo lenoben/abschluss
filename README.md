@@ -4,7 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- Added [convert Json to txt](./Model/ModelFlow/include/StringManipulation.hpp)
+- Added [convert .txt.gx to .txt method](./Model/ModelFlow/include/Preprocessing.hpp)
 
 ## Discussions and insights
 
@@ -14,6 +14,7 @@
 - Thinking whether to use sparse matrix or normal matrix; sparse matrix is more memory efficient but slower
 - Many functions arent supported with sparse matrix so normal matrix it is
 - Next is memory issues, hmmm
+- would try savıng the matrıxes ın bınary format
 
 ## Project Tree:
 
