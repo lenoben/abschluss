@@ -72,8 +72,13 @@ std::string cleanString(std::string dirty)
     {
         for (char c : dirty)
         {
-            // Check if the character is not in the symbols string.
-            if (symbols_line.find(c) == std::string::npos)
+            // Check if the character is in the symbols string.
+            if (symbols_line.find(c) != std::string::npos)
+            {
+                // Replace character wıth a new strıng.
+                cleaned += ' ';
+            }
+            else
             {
                 // Append the character to the new string.
                 cleaned += c;
@@ -291,5 +296,34 @@ void sm_convertJsonToTxt(std::string JsonFile, std::vector<std::string> &Dataset
             return;
         }
     }
+}
+
+void combineTXT(std::vector<std::string> &DatasetList)
+{
+    // Open a new file to combine the contents
+    std::ofstream combinedFile("combined.txt");
+
+    for (const auto &fileName : DatasetList)
+    {
+        // Open each input file
+        std::ifstream inputFile(fileName);
+        if (!inputFile.is_open())
+        {
+            std::cerr << "Error opening input file: " << fileName << std::endl;
+            return;
+        }
+
+        // Append the contents of the input file to the combined file
+        combinedFile << inputFile.rdbuf();
+
+        // Close the input file
+        inputFile.close();
+    }
+
+    // Close the combined file
+    combinedFile.close();
+
+    std::cout << "Files combined successfully." << std::endl;
+    DatasetList = {"combined.txt"};
 }
 #endif

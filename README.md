@@ -4,7 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- Added [convert .txt.gx to .txt method](./Model/ModelFlow/include/Preprocessing.hpp)
+- Added [combineTXT](./Model/ModelFlow/include/StringManipulation.hpp)
 
 ## Discussions and insights
 
@@ -75,7 +75,7 @@
 -_subject to change on every commit_-
 
 - [x] Download the datasets
-- [ ] Convert the downloaded datasets into a useable formaT
+- [x] Convert the downloaded datasets into a useable formaT
 - [x] Build the Preprocessor Class
 - [ ] Save the preprocessed datasets
 - [ ] Vectorize the datasets for ML algorithms
