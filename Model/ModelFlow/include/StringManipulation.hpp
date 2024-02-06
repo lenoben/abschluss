@@ -326,4 +326,57 @@ void combineTXT(std::vector<std::string> &DatasetList)
     std::cout << "Files combined successfully." << std::endl;
     DatasetList = {"combined.txt"};
 }
+
+void categorizeByScore(std::vector<std::string> &DatasetList, int positive)
+{
+    std::ifstream scoreFile(DatasetList[0]); // score.txt
+    std::ifstream textFile(DatasetList[1]);  // text.txt or noStopWord.txt
+
+    if (!scoreFile.is_open() || !textFile.is_open())
+    {
+        std::cerr << "Error opening input files." << std::endl;
+        return;
+    }
+
+    std::ofstream highTextFile("hightext.txt");
+    std::ofstream lowTextFile("lowtext.txt");
+
+    if (!highTextFile.is_open() || !lowTextFile.is_open())
+    {
+        std::cerr << "Error opening output files." << std::endl;
+        return;
+    }
+
+    std::vector<int> scores;
+    int score;
+    while (scoreFile >> score)
+    {
+        scores.push_back(score);
+    }
+
+    std::string line;
+    for (size_t i = 0; i < scores.size(); ++i)
+    {
+        std::getline(textFile, line);
+
+        if (line.empty())
+            continue;
+        if (scores[i] >= positive)
+        {
+            highTextFile << line << std::endl;
+        }
+        else
+        {
+            lowTextFile << line << std::endl;
+        }
+    }
+
+    std::cout << "Categorization completed." << std::endl;
+    DatasetList = {"hightext.txt", "lowtext.txt"};
+
+    scoreFile.close();
+    textFile.close();
+    highTextFile.close();
+    lowTextFile.close();
+}
 #endif
