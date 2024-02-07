@@ -4,7 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- Added [combineTXT](./Model/ModelFlow/include/StringManipulation.hpp)
+- Added [count lines function](./Model/ModelFlow/include/StringManipulation.hpp)
 
 ## Discussions and insights
 

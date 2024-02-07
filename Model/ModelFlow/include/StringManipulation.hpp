@@ -90,10 +90,10 @@ std::string cleanString(std::string dirty)
 }
 
 bool removeStop(std::vector<std::string> &DatasetList)
-{
+{ // DatasetList looks like this {score.txt, text.txt}
     // Read stop words from file
     std::ifstream stopWordsFile("../configs/stopwords.txt");
-    if (!stopWordsFile.is_open() || !std::filesystem::exists(DatasetList[0]))
+    if (!stopWordsFile.is_open() || !std::filesystem::exists(DatasetList[1]))
     {
         return false;
     }
@@ -107,7 +107,7 @@ bool removeStop(std::vector<std::string> &DatasetList)
     stopWordsFile.close();
     to_lower_vec(stopWords);
 
-    std::ifstream inputFile(DatasetList[0]);
+    std::ifstream inputFile(DatasetList[1]);
     std::ofstream outputFile("noStopWord.txt");
 
     if (!inputFile.is_open() || !outputFile.is_open())
@@ -145,7 +145,7 @@ bool removeStop(std::vector<std::string> &DatasetList)
     // Close files
     inputFile.close();
     outputFile.close();
-    DatasetList[0] = "noStopWord.txt";
+    DatasetList[1] = "noStopWord.txt";
     return true;
 }
 
@@ -378,5 +378,26 @@ void categorizeByScore(std::vector<std::string> &DatasetList, int positive)
     textFile.close();
     highTextFile.close();
     lowTextFile.close();
+}
+
+// Function to count the number of lines in a file
+int countLines(const std::string &fileName)
+{
+    std::ifstream file(fileName);
+    if (!file.is_open())
+    {
+        std::cerr << "Error opening file for line counting: " << fileName << std::endl;
+        return 0;
+    }
+
+    int lineCount = 0;
+    std::string line;
+    while (std::getline(file, line))
+    {
+        ++lineCount;
+    }
+
+    file.close();
+    return lineCount;
 }
 #endif
