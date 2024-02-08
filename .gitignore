@@ -87,7 +87,8 @@ C++ gitignore
 **/build
 **/docs/page/**
 **/out
-**/ModelFlow/tests
+**/ModelFlow/tests/**
+**/ModelFlow/temp/**
 # This is needed but it is here as a shellscript will do the installation of this
 **/MLServer/include/uWebSockets/** 
 **/.venv

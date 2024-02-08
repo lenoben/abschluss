@@ -4,7 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- Added [count lines function](./Model/ModelFlow/include/StringManipulation.hpp)
+- added equallines function and converted to [Header file](./Model/ModelFlow/include/StringManipulation.hpp)
+- added the [implementation file](./Model/ModelFlow/src/StringManipulation.cpp)
 
 ## Discussions and insights
 
