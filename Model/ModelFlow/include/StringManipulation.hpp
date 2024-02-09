@@ -64,6 +64,12 @@ std::string cleanString(std::string dirty);
 bool removeStop(std::vector<std::string> &DatasetList);
 
 /**
+ * @brief removes characters from the string file
+ * modifies the DatasetList
+ */
+void cleanStringFile(const std::string filename, std::vector<std::string> &DatasetList);
+
+/**
  * @brief combines json line by line and modify the DatasetList
  *
  * @param DatasetList

@@ -78,27 +78,21 @@ void to_lower_vec(std::vector<std::string> &string_vector)
 std::string cleanString(std::string dirty)
 {
     std::string cleaned;
-    // may remove later
     std::ifstream rem("../configs/removechars.txt");
     std::string symbols_line;
     while (std::getline(rem, symbols_line))
     {
         for (char c : dirty)
         {
-            // Check if the character is in the symbols string.
-            if (symbols_line.find(c) != std::string::npos)
-            {
-                // Replace character wıth a new strıng.
-                cleaned += ' ';
-            }
-            else
+            // Check if the character is not in the symbols string.
+            if (symbols_line.find(c) == std::string::npos)
             {
                 // Append the character to the new string.
                 cleaned += c;
             }
         }
     }
-    to_lower_str(cleaned);
+    // to_lower_str(cleaned);
     return cleaned;
 }
 
@@ -111,7 +105,8 @@ std::string cleanString(std::string dirty)
  * @return true if successful
  */
 bool removeStop(std::vector<std::string> &DatasetList)
-{ // DatasetList looks like this {score.txt, text.txt}
+{
+    // DatasetList looks like this {score.txt, text.txt}
     // Read stop words from file
     std::ifstream stopWordsFile("../configs/stopwords.txt");
     if (!stopWordsFile.is_open() || !std::filesystem::exists(DatasetList[1]))
@@ -146,7 +141,7 @@ bool removeStop(std::vector<std::string> &DatasetList)
         // Process each word in the line
         while (iss >> word)
         {
-            to_lower_str(word);
+            // to_lower_str(word);
             // Remove punctuation or other unwanted characters
             word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
 
@@ -168,6 +163,26 @@ bool removeStop(std::vector<std::string> &DatasetList)
     outputFile.close();
     DatasetList[1] = "noStopWord.txt";
     return true;
+}
+
+/**
+ * @brief removes characters from the string file
+ * modifies the DatasetList
+ */
+void cleanStringFile(const std::string filename, std::vector<std::string> &DatasetList)
+{
+    std::ifstream file(filename);
+    std::string newname = "cleaned.txt";
+    std::ofstream outfile(newname);
+    std::string line;
+    while (std::getline(file, line))
+    {
+        outfile << cleanString(line) << "\n";
+    }
+    file.close();
+    outfile.close();
+    std::cout << "[INFO] " << std::setw(4) << filename << " changed to " << newname << std::endl;
+    DatasetList[1] = newname;
 }
 
 /**
@@ -382,7 +397,7 @@ void combineTXT(std::vector<std::string> &DatasetList)
 void categorizeByScore(std::vector<std::string> &DatasetList, int positive)
 {
     std::ifstream scoreFile(DatasetList[0]); // score.txt
-    std::ifstream textFile(DatasetList[1]);  // text.txt or noStopWord.txt
+    std::ifstream textFile(DatasetList[1]);  // text.txt or noStopWord.txt or cleaned.txt
 
     if (!scoreFile.is_open() || !textFile.is_open())
     {
