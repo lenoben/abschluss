@@ -126,4 +126,11 @@ int countLines(const std::string &fileName);
  */
 void equalizeLines(const std::string &inputFileName, std::ofstream &output, int n);
 
+/**
+ * @brief equalize lines from two files
+ * modifies DatasetList
+ * @param DatasetList
+ */
+void equalizer(std::vector<std::string> &DatasetList);
+
 #endif

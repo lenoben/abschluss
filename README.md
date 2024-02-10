@@ -4,8 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added [clean string file function](./Model/ModelFlow/include/StringManipulation.hpp)
-- added the [implementation file](./Model/ModelFlow/src/StringManipulation.cpp)
+- added [equalizer function](./Model/ModelFlow/include/StringManipulation.hpp)
+- added equalizer [implementation file](./Model/ModelFlow/src/StringManipulation.cpp)
 
 ## Discussions and insights
 

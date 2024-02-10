@@ -498,3 +498,36 @@ void equalizeLines(const std::string &inputFileName, std::ofstream &output, int 
 
     inputFile.close();
 }
+
+/**
+ * @brief equalize lines from two files
+ * modifies DatasetList
+ * @param DatasetList
+ */
+void equalizer(std::vector<std::string> &DatasetList)
+{
+    int highTextCount = countLines(DatasetList[0]); // hightext
+    int lowTextCount = countLines(DatasetList[1]);
+
+    int minCount = std::min(highTextCount, lowTextCount);
+    std::cout << " Min is - " << minCount << std::endl;
+
+    std::ofstream equalHighTextFile("equalhightext.txt");
+    std::ofstream equalLowTextFile("equallowtext.txt");
+
+    if (!equalHighTextFile.is_open() || !equalLowTextFile.is_open())
+    {
+        std::cerr << "Error opening output files for equal text." << std::endl;
+        return;
+    }
+
+    // Write the first minCount lines from hightext.txt to equalhightext.txt
+    equalizeLines(DatasetList[0], equalHighTextFile, minCount);
+
+    // Write the first minCount lines from lowtext.txt to equallowtext.txt
+    equalizeLines(DatasetList[1], equalLowTextFile, minCount);
+
+    std::cout << "Equalization completed." << std::endl;
+    DatasetList = {"equalhightext.txt",
+                   "equallowtext.txt"};
+}
