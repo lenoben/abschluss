@@ -531,3 +531,27 @@ void equalizer(std::vector<std::string> &DatasetList)
     DatasetList = {"equalhightext.txt",
                    "equallowtext.txt"};
 }
+
+/**
+ * @brief Gets the file into vector of string
+ *
+ * @param filename file name reference
+ * @param length how many lines to read
+ * @return std::vector<std::string>
+ */
+std::vector<std::string> file_to_vector(const std::string &filename, int length)
+{
+    std::ifstream file(filename);
+    std::string line;
+    std::vector<std::string> corpus = {};
+    int counter = 0;
+    while (std::getline(file, line))
+    {
+        corpus.push_back(line);
+        if (counter >= length)
+            break;
+        counter++;
+    }
+    file.close();
+    return corpus;
+}

@@ -4,7 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added [equalizer function](./Model/ModelFlow/include/StringManipulation.hpp)
+- added [file to vector function](./Model/ModelFlow/include/StringManipulation.hpp)
 - added equalizer [implementation file](./Model/ModelFlow/src/StringManipulation.cpp)
 
 ## Discussions and insights
@@ -13,9 +13,24 @@
   > well i am not using RAM, just file system and it was there at first for holding the dataset in RAM _Bad idea_...
 - I should remember to add error handling, but that will be later...
 - Thinking whether to use sparse matrix or normal matrix; sparse matrix is more memory efficient but slower
-- Many functions arent supported with sparse matrix so normal matrix it is
-- Next is memory issues, hmmm
-- would try savıng the matrıxes ın bınary format
+  > Many functions arent supported with sparse matrix so normal matrix it is
+  > Next is memory issues, hmmm
+- would try savıng the matrıxes ın bınary format or csv
+
+- ### Currently on building it with a non NN model
+
+* Logistic regression
+* Linear SVM
+* Decision tree
+* Random forest
+* Naive bayes
+
+- ### Evaluation units
+- Accuracy
+- Precision
+- F1 score
+- Recall
+- Support
 
 ## Project Tree:
 

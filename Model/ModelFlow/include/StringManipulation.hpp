@@ -133,4 +133,13 @@ void equalizeLines(const std::string &inputFileName, std::ofstream &output, int 
  */
 void equalizer(std::vector<std::string> &DatasetList);
 
+/**
+ * @brief Gets the file into vector of string
+ *
+ * @param filename file name reference
+ * @param length how many lines to read
+ * @return std::vector<std::string>
+ */
+std::vector<std::string> file_to_vector(const std::string &filename, int length);
+
 #endif
