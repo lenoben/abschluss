@@ -1,7 +1,7 @@
 #include "Preprocessing.hpp"
-#include <iomanip>
 #include "StringManipulation.hpp"
 #include "TxtgzToTxt.hpp"
+#include "TxtgzToJson.hpp"
 
 /**
  * @brief Construct a new Preprocessor object
@@ -104,7 +104,7 @@ void Preprocessor::Combine()
             std::cerr << "[WARN]" << std::setw(4) << "No Lists of [<filename>].json available" << std::endl;
             return;
         }
-        // TODO
+        combineJsonLineByLine(DatasetList);
         return;
     }
     if (FT == FileType::TXT)
@@ -113,6 +113,14 @@ void Preprocessor::Combine()
         {
             std::cerr << "[WARN]" << std::setw(4) << "No Lists of [<filename>].txt available" << std::endl;
             return;
+        }
+        if (DatasetList.size() == 2)
+        {
+            if (DatasetList[0] == "hightext.txt" || DatasetList[0] == "equalhightext.txt" || DatasetList[0] == "train_equalhightext.txt" || DatasetList[0] == "test_equalhightext.txt")
+            {
+                combineTXT(DatasetList);
+                std::cout << "[INFO] " << std::setw(4) << "Combined - " << DatasetList[0] << std::endl;
+            }
         }
         // TODO
         return;

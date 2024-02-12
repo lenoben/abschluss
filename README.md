@@ -4,8 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added [file to vector function](./Model/ModelFlow/include/StringManipulation.hpp)
-- added equalizer [implementation file](./Model/ModelFlow/src/StringManipulation.cpp)
+- modified [Preprocessor::Combine()](./Model/ModelFlow/src/Preprocessing.cpp)
 
 ## Discussions and insights
 
