@@ -4,7 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- modified [Preprocessor::Combine()](./Model/ModelFlow/src/Preprocessing.cpp)
+- added [ConvertTxtgzToJson()](./Model/ModelFlow/include/Preprocessing.hpp)
+- [implementation file](./Model/ModelFlow/src/Preprocessing.cpp)
 
 ## Discussions and insights
 

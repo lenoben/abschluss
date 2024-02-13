@@ -229,3 +229,23 @@ void Preprocessor::ConvertTxtgzToTxt(std::string directory = "")
         }
     }
 }
+
+void Preprocessor::ConvertTxtgzToJson()
+{
+    if (FT != FileType::TXTGZ)
+    {
+        std::cerr << "[WARN]" << std::setw(4) << ""
+                  << " Cannot use this to convert to json" << std::endl;
+        return;
+    }
+    gzTojson::initializeScript(initializeScript);
+    for (const auto &dataset : DatasetList)
+    {
+        gzTojson::convert(dataset, extractFilename(dataset));
+    }
+    for (auto &dataset : DatasetList)
+    {
+        dataset = extractFilename(dataset) + ".json";
+    }
+    FT = FileType::JSON;
+}

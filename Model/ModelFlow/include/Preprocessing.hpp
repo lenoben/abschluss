@@ -92,6 +92,13 @@ public:
      */
     void ConvertTxtgzToTxt(std::string directory);
 
+    /**
+     * @brief converts .txt.gz to .json
+     * The datasetList can be a list of .txt.gz files and be converted to list of .json
+     *
+     */
+    void ConvertTxtgzToJson();
+
 private:
     Json Dataset = {};                    // Json object???
     FileType FT;                          // File type
