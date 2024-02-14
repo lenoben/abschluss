@@ -4,7 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added [ConvertTxtgzToJson()](./Model/ModelFlow/include/Preprocessing.hpp)
+- added [ConvertJsonToTxt()](./Model/ModelFlow/include/Preprocessing.hpp)
 - [implementation file](./Model/ModelFlow/src/Preprocessing.cpp)
 
 ## Discussions and insights

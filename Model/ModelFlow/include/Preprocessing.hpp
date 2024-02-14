@@ -99,6 +99,13 @@ public:
      */
     void ConvertTxtgzToJson();
 
+    /**
+     * @brief usually works after combine()
+     * save the combined.json file into score.txt and text.txt
+     *
+     */
+    void ConvertJsonToTxt();
+
 private:
     Json Dataset = {};                    // Json object???
     FileType FT;                          // File type

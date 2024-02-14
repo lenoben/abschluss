@@ -249,3 +249,19 @@ void Preprocessor::ConvertTxtgzToJson()
     }
     FT = FileType::JSON;
 }
+
+void Preprocessor::ConvertJsonToTxt()
+{
+    if (DatasetList.size() == 1)
+    {
+        sm_convertJsonToTxt(DatasetList[0], DatasetList);
+        FT = FileType::TXT;
+        return;
+    }
+    else
+    {
+        std::cerr << "[WARN]" << std::setw(4) << ""
+                  << "Can only do it for one, make sure you combine it" << std::endl;
+        return;
+    }
+}
