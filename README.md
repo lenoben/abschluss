@@ -4,8 +4,9 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added [ConvertJsonToTxt()](./Model/ModelFlow/include/Preprocessing.hpp)
-- [implementation file](./Model/ModelFlow/src/Preprocessing.cpp)
+- updated the list in [reomveChars](./Model/ModelFlow/configs/removechars.txt)
+- update the list in [stopwords](./Model/ModelFlow/configs/stopwords.txt)
+  These were modified to add more items to further remove unnecessary words and symbols that lacked meaning for the system.
 
 ## Discussions and insights
 
