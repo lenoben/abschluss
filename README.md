@@ -4,9 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- updated the list in [reomveChars](./Model/ModelFlow/configs/removechars.txt)
-- update the list in [stopwords](./Model/ModelFlow/configs/stopwords.txt)
-  These were modified to add more items to further remove unnecessary words and symbols that lacked meaning for the system.
+- added more [enum](./Model/ModelFlow/include/ModelFlow.hpp) type in modelflow directory and functions to print the type out
+- [implementation file](./Model/ModelFlow/src/ModelFlow.cpp)
 
 ## Discussions and insights
 

@@ -1,14 +1,13 @@
+
 #ifndef MODEL_FLOW_HPP
 #define MODEL_FLOW_HPP
-
-/// Define these to print extra informational output and warnings.
-#define MLPACK_PRINT_INFO
-#define MLPACK_PRINT_WARN
 
 #include <vector>
 #include <iostream>
 #include <string>
 #include <algorithm>
+
+#include <tuple>
 
 #include <filesystem>
 #include <fstream>
@@ -32,4 +31,30 @@ enum FileType
     TXT
 };
 
+enum EncoderType
+{
+    BOW,
+    TFID
+};
+
+std::string encoderTypeToString(EncoderType type);
+
+enum TheTokenType
+{
+    SPLITBYCHAR,
+    CHAREXTRACT
+};
+
+std::string tokenTypeToString(TheTokenType type);
+
+enum scaler_methods
+{
+    STANDARD_SCALAR,
+    MINMAX_SCALAR,
+    MAX_ABS_SCALAR,
+    MEAN_NORM,
+    NONE
+};
+
+std::string scalerMethodToString(scaler_methods method);
 #endif
