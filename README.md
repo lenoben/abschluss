@@ -4,8 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added more [enum](./Model/ModelFlow/include/ModelFlow.hpp) type in modelflow directory and functions to print the type out
-- [implementation file](./Model/ModelFlow/src/ModelFlow.cpp)
+- removed the unnecessary cleaning of the string before sending it into the huge nlohmann json
+  [location](./Model/ModelFlow/include/StringManipulation.hpp)
 
 ## Discussions and insights
 

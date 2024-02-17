@@ -210,7 +210,8 @@ void combineJsonLineByLine(std::vector<std::string> &DatasetList)
             // Taking only text and score and discarding the rest of garbage
             std::string score = temp_json["review/score"], text = temp_json["review/text"];
             temp_json["score"] = std::stof(score);
-            temp_json["text"] = cleanString(text);
+            // temp_json["text"] = cleanString(text); // TODO 🚫
+            temp_json["text"] = text;
             temp_json.erase("review/summary");
             temp_json.erase("review/score");
             temp_json.erase("review/text");
