@@ -4,8 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- removed the unnecessary cleaning of the string before sending it into the huge nlohmann json
-  [location](./Model/ModelFlow/include/StringManipulation.hpp)
+- Updated the modelflow cmakelist to find for the dependent libraries
+  [location](./Model/ModelFlow/CMakeLists.txt)
 
 ## Discussions and insights
 
