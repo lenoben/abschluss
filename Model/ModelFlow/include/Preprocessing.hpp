@@ -106,6 +106,32 @@ public:
      */
     void ConvertJsonToTxt();
 
+    /**
+     * @brief This divides the dataset into Postive and negative using the value set
+     */
+    void dividePostiveandNegative(int Positive);
+
+    /**
+     * @brief override the DatasetList
+     */
+    void over_rideList(std::vector<std::string> list);
+
+    /**
+     * @brief override the DatasetList
+     */
+    void over_rideFileType(FileType newFT);
+
+    /**
+     * @brief Save the DatasetLists divided into postitive and negetive in equal amount
+     */
+    void saveEqualdivided();
+
+    std::vector<std::string> &getList();
+
+    void train_test_split(double split_number = 0.2);
+
+    void removech();
+
 private:
     Json Dataset = {};                    // Json object???
     FileType FT;                          // File type

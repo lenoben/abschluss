@@ -4,8 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- Updated the modelflow cmakelist to find for the dependent libraries
-  [location](./Model/ModelFlow/CMakeLists.txt)
+- add some public methods to the preprocessing class
 
 ## Discussions and insights
 
