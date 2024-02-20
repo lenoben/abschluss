@@ -4,7 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- add some public methods to the preprocessing class
+- added a cpp file that will make sure duplicate words in [stopwords.txt](./Model/ModelFlow/configs/stopworks.txt) will be removed
 
 ## Discussions and insights
 
