@@ -4,7 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added a cpp file that will make sure duplicate words in [stopwords.txt](./Model/ModelFlow/configs/stopworks.txt) will be removed
+- modified modelflow directory reeadme
 
 ## Discussions and insights
 
@@ -92,10 +92,10 @@
 - [x] Download the datasets
 - [x] Convert the downloaded datasets into a useable formaT
 - [x] Build the Preprocessor Class
-- [ ] Save the preprocessed datasets
-- [ ] Vectorize the datasets for ML algorithms
-- - [ ] Test the String encoding policies of Mlpack
-- - [ ] Test the Scalar methods
+- [x] Save the preprocessed datasets
+- [x] Vectorize the datasets for ML algorithms
+- - [x] Test the String encoding policies of Mlpack
+- - [x] Test the Scalar methods
 - [ ] Train a classification model
 - [ ] Evaluate the classification model
 - [ ] Train a test model
