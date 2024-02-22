@@ -265,3 +265,79 @@ void Preprocessor::ConvertJsonToTxt()
         return;
     }
 }
+
+void Preprocessor::dividePostiveandNegative(int positive = 3)
+{
+    // TODO: Check if datasetlist has either text.txt or nostopword.txt and score.txt
+    categorizeByScore(DatasetList, positive);
+}
+
+void Preprocessor::over_rideList(std::vector<std::string> List)
+{
+    DatasetList = List;
+}
+
+void Preprocessor::over_rideFileType(FileType newFT)
+{
+    FT = newFT;
+}
+
+void Preprocessor::saveEqualdivided()
+{
+    equalizer(DatasetList);
+}
+
+std::vector<std::string> &Preprocessor::getList()
+{
+    return DatasetList;
+}
+
+void Preprocessor::train_test_split(double split_number)
+{
+    if (DatasetList.empty())
+    {
+        return;
+    }
+    std::vector<std::string> newlist;
+    for (const auto &file : DatasetList)
+    {
+        std::string line = "";
+        std::vector<std::string> lines = {};
+        std::ifstream filestream(file);
+        std::ofstream train("train_" + file);
+        newlist.push_back("train_" + file);
+        std::ofstream test("test_" + file);
+        newlist.push_back("test_" + file);
+        if (!filestream)
+        {
+            std::cerr << "Error opening input file: " << file << std::endl;
+            return;
+        }
+        while (std::getline(filestream, line))
+        {
+            lines.push_back(line);
+        }
+        filestream.close();
+        int splitIndex = static_cast<int>(lines.size() * split_number);
+        for (int i = 0; i < lines.size(); ++i)
+        {
+            if (i < splitIndex)
+            {
+                test << lines[i] << std::endl;
+            }
+            else
+            {
+                train << lines[i] << std::endl;
+            }
+        }
+        train.close();
+        test.close();
+        std::cout << file << " split into train and test sets successfully." << std::endl;
+    }
+    DatasetList = newlist;
+}
+
+void Preprocessor::removech()
+{
+    cleanStringFile(DatasetList[1], DatasetList);
+}

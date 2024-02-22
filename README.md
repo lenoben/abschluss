@@ -4,7 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- modified modelflow directory reeadme
+- added the other preprocessor class implementations
 
 ## Discussions and insights
 
