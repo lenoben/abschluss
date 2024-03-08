@@ -95,3 +95,5 @@ C++ gitignore
 # ignore the datasets
 **.txt.gz
 **/json/*.json
+# ignore the output data files
+*.bin

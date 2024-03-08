@@ -190,7 +190,7 @@ void cleanStringFile(const std::string filename, std::vector<std::string> &Datas
  *
  * @param DatasetList
  */
-void combineJsonLineByLine(std::vector<std::string> &DatasetList)
+void combineJsonLineByLine(std::vector<std::string> &DatasetList, bool cloud)
 {
     // Bad idea; storing it all in memory
     Json hugeBuffer = Json::array();
@@ -208,7 +208,18 @@ void combineJsonLineByLine(std::vector<std::string> &DatasetList)
             if (temp_json.empty())
                 continue;
             // Taking only text and score and discarding the rest of garbage
-            std::string score = temp_json["review/score"], text = temp_json["review/text"];
+            std::string score, text;
+            if (cloud)
+            {
+                text = temp_json["reviewText"];
+                int score_int = temp_json["overall"];
+                score = std::to_string(score_int);
+            }
+            else
+            {
+                text = temp_json["review/text"];
+                score = temp_json["review/score"];
+            }
             temp_json["score"] = std::stof(score);
             // temp_json["text"] = cleanString(text); // TODO 🚫
             temp_json["text"] = text;

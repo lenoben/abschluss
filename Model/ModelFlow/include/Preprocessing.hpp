@@ -65,7 +65,7 @@ public:
     /**
      * @brief Combines the existing DatasetList into a singular DatasetList of the same FileType
      */
-    void Combine();
+    void Combine(bool fromCloud = false);
 
     /**
      * @brief Combines and transform into another FileType

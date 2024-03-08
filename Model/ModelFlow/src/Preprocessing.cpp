@@ -89,7 +89,7 @@ void Preprocessor::viewList()
 /**
  * @brief Combines the existing DatasetList into a singular DatasetList of the same FileType
  */
-void Preprocessor::Combine()
+void Preprocessor::Combine(bool fromCloud)
 {
     if (FT == FileType::TXTGZ)
     {
@@ -104,7 +104,7 @@ void Preprocessor::Combine()
             std::cerr << "[WARN]" << std::setw(4) << "No Lists of [<filename>].json available" << std::endl;
             return;
         }
-        combineJsonLineByLine(DatasetList);
+        combineJsonLineByLine(DatasetList, fromCloud);
         return;
     }
     if (FT == FileType::TXT)

@@ -74,7 +74,7 @@ void cleanStringFile(const std::string filename, std::vector<std::string> &Datas
  *
  * @param DatasetList
  */
-void combineJsonLineByLine(std::vector<std::string> &DatasetList);
+void combineJsonLineByLine(std::vector<std::string> &DatasetList, bool github = false);
 
 /**
  * @brief saves a vector of strings into a file

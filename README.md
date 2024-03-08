@@ -4,7 +4,9 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added the other preprocessor class implementations
+- added some more stopwords to [stopwords.txt](./Model/ModelFlow/configs/stopwords.txt)
+- modified [preprocessor combine method](./Model/ModelFlow/include/Preprocessing.hpp) to support collecting a specific file from the cloud
+> the file uri will be added later
 
 ## Discussions and insights
 
@@ -20,7 +22,6 @@
 
 * Logistic regression
 * Linear SVM
-* Decision tree
 * Random forest
 * Naive bayes
 
@@ -104,6 +105,7 @@
 - [ ] Build uWebSockets server
 - [ ] Test server
 - [ ] Build the server with model hosting capabilities
+- [ ] Add the specific file download uri
 
 ## REFERENCES
 
