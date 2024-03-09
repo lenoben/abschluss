@@ -4,9 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added some more stopwords to [stopwords.txt](./Model/ModelFlow/configs/stopwords.txt)
-- modified [preprocessor combine method](./Model/ModelFlow/include/Preprocessing.hpp) to support collecting a specific file from the cloud
-> the file uri will be added later
+- added [modelbuild](./Model/ModelFlow/include/ModelBuild.hpp) and its [implementation file](./Model/ModelFlow/src/ModelBuild.cpp)
+
 
 ## Discussions and insights
 
@@ -17,6 +16,8 @@
   > Many functions arent supported with sparse matrix so normal matrix it is
   > Next is memory issues, hmmm
 - would try savıng the matrıxes ın bınary format or csv
+- modified [preprocessor combine method](./Model/ModelFlow/include/Preprocessing.hpp) to support collecting a specific file from the cloud
+  > the file uri will be added later
 
 - ### Currently on building it with a non NN model
 
