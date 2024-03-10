@@ -4,7 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added [modelbuild](./Model/ModelFlow/include/ModelBuild.hpp) and its [implementation file](./Model/ModelFlow/src/ModelBuild.cpp)
+- added convert vector to arma::Row and arma::mat at
+[modelbuild](./Model/ModelFlow/include/ModelBuild.hpp) and its [implementation file](./Model/ModelFlow/src/ModelBuild.cpp)
 
 
 ## Discussions and insights

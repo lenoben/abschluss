@@ -60,3 +60,59 @@ std::tuple<std::vector<std::string>, std::vector<int>> getVectorDatasetFromFile(
     auto rawcorpus = file_to_vector(rawtext.getList()[0], total);
     return std::make_tuple(rawcorpus, raw_score);
 }
+
+arma::mat convertVectorStringToMatrix(std::vector<std::string> &vector_of_strings, EncoderType ET, TheTokenType TTT, bool saveEncoder, mlpack::data::TfIdfEncodingPolicy::TfTypes MDTT, bool boolean)
+{
+    arma::mat result;
+    if (ET == EncoderType::BOW)
+    {
+        if (TTT == TheTokenType::SPLITBYCHAR)
+        {
+            mlpack::data::SplitByAnyOf tokenizers(" .,\"");
+            mlpack::data::BagOfWordsEncoding<mlpack::data::SplitByAnyOf::TokenType> encoder;
+            encoder.Encode(vector_of_strings, result, tokenizers);
+            if (saveEncoder)
+                mlpack::data::Save("BOW_SPLIT_ENCODER.bin", "encoder-BOW-split", encoder);
+        }
+        if (TTT == TheTokenType::CHAREXTRACT)
+        {
+            auto tokenizers = mlpack::data::CharExtract();
+            mlpack::data::BagOfWordsEncoding<mlpack::data::CharExtract::TokenType> encoder;
+            encoder.Encode(vector_of_strings, result, tokenizers);
+            if (saveEncoder)
+                mlpack::data::Save("BOW_CHAREXTRACT_ENCODER.bin", "encoder-BOW-char", encoder);
+        }
+    }
+    if (ET == EncoderType::TFID)
+    {
+        if (TTT == TheTokenType::SPLITBYCHAR)
+        {
+            mlpack::data::SplitByAnyOf tokenizers(" .,\"");
+            using TFID = mlpack::data::TfIdfEncoding<mlpack::data::SplitByAnyOf::TokenType>;
+            TFID encoder(MDTT, boolean);
+            encoder.Encode(vector_of_strings, result, tokenizers);
+            if (saveEncoder)
+                mlpack::data::Save("TFID_SPLIT_ENCODER.bin", "encoder-TFID-split", encoder);
+        }
+        if (TTT == TheTokenType::CHAREXTRACT)
+        {
+            auto tokenizers = mlpack::data::CharExtract();
+            using TFID = mlpack::data::TfIdfEncoding<mlpack::data::CharExtract::TokenType>;
+            TFID encoder(MDTT, boolean);
+            encoder.Encode(vector_of_strings, result, tokenizers);
+            if (saveEncoder)
+                mlpack::data::Save("TFID_CHAREXTRACT_ENCODER.bin", "encoder-TFID-char", encoder);
+        }
+    }
+    return result;
+}
+
+arma::Row<size_t> vectorToIntRow(const std::vector<int> &vec)
+{
+    arma::Row<size_t> result(vec.size());
+    for (size_t i = 0; i < vec.size(); ++i)
+    {
+        result(i) = static_cast<size_t>(vec[i]);
+    }
+    return result;
+}
