@@ -116,3 +116,44 @@ arma::Row<size_t> vectorToIntRow(const std::vector<int> &vec)
     }
     return result;
 }
+
+double ComputePrecision(const size_t truePos, const size_t falsePos)
+{
+    return (double)truePos / (double)(truePos + falsePos);
+}
+
+double ComputeRecall(const size_t truePos, const size_t falseNeg)
+{
+    return (double)truePos / (double)(truePos + falseNeg);
+}
+
+double ComputeF1Score(const size_t truePos, const size_t falsePos, const size_t falseNeg)
+{
+    double prec = ComputePrecision(truePos, falsePos);
+    double rec = ComputeRecall(truePos, falseNeg);
+    return 2 * (prec * rec) / (prec + rec);
+}
+
+void ClassificationReport(const arma::Row<size_t> &yPreds, const arma::Row<size_t> &yTrue)
+{
+    arma::Row<size_t> uniqs = arma::unique(yTrue);
+    std::cout << std::setw(29) << "precision" << std::setw(15) << "recall"
+              << std::setw(15) << "f1-score" << std::setw(15) << "support"
+              << std::endl
+              << std::endl;
+
+    for (auto val : uniqs)
+    {
+        size_t truePos = arma::accu(yTrue == val && yPreds == val && yPreds == yTrue);
+        size_t falsePos = arma::accu(yPreds == val && yPreds != yTrue);
+        size_t trueNeg = arma::accu(yTrue != val && yPreds != val && yPreds == yTrue);
+        size_t falseNeg = arma::accu(yPreds != val && yPreds != yTrue);
+
+        std::cout << std::setw(15) << val
+                  << std::setw(12) << std::setprecision(2) << ComputePrecision(truePos, falsePos)
+                  << std::setw(16) << std::setprecision(2) << ComputeRecall(truePos, falseNeg)
+                  << std::setw(14) << std::setprecision(2) << ComputeF1Score(truePos, falsePos, falseNeg)
+                  << std::setw(16) << truePos
+                  << std::endl;
+    }
+}
