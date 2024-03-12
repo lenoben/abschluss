@@ -4,7 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added evaluation functions for precision, f1 score, recall and accuracy at
+- added scalar Method pick function at
 [modelbuild](./Model/ModelFlow/include/ModelBuild.hpp) and its [implementation file](./Model/ModelFlow/src/ModelBuild.cpp)
 
 

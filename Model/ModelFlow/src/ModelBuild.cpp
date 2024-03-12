@@ -134,6 +134,12 @@ double ComputeF1Score(const size_t truePos, const size_t falsePos, const size_t 
     return 2 * (prec * rec) / (prec + rec);
 }
 
+double ComputeAccuracy(const arma::Row<size_t> &yPreds, const arma::Row<size_t> &yTrue)
+{
+    const size_t correct = arma::accu(yPreds == yTrue);
+    return (double)correct / (double)yTrue.n_elem;
+}
+
 void ClassificationReport(const arma::Row<size_t> &yPreds, const arma::Row<size_t> &yTrue)
 {
     arma::Row<size_t> uniqs = arma::unique(yTrue);
@@ -155,5 +161,47 @@ void ClassificationReport(const arma::Row<size_t> &yPreds, const arma::Row<size_
                   << std::setw(14) << std::setprecision(2) << ComputeF1Score(truePos, falsePos, falseNeg)
                   << std::setw(16) << truePos
                   << std::endl;
+    }
+}
+
+void pickScalarMethod(scaler_methods SM, arma::mat &train, arma::mat &test)
+{
+    switch (SM)
+    {
+    case scaler_methods::MINMAX_SCALAR:
+    {
+        mlpack::data::MinMaxScaler minmax;
+        minmax.Fit(train);
+        minmax.Transform(train, train);
+        minmax.Transform(test, test);
+        break;
+    }
+    case scaler_methods::STANDARD_SCALAR:
+    {
+        mlpack::data::StandardScaler stanscale;
+        stanscale.Fit(train);
+        stanscale.Transform(train, train);
+        stanscale.Transform(test, test);
+        break;
+    }
+    case scaler_methods::MAX_ABS_SCALAR:
+    {
+        mlpack::data::MaxAbsScaler maxabs;
+        maxabs.Fit(train);
+        maxabs.Transform(train, train);
+        maxabs.Transform(test, test);
+        break;
+    }
+    case scaler_methods::MEAN_NORM:
+    {
+        mlpack::data::MeanNormalization mean;
+        mean.Fit(train);
+        mean.Transform(train, train);
+        mean.Transform(test, test);
+        break;
+    }
+    default:
+        std::cout << "[INFO] " << std::setw(4) << " No Scaler methods used" << std::endl;
+        break;
     }
 }

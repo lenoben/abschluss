@@ -36,4 +36,6 @@ double ComputeAccuracy(const arma::Row<size_t> &yPreds, const arma::Row<size_t> 
 
 void ClassificationReport(const arma::Row<size_t> &yPreds, const arma::Row<size_t> &yTrue);
 
+void pickScalarMethod(scaler_methods SM, arma::mat &train, arma::mat &test);
+
 #endif
