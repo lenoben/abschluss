@@ -4,8 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added scalar Method pick function at
-[modelbuild](./Model/ModelFlow/include/ModelBuild.hpp) and its [implementation file](./Model/ModelFlow/src/ModelBuild.cpp)
+- added randomforest header file at 
+[RandomForest](./Model/ModelFlow/include/MF_RandomForest.hpp) and its [implementation file](./Model/ModelFlow/src/MF_RandomForest.cpp)
 
 
 ## Discussions and insights

@@ -15,8 +15,15 @@
 #include <mlpack/core/data/string_encoding_policies/bag_of_words_encoding_policy.hpp>
 #include <mlpack/core/data/string_encoding_policies/tf_idf_encoding_policy.hpp>
 #include <mlpack/core/data/save.hpp>
+#include <mlpack/core/data/split_data.hpp>
+// SCALER_METHODS;
+#include <mlpack/core/data/scaler_methods/standard_scaler.hpp>
+#include <mlpack/core/data/scaler_methods/min_max_scaler.hpp>
+#include <mlpack/core/data/scaler_methods/max_abs_scaler.hpp>
+#include <mlpack/core/data/scaler_methods/mean_normalization.hpp>
 
 #include <armadillo>
+#include <ensmallen.hpp>
 
 std::tuple<std::vector<std::string>, std::vector<int>> getVectorDataset();
 
