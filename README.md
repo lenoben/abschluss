@@ -4,8 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added randomforest header file at 
-[RandomForest](./Model/ModelFlow/include/MF_RandomForest.hpp) and its [implementation file](./Model/ModelFlow/src/MF_RandomForest.cpp)
+- added logistic regression header file at 
+[LogisticRegression](./Model/ModelFlow/include/MF_LogisticRegression.hpp) and its [implementation file](./Model/ModelFlow/src/MF_LogisticRegression.cpp)
 
 
 ## Discussions and insights
