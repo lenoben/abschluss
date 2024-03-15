@@ -4,8 +4,9 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added logistic regression header file at 
-[LogisticRegression](./Model/ModelFlow/include/MF_LogisticRegression.hpp) and its [implementation file](./Model/ModelFlow/src/MF_LogisticRegression.cpp)
+- added linear regression header file at 
+[LogisticRegression](./Model/ModelFlow/include/MF_LinearRegression.hpp) and its [implementation file](./Model/ModelFlow/src/MF_LinearRegression.cpp)
+> i thought this was a bad idea for the task but turns out it works, quite shocking!
 
 
 ## Discussions and insights
@@ -23,6 +24,7 @@
 - ### Currently on building it with a non NN model
 
 * Logistic regression
+* Linear regression (possible)
 * Linear SVM
 * Random forest
 * Naive bayes
