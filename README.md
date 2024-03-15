@@ -5,7 +5,7 @@
 ## COMMIT IN-DEPTH DESCRIPTION
 
 - added linear regression header file at 
-[LogisticRegression](./Model/ModelFlow/include/MF_LinearRegression.hpp) and its [implementation file](./Model/ModelFlow/src/MF_LinearRegression.cpp)
+[LinearRegression](./Model/ModelFlow/include/MF_LinearRegression.hpp) and its [implementation file](./Model/ModelFlow/src/MF_LinearRegression.cpp)
 > i thought this was a bad idea for the task but turns out it works, quite shocking!
 
 
