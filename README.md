@@ -4,9 +4,8 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added linear regression header file at 
-[LinearRegression](./Model/ModelFlow/include/MF_LinearRegression.hpp) and its [implementation file](./Model/ModelFlow/src/MF_LinearRegression.cpp)
-> i thought this was a bad idea for the task but turns out it works, quite shocking!
+- added a feed forword neural network header file at 
+[FFN](./Model/ModelFlow/include/MF_Fnn.hpp) and its [implementation file](./Model/ModelFlow/src/MF_Fnn.cpp)
 
 
 ## Discussions and insights
