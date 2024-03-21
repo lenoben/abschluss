@@ -133,7 +133,6 @@ public:
     void removech();
 
 private:
-    Json Dataset = {};                    // Json object???
     FileType FT;                          // File type
     std::vector<std::string> DatasetList; // List of Dataset
     bool initializeScript = false;        // installs the python package required to run the parser script
