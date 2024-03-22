@@ -4,8 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added a feed forword neural network header file at 
-[FFN](./Model/ModelFlow/include/MF_Fnn.hpp) and its [implementation file](./Model/ModelFlow/src/MF_Fnn.cpp)
+- updated the [main.cpp](./Model/ModelFlow/src/main.cpp) file to perform the entire task of building the model
 
 
 ## Discussions and insights
