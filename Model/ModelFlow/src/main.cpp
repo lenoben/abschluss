@@ -30,7 +30,7 @@ void Vmain(bool fromStart = false);
 
 int main()
 {
-    Vmain(true);
+    Vmain(false);
 
     // ? could use a nested for loop, looping through a container/vector of values to be inserted into the model parameter
 
