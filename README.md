@@ -4,7 +4,7 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- updated the [main.cpp](./Model/ModelFlow/src/main.cpp) file to perform the entire task of building the model
+- added the headerfile and implementation file that is responsible for loading, preparing and fitting the model for serving over the web [headerfile](./Model/MLServer/include/MLServer_Model.hpp), [implementation file](./Model/MLServer/src/MLServer_Model.cpp)
 
 
 ## Discussions and insights
