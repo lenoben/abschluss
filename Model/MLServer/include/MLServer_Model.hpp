@@ -75,4 +75,8 @@ void cleanStringFile(std::vector<std::string> &vector_of_string);
 
 void removeStop(std::vector<std::string> &vector_of_string);
 
+void cleanTextForPrediction(std::string &text,
+                            DictionaryType const &dictionary,
+                            mlpack::data::SplitByAnyOf const &tokenizer);
+
 #endif

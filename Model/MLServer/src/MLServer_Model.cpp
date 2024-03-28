@@ -110,3 +110,25 @@ void removeStop(std::vector<std::string> &vector_of_string)
         str = modifiedString;
     }
 }
+
+void cleanTextForPrediction(std::string &text,
+                            DictionaryType const &dictionary,
+                            mlpack::data::SplitByAnyOf const &tokenizer)
+{
+
+    MLPACK_STRING_VIEW strView(text);
+    auto token = tokenizer(strView);
+    std::string processedText = "";
+    while (!tokenizer.IsTokenEmpty(token))
+    {
+        /* MLPACK encoder will expand the dictionary if unknown tokens are present in the prediction - text.
+         * To avoid that, simply remove the unknown ones.*/
+        if (dictionary.HasToken(token))
+        {
+            processedText.append(" ").append(token);
+        }
+
+        token = tokenizer(strView);
+    }
+    text = processedText;
+}
