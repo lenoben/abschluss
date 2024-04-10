@@ -4,14 +4,17 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added the headerfile and implementation file that is responsible for loading, preparing and fitting the model for serving over the web [headerfile](./Model/MLServer/include/MLServer_Model.hpp), [implementation file](./Model/MLServer/src/MLServer_Model.cpp)
+- added [porter stemmer algorithm](./Model/ModelFlow/include/porter_stemmer.h)
 
 
 ## Discussions and insights
 
 - should i remove the Json Dataset private member from the Preprocessor class?
   > well i am not using RAM, just file system and it was there at first for holding the dataset in RAM _Bad idea_...
+
+  _-removed-_
 - I should remember to add error handling, but that will be later...
+- I should remember to add doxygen comments
 - Thinking whether to use sparse matrix or normal matrix; sparse matrix is more memory efficient but slower
   > Many functions arent supported with sparse matrix so normal matrix it is
   > Next is memory issues, hmmm
@@ -19,13 +22,16 @@
 - modified [preprocessor combine method](./Model/ModelFlow/include/Preprocessing.hpp) to support collecting a specific file from the cloud
   > the file uri will be added later
 
-- ### Currently on building it with a non NN model
+- ### Currently building models
 
 * Logistic regression
 * Linear regression (possible)
-* Linear SVM
+* Linear SVM 🚫
 * Random forest
-* Naive bayes
+* Naive bayes 🚫
+* Self made KNN
+* Self made nearest mean classifier NMC
+* FFN
 
 - ### Evaluation units
 - Accuracy
@@ -99,10 +105,10 @@
 - [x] Vectorize the datasets for ML algorithms
 - - [x] Test the String encoding policies of Mlpack
 - - [x] Test the Scalar methods
-- [ ] Train a classification model
-- [ ] Evaluate the classification model
-- [ ] Train a test model
-- [ ] Evaluate the test model
+- [x] Train a classification model
+- [x] Evaluate the classification model
+- [x] Train a test model
+- [x] Evaluate the test model
 - [ ] Save the model
 - [ ] Build uWebSockets server
 - [ ] Test server
@@ -111,9 +117,7 @@
 
 ## REFERENCES
 
--_This list contains where ideas were also pulled from_-
-
-- placeholder
+- [Porter stemmer algorithm](https://tartarus.org/martin/PorterStemmer/)
 
 ---
 
