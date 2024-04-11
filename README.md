@@ -4,7 +4,9 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added [porter stemmer algorithm](./Model/ModelFlow/include/porter_stemmer.h)
+- added my implementation of nmc
+- added [Nearest Mean Classifier NMC](./Model/ModelFlow/include/mein_nmc.hpp)
+- added [implementation of Nearest Mean Classifier NMC](./Model/ModelFlow/src/mein_nmc.cpp)
 
 
 ## Discussions and insights
