@@ -4,9 +4,9 @@
 
 ## COMMIT IN-DEPTH DESCRIPTION
 
-- added my implementation of nmc
-- added [Nearest Mean Classifier NMC](./Model/ModelFlow/include/mein_nmc.hpp)
-- added [implementation of Nearest Mean Classifier NMC](./Model/ModelFlow/src/mein_nmc.cpp)
+- added my implementation of knn
+- added [K-Nearest Neigbour KNN](./Model/ModelFlow/include/mein_knn.hpp)
+- added [implementation of KNN](./Model/ModelFlow/src/mein_knn.cpp)
 
 
 ## Discussions and insights
