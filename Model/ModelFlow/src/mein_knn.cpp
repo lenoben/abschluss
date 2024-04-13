@@ -1,13 +1,19 @@
 #include "mein_knn.hpp"
 
+// Explicit template instantiation for arma::mat and arma::sp_mat
+template class Mein_KNN<arma::mat>;
+template class Mein_KNN<arma::sp_mat>;
+
 /**
  * @brief implementation of Euclidean distance for 1 column dataset
- *
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
  * @param matrix
  * @param newmatrix
  * @return arma::Col<double>
  */
-arma::Col<double> Euclidean_distance(arma::mat &matrix, arma::mat &newmatrix)
+template <typename MatrixType>
+arma::Col<double> Mein_KNN<MatrixType>::Euclidean_distance(MatrixType &matrix, MatrixType &newmatrix)
 {
     arma::Col<double> sumdistance(matrix.n_cols);
     double powered, squaredSum = 0.0;
@@ -28,12 +34,14 @@ arma::Col<double> Euclidean_distance(arma::mat &matrix, arma::mat &newmatrix)
 
 /**
  * @brief Gets the class from the pair
- *
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
  * @param distance_out std::vector<std::pair<double, size_t>>
  * @param k number of points to classify
  * @return int
  */
-int Mein_KNN::class_occurrences(std::vector<std::pair<double, size_t>> &distance_out, int k)
+template <typename MatrixType>
+int Mein_KNN<MatrixType>::class_occurrences(std::vector<std::pair<double, size_t>> &distance_out, int k)
 {
     std::unordered_map<int, int> class_count;
     for (size_t i = 0; i < k; ++i)
@@ -60,7 +68,8 @@ int Mein_KNN::class_occurrences(std::vector<std::pair<double, size_t>> &distance
  * @brief Construct a new Mein_KNN object
  *
  */
-Mein_KNN::Mein_KNN(){};
+template <typename MatrixType>
+Mein_KNN<MatrixType>::Mein_KNN() {};
 
 /**
  * @brief Construct a new Mein_KNN object
@@ -68,7 +77,8 @@ Mein_KNN::Mein_KNN(){};
  * @param matt matrix dataset
  * @param matrow dataset labels
  */
-Mein_KNN::Mein_KNN(arma::mat &matt, arma::Row<size_t> &matrow) : matrix(matt), matrix_label(matrow){};
+template <typename MatrixType>
+Mein_KNN<MatrixType>::Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow) : matrix(matt), matrix_label(matrow){};
 
 /**
  * @brief Construct a new Mein_KNN object
@@ -77,17 +87,20 @@ Mein_KNN::Mein_KNN(arma::mat &matt, arma::Row<size_t> &matrow) : matrix(matt), m
  * @param matrow dataset labels
  * @param deqn distance equation type
  */
-Mein_KNN::Mein_KNN(arma::mat &matt, arma::Row<size_t> &matrow, DistanceEQN deqn) : matrix(matt), matrix_label(matrow), Deqn(deqn){};
+template <typename MatrixType>
+Mein_KNN<MatrixType>::Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow, DistanceEQN deqn) : matrix(matt), matrix_label(matrow), Deqn(deqn){};
 
 /**
  * @brief classifies matrix dataset
- *
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
  * @param predmat matrix to classify
  * @param k number of neighbours
  * @param deqn distance equation type
  * @return int
  */
-int Mein_KNN::Classify(arma::mat &predmat, int k, DistanceEQN deqn)
+template <typename MatrixType>
+int Mein_KNN<MatrixType>::Classify(MatrixType &predmat, int k, DistanceEQN deqn)
 {
     arma::Col<double> sumdistance = Euclidean_distance(matrix, predmat);
 
@@ -118,17 +131,19 @@ int Mein_KNN::Classify(arma::mat &predmat, int k, DistanceEQN deqn)
 
 /**
  * @brief Computes the accuracy of the class
- *
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
  * @param matt matrix of the dataset
  * @param matrow real labels
  * @return double : max is 1, mini is 0
  */
-double Mein_KNN::Evaluate(arma::mat &matt, arma::Row<size_t> &matrow)
+template <typename MatrixType>
+double Mein_KNN<MatrixType>::Evaluate(MatrixType &matt, arma::Row<size_t> &matrow)
 {
     arma::Row<size_t> res(matt.n_cols);
     for (arma::uword i = 0; i < matt.n_cols; i++)
     {
-        arma::mat col = matt.col(i);
+        MatrixType col = matt.col(i);
         res(i) = Classify(col);
     }
     return ComputeAccuracy(res, matrow);
@@ -136,16 +151,18 @@ double Mein_KNN::Evaluate(arma::mat &matt, arma::Row<size_t> &matrow)
 
 /**
  * @brief returns a more comprehensive report of the class evaluation
- *
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
  * @param matt matrix of the dataset
  * @param matrow real labels
  */
-void Mein_KNN::ClassReport(arma::mat &matt, arma::Row<size_t> &matrow)
+template <typename MatrixType>
+void Mein_KNN<MatrixType>::ClassReport(MatrixType &matt, arma::Row<size_t> &matrow)
 {
     arma::Row<size_t> res(matt.n_cols);
     for (arma::uword i = 0; i < matt.n_cols; i++)
     {
-        arma::mat col = matt.col(i);
+        MatrixType col = matt.col(i);
         res(i) = Classify(col);
     }
     double result = ComputeAccuracy(res, matrow);

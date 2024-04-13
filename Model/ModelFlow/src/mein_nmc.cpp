@@ -1,24 +1,31 @@
 #include "mein_nmc.hpp"
 
+// Explicit template instantiation for arma::mat and arma::sp_mat
+template class Mein_NMC<arma::mat>;
+template class Mein_NMC<arma::sp_mat>;
+
 /**
  * @brief Construct a new Mein_NMC object
  *
  */
-Mein_NMC::Mein_NMC(){};
+template <typename MatrixType>
+Mein_NMC<MatrixType>::Mein_NMC(){};
 
 /**
  * @brief Fits the dataset and its labels in a pair
- *
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
  * @param matx matrix of the dataset
  * @param rowy labels
  */
-void Mein_NMC::Fit(arma::mat &matx, arma::Row<size_t> &rowy)
+template <typename MatrixType>
+void Mein_NMC<MatrixType>::Fit(MatrixType &matx, arma::Row<size_t> &rowy)
 {
     // rowy has 2, unique-labels 2 ncols 1 rows ..ex
     arma::Row<size_t> unique_labels = arma::unique(rowy);
     arma::uword distinct = unique_labels.n_elem;
 
-    std::vector<arma::mat> map_matrix(distinct);
+    std::vector<MatrixType> map_matrix(distinct);
 
     for (arma::uword j = 0; j < matx.n_cols; j++)
     {
@@ -38,11 +45,11 @@ void Mein_NMC::Fit(arma::mat &matx, arma::Row<size_t> &rowy)
 
     // calculating the class means
 
-    std::vector<std::pair<int, arma::mat>> vect_pair_matT;
+    std::vector<std::pair<int, MatrixType>> vect_pair_matT;
     for (arma::uword i = 0; i < distinct; i++)
     {
         // class index
-        arma::mat hold(map_matrix[i].n_rows, 1);
+        MatrixType hold(map_matrix[i].n_rows, 1);
         for (arma::uword j = 0; j < map_matrix[i].n_cols; j++)
         {
             // total number of data in class
@@ -63,11 +70,13 @@ void Mein_NMC::Fit(arma::mat &matx, arma::Row<size_t> &rowy)
 
 /**
  * @brief predicts or classify the class from the dataset. initially made of just 1 set of dataset
- *
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
  * @param matx matrix to predict
  * @return int : class from the label
  */
-int Mein_NMC::Predict(arma::mat &matx)
+template <typename MatrixType>
+int Mein_NMC<MatrixType>::Predict(MatrixType &matx)
 {
     std::vector<std::pair<double, int>> dist_label;
     double powered, sumSquared = 0.0;
@@ -94,17 +103,19 @@ int Mein_NMC::Predict(arma::mat &matx)
 
 /**
  * @brief Computes the accuracy of the class
- *
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
  * @param matx matrix of the dataset
  * @param rowy real labels
  * @return double : max is 1, mini is 0
  */
-double Mein_NMC::Evaluate(arma::mat &matx, arma::Row<size_t> &rowy)
+template <typename MatrixType>
+double Mein_NMC<MatrixType>::Evaluate(MatrixType &matx, arma::Row<size_t> &rowy)
 {
     arma::Row<size_t> res(matx.n_cols);
     for (arma::uword i = 0; i < matx.n_cols; i++)
     {
-        arma::mat col = matx.col(i);
+        MatrixType col = matx.col(i);
         res(i) = Predict(col);
     }
     return ComputeAccuracy(res, rowy);
@@ -112,17 +123,21 @@ double Mein_NMC::Evaluate(arma::mat &matx, arma::Row<size_t> &rowy)
 
 /**
  * @brief returns a more comprehensive report of the class evaluation
- *
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
  * @param matx matrix of the dataset
  * @param rowy real labels
  */
-void Mein_NMC::ClassReport(arma::mat &matx, arma::Row<size_t> &rowy)
+template <typename MatrixType>
+void Mein_NMC<MatrixType>::ClassReport(MatrixType &matx, arma::Row<size_t> &rowy)
 {
     arma::Row<size_t> res(matx.n_cols);
     for (arma::uword i = 0; i < matx.n_cols; i++)
     {
-        arma::mat col = matx.col(i);
+        MatrixType col = matx.col(i);
         res(i) = Predict(col);
     }
+    double result = ComputeAccuracy(res, rowy);
+    std::cout << "[INFO] " << std::setw(4) << "Accurracy - " << result << std::endl;
     ClassificationReport(res, rowy);
 };
