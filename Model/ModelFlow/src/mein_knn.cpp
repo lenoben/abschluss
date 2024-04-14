@@ -32,6 +32,117 @@ arma::Col<double> Mein_KNN<MatrixType>::Euclidean_distance(MatrixType &matrix, M
     return sumdistance;
 }
 
+
+template <typename MatrixType>
+arma::Col<double> Mein_KNN<MatrixType>::Cosine_distance(MatrixType &matrix, arma::Row<double> &newmatrix){
+    arma::Col<double> distances(matrix.n_cols);
+    double dotProduct, normA, normB;
+
+    for(arma::uword j = 0; j < matrix.n_cols; j++){
+        dotProduct = normA = normB = 0.0;
+
+        for(arma::uword i = 0; i < matrix.n_rows; i++){
+            if(matrix(i, j) != 0 && newmatrix(i,0) != 0){
+                dotProduct += matrix(i, j) * newmatrix(i);
+                normA += std::pow(matrix(i, j),2);
+                normB += std::pow(newmatrix(i),2);
+            }
+        }
+
+        normA = std::sqrt(normA);
+        normB = std::sqrt(normB);
+
+        if(normA != 0 && normB != 0){
+            //1 - cosine similarity
+            distances(j) = (dotProduct / (normA * normB));
+        }else{
+            distances(j) = 0;
+            //if normA/normB = 0, cosine similarity is 0
+        }
+    }
+
+    return distances;
+}
+
+template <typename MatrixType>
+arma::Col<double> Mein_KNN<MatrixType>::Cosine_distance(MatrixType &matrix, MatrixType &newmatrix){
+    arma::Col<double> distances(matrix.n_cols);
+    double dotProduct, normA, normB;
+
+    for(arma::uword j = 0; j < matrix.n_cols; j++){
+        dotProduct = normA = normB = 0.0;
+
+        for(arma::uword i = 0; i < matrix.n_rows; i++){
+            if(matrix(i, j) != 0 && newmatrix(i,0) != 0){
+                dotProduct += matrix(i, j) * newmatrix(i, 0);
+                normA += std::pow(matrix(i, j),2);
+                normB += std::pow(newmatrix(i, 0),2);
+            }
+        }
+
+        normA = std::sqrt(normA);
+        normB = std::sqrt(normB);
+
+        if(normA != 0 && normB != 0){
+            //1 - cosine similarity
+            distances(j) = (dotProduct / (normA * normB));
+        }else{
+            distances(j) = 0;
+            //if normA/normB = 0, cosine similarity is 0
+        }
+    }
+
+    return distances;
+}
+
+template <typename MatrixType>
+arma::Col<double> Mein_KNN<MatrixType>::CosineDis_distance(MatrixType &matrix, MatrixType &newmatrix){
+    arma::Col<double> distances(matrix.n_cols);
+    double dotProduct, normA, normB;
+
+    for(arma::uword j = 0; j < matrix.n_cols; j++){
+        dotProduct = normA = normB = 0.0;
+
+        for(arma::uword i = 0; i < matrix.n_rows; i++){
+            if(matrix(i, j) != 0 && newmatrix(i,0) != 0){
+                dotProduct += matrix(i, j) * newmatrix(i, 0);
+                normA += std::pow(matrix(i, j),2);
+                normB += std::pow(newmatrix(i, 0),2);
+            }
+        }
+
+        normA = std::sqrt(normA);
+        normB = std::sqrt(normB);
+
+        if(normA != 0 && normB != 0){
+            //1 - cosine similarity
+            distances(j) = 1 - (dotProduct / (normA * normB));
+        }else{
+            distances(j) = 1;
+            //if normA/normB = 0, cosine similarity is 0
+        }
+    }
+
+    return distances;
+}
+
+template <typename MatrixType>
+arma::Col<double> Mein_KNN<MatrixType>::Manhattan_distance(MatrixType &matrix, MatrixType &newmatrix){
+    arma::Col<double> distances(matrix.n_cols);
+    double absDiff, sumDiff = 0.0;
+
+    for(arma::uword j = 0; j < matrix.n_cols; j++){
+        for(arma::uword i = 0; i < matrix.n_rows; i++){
+            absDiff = std::abs(newmatrix(i,0) - matrix(i,j));
+            sumDiff += absDiff;
+        }
+        distances(j) = sumDiff;
+        sumDiff = 0.0;
+    }
+
+    return distances;
+}
+
 /**
  * @brief Gets the class from the pair
  * 
@@ -69,7 +180,7 @@ int Mein_KNN<MatrixType>::class_occurrences(std::vector<std::pair<double, size_t
  *
  */
 template <typename MatrixType>
-Mein_KNN<MatrixType>::Mein_KNN() {};
+Mein_KNN<MatrixType>::Mein_KNN(): k(1), Deqn(DistanceEQN::MANHATTAN) {};
 
 /**
  * @brief Construct a new Mein_KNN object
@@ -78,7 +189,7 @@ Mein_KNN<MatrixType>::Mein_KNN() {};
  * @param matrow dataset labels
  */
 template <typename MatrixType>
-Mein_KNN<MatrixType>::Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow) : matrix(matt), matrix_label(matrow){};
+Mein_KNN<MatrixType>::Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow) : matrix(matt), matrix_label(matrow), k(1){};
 
 /**
  * @brief Construct a new Mein_KNN object
@@ -88,7 +199,18 @@ Mein_KNN<MatrixType>::Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow) : ma
  * @param deqn distance equation type
  */
 template <typename MatrixType>
-Mein_KNN<MatrixType>::Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow, DistanceEQN deqn) : matrix(matt), matrix_label(matrow), Deqn(deqn){};
+Mein_KNN<MatrixType>::Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow, DistanceEQN deqn) : matrix(matt), matrix_label(matrow), Deqn(deqn), k(1) {};
+
+/**
+ * @brief Construct a new Mein_KNN object
+ *
+* @param matt matrix dataset
+* @param matrow dataset labels
+* @param kn number of neigbours
+* @param deqn distance equation type
+*/
+template <typename MatrixType>
+Mein_KNN<MatrixType>::Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow, int kn, DistanceEQN deqn) : matrix(matt), matrix_label(matrow), k(kn), Deqn(deqn){};
 
 /**
  * @brief classifies matrix dataset
@@ -102,7 +224,27 @@ Mein_KNN<MatrixType>::Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow, Dist
 template <typename MatrixType>
 int Mein_KNN<MatrixType>::Classify(MatrixType &predmat, int k, DistanceEQN deqn)
 {
-    arma::Col<double> sumdistance = Euclidean_distance(matrix, predmat);
+    arma::Col<double> sumdistance;
+    
+    switch (deqn)
+    {
+    case DistanceEQN::EUCLIDEAN:
+        sumdistance = Euclidean_distance(matrix, predmat);
+        break;
+    case DistanceEQN::COSINE:
+        sumdistance = Cosine_distance(matrix, predmat);
+        break;
+    case DistanceEQN::MANHATTAN:
+        sumdistance = Manhattan_distance(matrix, predmat);
+        break;
+    case DistanceEQN::COSINE_DISSIMILARITY:
+        sumdistance = Manhattan_distance(matrix, predmat);
+        break;
+    
+    default:
+        sumdistance = Euclidean_distance(matrix, predmat);
+        break;
+    }
 
     std::vector<std::pair<double, size_t>> dist_label;
     for (size_t j = 0; j < matrix_label.n_cols; j++)
@@ -144,7 +286,7 @@ double Mein_KNN<MatrixType>::Evaluate(MatrixType &matt, arma::Row<size_t> &matro
     for (arma::uword i = 0; i < matt.n_cols; i++)
     {
         MatrixType col = matt.col(i);
-        res(i) = Classify(col);
+        res(i) = Classify(col,k,Deqn);
     }
     return ComputeAccuracy(res, matrow);
 }
@@ -163,7 +305,7 @@ void Mein_KNN<MatrixType>::ClassReport(MatrixType &matt, arma::Row<size_t> &matr
     for (arma::uword i = 0; i < matt.n_cols; i++)
     {
         MatrixType col = matt.col(i);
-        res(i) = Classify(col);
+        res(i) = Classify(col,k,Deqn);;
     }
     double result = ComputeAccuracy(res, matrow);
     std::cout << "[INFO] " << std::setw(4) << "Accurracy - " << result << std::endl;

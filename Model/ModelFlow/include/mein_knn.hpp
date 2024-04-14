@@ -16,7 +16,10 @@
 
 enum DistanceEQN
 {
-    EUCLIDEAN
+    EUCLIDEAN,
+    COSINE,
+    MANHATTAN,
+    COSINE_DISSIMILARITY
 };
 
 
@@ -52,8 +55,47 @@ private:
      * @param newmatrix
      * @return arma::Col<double>
      */
-    
     arma::Col<double> Euclidean_distance(MatrixType &matrix, MatrixType &newmatrix);
+
+    /**
+     * @brief implementation of cosine similarity for the distance between vectors/points
+     *
+     * @tparam MatrixType arma::mat/arma::sp_mat 
+     * @param matrix 
+     * @param newmatrix row
+     * @return arma::Col<double> 
+     */
+    arma::Col<double> Cosine_distance(MatrixType &matrix, arma::Row<double> &newmatrix);
+
+    /**
+     * @brief implementation of 1 - cosine similarity of the distance between vector points
+     *
+     * @tparam MatrixType arma::mat/arma::sp_mat
+     * @param matrix 
+     * @param newmatrix 
+     * @return arma::Col<double> 
+     */
+    arma::Col<double> CosineDis_distance(MatrixType &matrix, MatrixType &newmatrix);
+
+    /**
+     * @brief implementation of cosine similarity for the distance between vectors/points
+     *
+     * @tparam MatrixType arma::mat/arma::sp_mat
+     * @param matrix 
+     * @param newmatrix
+     * @return arma::Col<double> 
+     */
+    arma::Col<double> Cosine_distance(MatrixType &matrix, MatrixType &newmatrix);
+
+    /**
+     * @brief implementation of manhattan distance between vectors/points
+     *
+     * @tparam MatrixType arma::mat/arma::sp_mat 
+     * @param matrix 
+     * @param newmatrix
+     * @return arma::Col<double> 
+     */
+    arma::Col<double> Manhattan_distance(MatrixType &matrix, MatrixType &newmatrix);
 
 public:
     /**
@@ -78,6 +120,16 @@ public:
      * @param deqn distance equation type
      */
     Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow, DistanceEQN deqn);
+
+    /**
+     * @brief Construct a new Mein_KNN object
+     * 
+     * @param matt matrix dataset
+     * @param matrow dataset labels
+     * @param kn number of neigbours
+     * @param deqn distance equation type
+     */
+    Mein_KNN(MatrixType &matt, arma::Row<size_t> &matrow, int kn, DistanceEQN deqn = DistanceEQN::EUCLIDEAN);
 
     /**
      * @brief classifies matrix dataset
