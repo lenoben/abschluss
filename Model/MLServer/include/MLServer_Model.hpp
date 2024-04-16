@@ -79,4 +79,11 @@ void cleanTextForPrediction(std::string &text,
                             DictionaryType const &dictionary,
                             mlpack::data::SplitByAnyOf const &tokenizer);
 
+void convertVectorStringToMatrix(std::vector<std::string> vector_of_strings, 
+                                arma::mat &matrix, EncoderType ET, TheTokenType TTT, 
+                                mlpack::data::TfIdfEncodingPolicy::TfTypes MDTT = mlpack::data::TfIdfEncodingPolicy::TfTypes::TERM_FREQUENCY, 
+                                bool boolean = false);
+
+void scalerTransform(scaler_methods SM, arma::mat &matrix);
+
 #endif

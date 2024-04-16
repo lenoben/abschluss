@@ -132,3 +132,106 @@ void cleanTextForPrediction(std::string &text,
     }
     text = processedText;
 }
+
+/**
+ * @brief Perform encoding on the vector of strings and returns a row major matrix
+ * @param vector_of_strings The string corpus it will encode
+ * @param ET The encoder type [ TFID or Bag of Words ]
+ * @param TTT The token type to use to encode the corpus
+ * @return arma::mat The row major matrix
+ */
+void convertVectorStringToMatrix(std::vector<std::string> vector_of_strings, 
+                                arma::mat &matrix, EncoderType ET, TheTokenType TTT, 
+                                mlpack::data::TfIdfEncodingPolicy::TfTypes MDTT, 
+                                bool boolean)
+{
+    removeStop(vector_of_strings);      // removestoopwords
+    cleanStringFile(vector_of_strings); // removechar
+
+    if (ET == EncoderType::BOW)
+    {
+        if (TTT == TheTokenType::SPLITBYCHAR)
+        {
+            mlpack::data::SplitByAnyOf tokenizers(" .,\"");
+            mlpack::data::BagOfWordsEncoding<mlpack::data::SplitByAnyOf::TokenType> encoder;
+            mlpack::data::Load("BOW_SPLIT_ENCODER.bin", "encoder-BOW-split", encoder);
+            const DictionaryType &dictionary = encoder.Dictionary();
+            for (std::string &str : vector_of_strings)
+            {
+                cleanTextForPrediction(str, dictionary, tokenizers);
+            }
+            encoder.Encode(vector_of_strings, matrix, tokenizers);
+            matrix.brief_print("BOW SPLIT");
+        }
+        if (TTT == TheTokenType::CHAREXTRACT)
+        {
+            auto tokenizers = mlpack::data::CharExtract();
+            mlpack::data::BagOfWordsEncoding<mlpack::data::CharExtract::TokenType> encoder;
+            mlpack::data::Load("BOW_CHAREXTRACT_ENCODER.bin", "encoder-BOW-char", encoder);
+            encoder.Encode(vector_of_strings, matrix, tokenizers);
+        }
+    }
+    if (ET == EncoderType::TFID)
+    {
+        if (TTT == TheTokenType::SPLITBYCHAR)
+        {
+            mlpack::data::SplitByAnyOf tokenizers(" .,\"");
+            using TFID = mlpack::data::TfIdfEncoding<mlpack::data::SplitByAnyOf::TokenType>;
+            TFID encoder(MDTT, boolean);
+            mlpack::data::Load("TFID_SPLIT_ENCODER.bin", "encoder-TFID-split", encoder);
+            const DictionaryType &dictionary = encoder.Dictionary();
+            for (std::string &str : vector_of_strings)
+            {
+                cleanTextForPrediction(str, dictionary, tokenizers);
+            }
+            encoder.Encode(vector_of_strings, matrix, tokenizers);
+            matrix.brief_print("TFID SPLIT");
+        }
+        if (TTT == TheTokenType::CHAREXTRACT)
+        {
+            auto tokenizers = mlpack::data::CharExtract();
+            using TFID = mlpack::data::TfIdfEncoding<mlpack::data::CharExtract::TokenType>;
+            TFID encoder(MDTT, boolean);
+            mlpack::data::Load("TFID_CHAREXTRACT_ENCODER.bin", "encoder-TFID-char", encoder);
+            encoder.Encode(vector_of_strings, matrix, tokenizers);
+        }
+    }
+}
+
+void scalerTransform(scaler_methods SM, arma::mat &matrix)
+{
+    // pick scalar method
+    switch (SM)
+    {
+    case scaler_methods::MINMAX_SCALAR:
+    {
+        mlpack::data::MinMaxScaler minmax;
+        minmax.Fit(matrix);
+        minmax.Transform(matrix, matrix);
+        break;
+    }
+    case scaler_methods::STANDARD_SCALAR:
+    {
+        mlpack::data::StandardScaler stanscale;
+        stanscale.Fit(matrix);
+        stanscale.Transform(matrix, matrix);
+        break;
+    }
+    case scaler_methods::MAX_ABS_SCALAR:
+    {
+        mlpack::data::MaxAbsScaler maxabs;
+        maxabs.Fit(matrix);
+        maxabs.Transform(matrix, matrix);
+        break;
+    }
+    case scaler_methods::MEAN_NORM:
+    {
+        mlpack::data::MeanNormalization mean;
+        mean.Fit(matrix);
+        mean.Transform(matrix, matrix);
+        break;
+    }
+    default:
+        break;
+    }
+}
