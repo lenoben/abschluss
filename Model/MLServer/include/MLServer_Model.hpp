@@ -86,4 +86,18 @@ void convertVectorStringToMatrix(std::vector<std::string> vector_of_strings,
 
 void scalerTransform(scaler_methods SM, arma::mat &matrix);
 
+void _convertToRow(const arma::mat &matrix, arma::Row<size_t> &matrixRow, double threshold = 0.5);
+
+mlpack::FFN<mlpack::CrossEntropyError, mlpack::HeInitialization> getFFN_CH(
+    std::string modelpath = "FFN_TFID_STANDARD_SCALAR_nn_regressor.bin",
+    std::string modelname = "NNRegressor");
+
+mlpack::FFN<mlpack::MeanSquaredError, mlpack::HeInitialization> &getFFN_MH(
+    std::string modelpath = "FFN_BOW_MINMAX_SCALAR_nn_regressor.bin",
+    std::string modelname = "NNRegressor");
+
+mlpack::RandomForest<> &getRF(
+    std::string modelpath = "RandomForest_TFID_MINMAX_SCALAR_model.bin",
+    std::string modelname = "RandomForest");
+
 #endif
