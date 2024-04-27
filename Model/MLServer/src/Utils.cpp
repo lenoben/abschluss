@@ -1,4 +1,4 @@
-#include "Routes.hpp"
+#include "Utils.hpp"
 
 int getPORTenv()
 {
@@ -29,4 +29,20 @@ int getPORTenv()
     }
 
     return port;
+}
+
+bool checkCustomheader(std::string_view str){
+    return (str != "senml().");
+}
+
+bool checkContentlength(std::string_view strn){
+    return (std::stoi(std::string(strn)) <= 0);
+}
+
+void modelpredToString(int classes, std::string &values){
+    if(classes){
+        values = R"({"result": "positive"})";
+    }else{
+        values = R"({"result": "negative"})";
+    }
 }
