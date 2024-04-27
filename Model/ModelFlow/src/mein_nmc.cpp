@@ -69,6 +69,29 @@ void Mein_NMC<MatrixType>::Fit(MatrixType &matx, arma::Row<size_t> &rowy)
 };
 
 /**
+ * @brief Fits the dataset and its labels in a pair
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
+ * @param matx matrix of the dataset
+ * @param rowy labels
+ */
+template <typename MatrixType>
+void Mein_NMC<MatrixType>::RFit(MatrixType &matx, arma::Row<size_t> &rowy)
+{
+    arma::Row<size_t> unique_labels = arma::unique(rowy);
+    arma::uword distinct = unique_labels.n_elem;
+
+    vect_pair_mat.resize(distinct);
+
+    for (arma::uword k = 0; k < distinct; k++) {
+        arma::uvec indices = arma::find(rowy == unique_labels(k));
+        MatrixType class_data = matx.cols(indices);
+        MatrixType mean = arma::mean(class_data, 1);
+        vect_pair_mat[k] = { static_cast<int>(unique_labels(k)), mean };
+    }
+};
+
+/**
  * @brief predicts or classify the class from the dataset. initially made of just 1 set of dataset
  * 
  * @tparam MatrixType arma::mat/arma::sp_mat
@@ -99,6 +122,31 @@ int Mein_NMC<MatrixType>::Predict(MatrixType &matx)
         { return a.first < b.first; });
 
     return dist_label[0].second;
+};
+
+/**
+ * @brief predicts or classify the class from the dataset. initially made of just 1 set of dataset
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
+ * @param matx matrix to predict
+ * @return int : class from the label
+ */
+template <typename MatrixType>
+int Mein_NMC<MatrixType>::RPredict(MatrixType &matx)
+{
+    double min_distance = std::numeric_limits<double>::max();
+        int predicted_class = -1;
+
+        for (const auto& class_mean : vect_pair_mat) {
+            double distance = arma::norm(class_mean.second - matx, 2);
+            
+            if (distance < min_distance) {
+                min_distance = distance;
+                predicted_class = class_mean.first;
+            }
+        }
+
+        return predicted_class;
 };
 
 /**
@@ -136,6 +184,27 @@ void Mein_NMC<MatrixType>::ClassReport(MatrixType &matx, arma::Row<size_t> &rowy
     {
         MatrixType col = matx.col(i);
         res(i) = Predict(col);
+    }
+    double result = ComputeAccuracy(res, rowy);
+    std::cout << "[INFO] " << std::setw(4) << "Accurracy - " << result << std::endl;
+    ClassificationReport(res, rowy);
+};
+
+/**
+ * @brief returns a more comprehensive report of the class evaluation
+ * 
+ * @tparam MatrixType arma::mat/arma::sp_mat
+ * @param matx matrix of the dataset
+ * @param rowy real labels
+ */
+template <typename MatrixType>
+void Mein_NMC<MatrixType>::RClassReport(MatrixType &matx, arma::Row<size_t> &rowy)
+{
+    arma::Row<size_t> res(matx.n_cols);
+    for (arma::uword i = 0; i < matx.n_cols; i++)
+    {
+        MatrixType col = matx.col(i);
+        res(i) = RPredict(col);
     }
     double result = ComputeAccuracy(res, rowy);
     std::cout << "[INFO] " << std::setw(4) << "Accurracy - " << result << std::endl;

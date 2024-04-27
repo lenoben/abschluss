@@ -43,6 +43,16 @@ public:
     void Fit(MatrixType &matx, arma::Row<size_t> &rowy);
 
     /**
+     * @brief Fits the dataset and its labels in a pair
+     * 
+     * @tparam MatrixType arma::mat/arma::sp_mat
+     * @param matx matrix of the dataset
+     * @param rowy labels
+     */
+    
+    void RFit(MatrixType &matx, arma::Row<size_t> &rowy);
+
+    /**
      * @brief predicts or classify the class from the dataset. initially made of just 1 set of dataset
      * 
      * @tparam MatrixType arma::mat/arma::sp_mat
@@ -51,6 +61,16 @@ public:
      */
     
     int Predict(MatrixType &matx);
+
+        /**
+     * @brief predicts or classify the class from the dataset. initially made of just 1 set of dataset
+     * 
+     * @tparam MatrixType arma::mat/arma::sp_mat
+     * @param matx matrix to predict
+     * @return int : class from the label
+     */
+    
+    int RPredict(MatrixType &matx);
 
     /**
      * @brief Computes the accuracy of the class
@@ -72,6 +92,16 @@ public:
      */
     
     void ClassReport(MatrixType &matx, arma::Row<size_t> &rowy);
+
+        /**
+     * @brief returns a more comprehensive report of the class evaluation
+     * 
+     * @tparam MatrixType arma::mat/arma::sp_mat
+     * @param matx matrix of the dataset
+     * @param rowy real labels
+     */
+    
+    void RClassReport(MatrixType &matx, arma::Row<size_t> &rowy);
 };
 
 #endif

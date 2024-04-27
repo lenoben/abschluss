@@ -47,6 +47,15 @@ private:
      */
     int class_occurrences(std::vector<std::pair<double, size_t>> &distance_out, int k);
 
+        /**
+     * @brief Gets the class from the pair
+     *
+     * @param distance_out std::vector<std::pair<double, size_t>>
+     * @param k number of points to classify
+     * @return int
+     */
+    int Rclass_occurrences(arma::Col<double> &distances, int k);
+
     /**
      * @brief implementation of Euclidean distance for 1 column dataset
      *
@@ -143,6 +152,18 @@ public:
     
     int Classify(MatrixType &predmat, int k = 1, DistanceEQN deqn = DistanceEQN::EUCLIDEAN);
 
+        /**
+     * @brief classifies matrix dataset
+     *  
+     * @tparam MatrixType arma::mat/arma::sp_mat
+     * @param predmat matrix to classify
+     * @param k number of neighbours
+     * @param deqn distance equation type
+     * @return int
+     */
+    
+    int RClassify(MatrixType &predmat, int k = 1, DistanceEQN deqn = DistanceEQN::EUCLIDEAN);
+
     /**
      * @brief Computes the accuracy of the class 
      * @tparam MatrixType arma::mat/arma::sp_mat
@@ -161,6 +182,15 @@ public:
      */
     
     void ClassReport(MatrixType &matt, arma::Row<size_t> &matrow);
+
+        /**
+     * @brief returns a more comprehensive report of the class evaluation 
+     * @tparam MatrixType arma::mat/arma::sp_mat
+     * @param matt matrix of the dataset
+     * @param matrow real labels
+     */
+    
+    void RClassReport(MatrixType &matt, arma::Row<size_t> &matrow);
 };
 
 #endif
