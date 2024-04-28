@@ -1,8 +1,12 @@
 #include "ModelBuild.hpp"
 
-std::tuple<std::vector<std::string>, std::vector<int>> getVectorDataset()
+/**
+ * @brief converts already made .txt into vector of strings and vector of int
+ * @returns a tuple of vector of string and vector of int
+ */
+std::tuple<std::vector<std::string>, std::vector<int>>
+getVectorDataset()
 {
-    // magic variable here
     Preprocessor rawtext = Preprocessor(FileType::TXT, {"equalhightext_combined.txt"});
     rawtext.viewList();
 
@@ -61,6 +65,39 @@ std::tuple<std::vector<std::string>, std::vector<int>> getVectorDatasetFromFile(
     return std::make_tuple(rawcorpus, raw_score);
 }
 
+/**
+ * @brief Loads already saved Matrix Datasets
+ * @param ET the encodertype of the matrix
+ * @returns a tuple of TrainMat, testMat, TrainLabel and testLabel - ALL ROW MAJOR
+ */
+std::tuple<arma::mat, arma::mat, arma::Row<size_t>, arma::Row<size_t>> getMatrixDataset(EncoderType ET)
+{
+    arma::mat trainMat, testMat;
+    arma::Row<size_t> trainLabel, testLabel;
+    if (ET == EncoderType::BOW)
+    {
+        mlpack::data::Load("BOW_train_mat.csv", trainMat);
+        mlpack::data::Load("BOW_test_mat.csv", testMat);
+        mlpack::data::Load("BOW_train_label.csv", trainLabel);
+        mlpack::data::Load("BOW_test_label.csv", testLabel);
+    }
+    if (ET == EncoderType::TFID)
+    {
+        mlpack::data::Load("TFID_train_mat.csv", trainMat);
+        mlpack::data::Load("TFID_test_mat.csv", testMat);
+        mlpack::data::Load("TFID_train_label.csv", trainLabel);
+        mlpack::data::Load("TFID_test_label.csv", testLabel);
+    }
+    return std::make_tuple(trainMat, testMat, trainLabel, testLabel);
+}
+
+/**
+ * @brief Perform encoding on the vector of strings and returns a row major matrix
+ * @param vector_of_strings The string corpus it will encode
+ * @param ET The encoder type [ TFID or Bag of Words ]
+ * @param TTT The token type to use to encode the corpus
+ * @return arma::mat The row major matrix
+ */
 arma::mat convertVectorStringToMatrix(std::vector<std::string> &vector_of_strings, EncoderType ET, TheTokenType TTT, bool saveEncoder, mlpack::data::TfIdfEncodingPolicy::TfTypes MDTT, bool boolean)
 {
     arma::mat result;
@@ -107,6 +144,9 @@ arma::mat convertVectorStringToMatrix(std::vector<std::string> &vector_of_string
     return result;
 }
 
+/**
+ * @brief converts a vector of int to arma::Row<size_t>
+ */
 arma::Row<size_t> vectorToIntRow(const std::vector<int> &vec)
 {
     arma::Row<size_t> result(vec.size());
@@ -134,12 +174,6 @@ double ComputeF1Score(const size_t truePos, const size_t falsePos, const size_t 
     return 2 * (prec * rec) / (prec + rec);
 }
 
-double ComputeAccuracy(const arma::Row<size_t> &yPreds, const arma::Row<size_t> &yTrue)
-{
-    const size_t correct = arma::accu(yPreds == yTrue);
-    return (double)correct / (double)yTrue.n_elem;
-}
-
 void ClassificationReport(const arma::Row<size_t> &yPreds, const arma::Row<size_t> &yTrue)
 {
     arma::Row<size_t> uniqs = arma::unique(yTrue);
@@ -162,6 +196,16 @@ void ClassificationReport(const arma::Row<size_t> &yPreds, const arma::Row<size_
                   << std::setw(16) << truePos
                   << std::endl;
     }
+}
+
+/**
+ * @brief computes the accuracy between two arma::Row<size_t>
+ * @returns a double of the result accuracy
+ */
+double ComputeAccuracy(const arma::Row<size_t> &yPreds, const arma::Row<size_t> &yTrue)
+{
+    const size_t correct = arma::accu(yPreds == yTrue);
+    return (double)correct / (double)yTrue.n_elem;
 }
 
 void pickScalarMethod(scaler_methods SM, arma::mat &train, arma::mat &test)

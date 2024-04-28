@@ -16,11 +16,12 @@
 #include <mlpack/core/data/string_encoding_policies/tf_idf_encoding_policy.hpp>
 #include <mlpack/core/data/save.hpp>
 #include <mlpack/core/data/split_data.hpp>
-// SCALER_METHODS;
+// SCALER_METHODS; standard_scaler.hpp, min_max_scaler.hpp, max_abs_scaler.hpp, mean_normalization.hpp
 #include <mlpack/core/data/scaler_methods/standard_scaler.hpp>
 #include <mlpack/core/data/scaler_methods/min_max_scaler.hpp>
 #include <mlpack/core/data/scaler_methods/max_abs_scaler.hpp>
 #include <mlpack/core/data/scaler_methods/mean_normalization.hpp>
+#include <mlpack/core/metrics/lmetric.hpp>
 
 #include <armadillo>
 #include <ensmallen.hpp>
@@ -28,6 +29,8 @@
 std::tuple<std::vector<std::string>, std::vector<int>> getVectorDataset();
 
 std::tuple<std::vector<std::string>, std::vector<int>> getVectorDatasetFromFile(std::string filename);
+
+std::tuple<arma::mat, arma::mat, arma::Row<size_t>, arma::Row<size_t>> getMatrixDataset(EncoderType ET);
 
 arma::mat convertVectorStringToMatrix(std::vector<std::string> &vector_of_strings, EncoderType ET, TheTokenType TTT, bool saveEncoder = true, mlpack::data::TfIdfEncodingPolicy::TfTypes MDTT = mlpack::data::TfIdfEncodingPolicy::TfTypes::TERM_FREQUENCY, bool boolean = false);
 
@@ -44,5 +47,4 @@ double ComputeAccuracy(const arma::Row<size_t> &yPreds, const arma::Row<size_t> 
 void ClassificationReport(const arma::Row<size_t> &yPreds, const arma::Row<size_t> &yTrue);
 
 void pickScalarMethod(scaler_methods SM, arma::mat &train, arma::mat &test);
-
 #endif
