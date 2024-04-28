@@ -567,3 +567,72 @@ std::vector<std::string> file_to_vector(const std::string &filename, int length)
     file.close();
     return corpus;
 }
+
+std::vector<std::string> split_String(const std::string &s)
+{
+    std::istringstream iss(s);
+    std::vector<std::string> tokens;
+    std::string token;
+    while (iss >> token)
+    {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
+// Join vector of strings with whitespace
+std::string join_String(const std::vector<std::string> &v)
+{
+    std::ostringstream oss;
+    for (size_t i = 0; i < v.size(); ++i)
+    {
+        if (i > 0)
+        {
+            oss << " ";
+        }
+        oss << v[i];
+    }
+    return oss.str();
+}
+
+void resaveWithLimit(size_t limit, std::vector<std::string> &DatasetList)
+{
+    for (int i = 0; i < DatasetList.size(); i++)
+    {
+        std::ifstream inputFile(DatasetList[i]);
+        if (!inputFile.is_open())
+        {
+            std::cerr << "Error opening file." << std::endl;
+            return;
+        }
+
+        std::string line;
+        std::vector<std::string> lines;
+        while (std::getline(inputFile, line))
+        {
+            lines.push_back(line);
+            if (lines.size() == limit)
+            {
+                break;
+            }
+        }
+
+        inputFile.close();
+
+        std::ofstream outputFile(DatasetList[i]);
+        if (!outputFile.is_open())
+        {
+            std::cerr << "Error opening file for writing." << std::endl;
+            return;
+        }
+
+        for (const auto &l : lines)
+        {
+            outputFile << l << std::endl;
+        }
+
+        outputFile.close();
+
+        std::cout << "[INFO] " << std::setw(4) << DatasetList[i] << " set to limit. " << limit << std::endl;
+    }
+}

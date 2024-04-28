@@ -132,6 +132,10 @@ public:
 
     void removech();
 
+    void stem(std::string inputfile);
+
+    void setLimit(size_t limit);
+
 private:
     FileType FT;                          // File type
     std::vector<std::string> DatasetList; // List of Dataset

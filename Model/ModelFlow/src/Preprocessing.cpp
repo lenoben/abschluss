@@ -2,6 +2,7 @@
 #include "StringManipulation.hpp"
 #include "TxtgzToTxt.hpp"
 #include "TxtgzToJson.hpp"
+#include "Stemmer.hpp"
 
 /**
  * @brief Construct a new Preprocessor object
@@ -318,8 +319,8 @@ void Preprocessor::train_test_split(double split_number)
             lines.push_back(line);
         }
         filestream.close();
-        int splitIndex = static_cast<int>(lines.size() * split_number);
-        for (int i = 0; i < lines.size(); ++i)
+        size_t splitIndex = static_cast<size_t>(lines.size() * split_number);
+        for (size_t i = 0; i < lines.size(); ++i)
         {
             if (i < splitIndex)
             {
@@ -340,4 +341,40 @@ void Preprocessor::train_test_split(double split_number)
 void Preprocessor::removech()
 {
     cleanStringFile(DatasetList[1], DatasetList);
+}
+
+// single threaded
+// run after remove stopwords//removech
+void Preprocessor::stem(std::string inputfile)
+{
+    if (DatasetList.empty())
+    {
+        return;
+    }
+    stemm classStemmer;
+    std::vector<std::string> newlist;
+    std::ifstream file(inputfile);
+    std::ofstream out("stemmed.txt");
+
+    std::string line = "";
+    while (std::getline(file, line))
+    {
+        newlist = split_String(line);
+        for (auto &str : newlist)
+        {
+            str = classStemmer.stemWord(str);
+        }
+        out << join_String(newlist) << std::endl;
+    }
+
+    file.close();
+    out.close();
+    DatasetList[1] = "stemmed.txt";
+}
+
+void Preprocessor::setLimit(size_t limit)
+{
+    if (limit >= countLines(DatasetList[0]))
+        return;
+    resaveWithLimit(limit, DatasetList);
 }

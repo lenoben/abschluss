@@ -142,4 +142,12 @@ void equalizer(std::vector<std::string> &DatasetList);
  */
 std::vector<std::string> file_to_vector(const std::string &filename, int length);
 
+// Split string by whitespace into vector of strings
+std::vector<std::string> split_String(const std::string &s);
+
+// Join vector of strings with whitespace
+std::string join_String(const std::vector<std::string> &v);
+
+void resaveWithLimit(size_t limit, std::vector<std::string> &DatasetList);
+
 #endif
