@@ -27,17 +27,9 @@
 #include <mlpack/core/data/string_encoding_policies/tf_idf_encoding_policy.hpp>
 
 #include <armadillo>
+#include "mein_nmc.hpp"
 
 using DictionaryType = mlpack::data::StringEncodingDictionary<MLPACK_STRING_VIEW>;
-
-enum MLSERVER_MODEL
-{
-    FFN_MEAN_HE,
-    LOG_REG,
-    RANDOM_FOREST
-};
-
-std::string mlserverModelToString(MLSERVER_MODEL);
 
 enum scaler_methods
 {
@@ -48,49 +40,13 @@ enum scaler_methods
     NONE
 };
 
-enum TheTokenType
-{
-    SPLITBYCHAR,
-    CHAREXTRACT
-};
-
-enum EncoderType
-{
-    BOW,
-    TFID
-};
-
-void to_lower_str(std::string &cleaned);
-
-/**
- * @brief converts string vectors to lower case vectors of strings
- *
- * @param string_vector
- */
-void to_lower_vec(std::vector<std::string> &string_vector);
-
-std::string cleanString(std::string dirty);
-
-void cleanStringFile(std::vector<std::string> &vector_of_string);
-
-void removeStop(std::vector<std::string> &vector_of_string);
-
 void cleanTextForPrediction(std::string &text,
                             DictionaryType const &dictionary,
                             mlpack::data::SplitByAnyOf const &tokenizer);
 
-void convertVectorStringToMatrix(std::vector<std::string> vector_of_strings, 
-                                arma::mat &matrix, EncoderType ET, TheTokenType TTT, 
-                                mlpack::data::TfIdfEncodingPolicy::TfTypes MDTT = mlpack::data::TfIdfEncodingPolicy::TfTypes::TERM_FREQUENCY, 
-                                bool boolean = false);
-
 void scalerTransform(scaler_methods SM, arma::mat &matrix);
 
 void _convertToRow(const arma::mat &matrix, arma::Row<size_t> &matrixRow, double threshold = 0.5);
-
-mlpack::FFN<mlpack::CrossEntropyError, mlpack::HeInitialization> getFFN_CH(
-    std::string modelpath = "FFN_TFID_STANDARD_SCALAR_nn_regressor.bin",
-    std::string modelname = "NNRegressor");
 
 mlpack::FFN<mlpack::MeanSquaredError, mlpack::HeInitialization> &getFFN_MH(
     std::string modelpath = "FFN_BOW_MINMAX_SCALAR_nn_regressor.bin",
@@ -100,4 +56,42 @@ mlpack::RandomForest<> &getRF(
     std::string modelpath = "RandomForest_TFID_MINMAX_SCALAR_model.bin",
     std::string modelname = "RandomForest");
 
+mlpack::data::BagOfWordsEncoding<mlpack::data::SplitByAnyOf::TokenType> BagOfWordsSplit();
+
+mlpack::data::TfIdfEncoding<mlpack::data::SplitByAnyOf::TokenType> TfidSplit();
+
+
+std::string returnRemoveChars();
+
+std::vector<std::string> returnStopWords();
+
+void actualremoveStopWords(std::vector<std::string> &text, std::vector<std::string> &stopWords);
+
+std::string actualremoveCharacters(std::string text, std::string &removeCharacters);
+
+void actualremoveCharactersList(std::vector<std::string> &text, std::string &removecharacters);
+
+void matrixToString(arma::mat &matrix, std::string &resultString);
+
+void rowToString(arma::Row<size_t> &row, std::string &resultString);
+
+mlpack::LogisticRegression<> &get_LogReg();
+
+arma::mat tfidStringCleaner(std::string &text,
+std::vector<std::string> &stopwords,
+std::string &removecharacters,
+DictionaryType const &dictionary,
+mlpack::data::SplitByAnyOf &tokenizer,
+mlpack::data::TfIdfEncoding<mlpack::data::SplitByAnyOf::TokenType> &encoder,
+bool addbias);
+
+arma::mat bowStringCleaner(std::string &text,
+std::vector<std::string> &stopwords,
+std::string &removecharacters,
+DictionaryType const &dictionary,
+mlpack::data::SplitByAnyOf &tokenizer,
+mlpack::data::BagOfWordsEncoding<mlpack::data::SplitByAnyOf::TokenType> &encoder,
+bool addbias);
+
+void convertRowToResult(arma::Row<size_t> &row, arma::mat &prob, std::string &text);
 #endif

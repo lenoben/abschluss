@@ -1,121 +1,12 @@
 #include "MLServer_Model.hpp"
-
-std::string mlserverModelToString(MLSERVER_MODEL MM)
-{
-    switch (MM)
-    {
-    case MLSERVER_MODEL::FFN_MEAN_HE:
-        return "FNN_Meansquarederror_Heinitialztion";
-    case MLSERVER_MODEL::LOG_REG:
-        return "Logistic Regression";
-    case MLSERVER_MODEL::RANDOM_FOREST:
-        return "Random Forest";
-    default:
-        return "UNKNOWN";
-    }
-}
-
-void to_lower_str(std::string &cleaned)
-{
-    // Convert the string to lowercase.
-    std::transform(cleaned.begin(), cleaned.end(), cleaned.begin(), [](unsigned char c)
-                   { return std::tolower(c); });
-}
-
-/**
- * @brief converts string vectors to lower case vectors of strings
- *
- * @param string_vector
- */
-void to_lower_vec(std::vector<std::string> &string_vector)
-{
-    for (auto &word : string_vector)
-    {
-        to_lower_str(word);
-    }
-}
-
-std::string cleanString(std::string dirty)
-{
-    std::string cleaned;
-    std::ifstream rem("../configs/removechars.txt");
-    std::string symbols_line;
-    while (std::getline(rem, symbols_line))
-    {
-        for (char c : dirty)
-        {
-            // Check if the character is not in the symbols string.
-            if (symbols_line.find(c) == std::string::npos)
-            {
-                // Append the character to the new string.
-                cleaned += c;
-            }
-        }
-    }
-    // to_lower_str(cleaned);
-    return cleaned;
-}
-
-void cleanStringFile(std::vector<std::string> &vector_of_string)
-{
-    for (std::string &str : vector_of_string)
-    {
-        str = cleanString(str);
-    }
-}
-
-void removeStop(std::vector<std::string> &vector_of_string)
-{
-    // Read stop words from file
-    std::ifstream stopWordsFile("../configs/stopwords.txt");
-    if (!stopWordsFile.is_open())
-    {
-        std::cerr << "ERROR OPENING STOPWORDS.TXT" << std::endl;
-        return;
-    }
-
-    std::vector<std::string> stopWords;
-    std::string stopWord;
-    while (stopWordsFile >> stopWord)
-    {
-        stopWords.push_back(stopWord);
-    }
-    stopWordsFile.close();
-    to_lower_vec(stopWords);
-
-    // Iterate over each string in the vector
-    for (std::string &str : vector_of_string)
-    {
-        std::istringstream iss(str);
-        std::string word;
-        std::string modifiedString;
-
-        // Process each word in the string
-        while (iss >> word)
-        {
-            // Remove punctuation or other unwanted characters
-            word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
-
-            // Convert the word to lowercase for case-insensitive comparison
-            std::transform(word.begin(), word.end(), word.begin(), ::tolower);
-
-            // Check if the word is not a stop word and add it to the modified string
-            if (std::find(stopWords.begin(), stopWords.end(), word) == stopWords.end())
-            {
-                modifiedString += word + " ";
-            }
-        }
-
-        // Save the modified string back to the vector
-        str = modifiedString;
-    }
-}
+#include "Stemmer.hpp"
 
 void cleanTextForPrediction(std::string &text,
                             DictionaryType const &dictionary,
                             mlpack::data::SplitByAnyOf const &tokenizer)
 {
-
+    Stemm stemher;
+    // text = stemher.stemWord(text);
     MLPACK_STRING_VIEW strView(text);
     auto token = tokenizer(strView);
     std::string processedText = "";
@@ -131,71 +22,6 @@ void cleanTextForPrediction(std::string &text,
         token = tokenizer(strView);
     }
     text = processedText;
-}
-
-/**
- * @brief Perform encoding on the vector of strings and returns a row major matrix
- * @param vector_of_strings The string corpus it will encode
- * @param ET The encoder type [ TFID or Bag of Words ]
- * @param TTT The token type to use to encode the corpus
- * @return arma::mat The row major matrix
- */
-void convertVectorStringToMatrix(std::vector<std::string> vector_of_strings, 
-                                arma::mat &matrix, EncoderType ET, TheTokenType TTT, 
-                                mlpack::data::TfIdfEncodingPolicy::TfTypes MDTT, 
-                                bool boolean)
-{
-    removeStop(vector_of_strings);      // removestoopwords
-    cleanStringFile(vector_of_strings); // removechar
-
-    if (ET == EncoderType::BOW)
-    {
-        if (TTT == TheTokenType::SPLITBYCHAR)
-        {
-            mlpack::data::SplitByAnyOf tokenizers(" .,\"");
-            mlpack::data::BagOfWordsEncoding<mlpack::data::SplitByAnyOf::TokenType> encoder;
-            mlpack::data::Load("BOW_SPLIT_ENCODER.bin", "encoder-BOW-split", encoder);
-            const DictionaryType &dictionary = encoder.Dictionary();
-            for (std::string &str : vector_of_strings)
-            {
-                cleanTextForPrediction(str, dictionary, tokenizers);
-            }
-            encoder.Encode(vector_of_strings, matrix, tokenizers);
-            matrix.brief_print("BOW SPLIT");
-        }
-        if (TTT == TheTokenType::CHAREXTRACT)
-        {
-            auto tokenizers = mlpack::data::CharExtract();
-            mlpack::data::BagOfWordsEncoding<mlpack::data::CharExtract::TokenType> encoder;
-            mlpack::data::Load("BOW_CHAREXTRACT_ENCODER.bin", "encoder-BOW-char", encoder);
-            encoder.Encode(vector_of_strings, matrix, tokenizers);
-        }
-    }
-    if (ET == EncoderType::TFID)
-    {
-        if (TTT == TheTokenType::SPLITBYCHAR)
-        {
-            mlpack::data::SplitByAnyOf tokenizers(" .,\"");
-            using TFID = mlpack::data::TfIdfEncoding<mlpack::data::SplitByAnyOf::TokenType>;
-            TFID encoder(MDTT, boolean);
-            mlpack::data::Load("TFID_SPLIT_ENCODER.bin", "encoder-TFID-split", encoder);
-            const DictionaryType &dictionary = encoder.Dictionary();
-            for (std::string &str : vector_of_strings)
-            {
-                cleanTextForPrediction(str, dictionary, tokenizers);
-            }
-            encoder.Encode(vector_of_strings, matrix, tokenizers);
-            matrix.brief_print("TFID SPLIT");
-        }
-        if (TTT == TheTokenType::CHAREXTRACT)
-        {
-            auto tokenizers = mlpack::data::CharExtract();
-            using TFID = mlpack::data::TfIdfEncoding<mlpack::data::CharExtract::TokenType>;
-            TFID encoder(MDTT, boolean);
-            mlpack::data::Load("TFID_CHAREXTRACT_ENCODER.bin", "encoder-TFID-char", encoder);
-            encoder.Encode(vector_of_strings, matrix, tokenizers);
-        }
-    }
 }
 
 void scalerTransform(scaler_methods SM, arma::mat &matrix)
@@ -236,6 +62,14 @@ void scalerTransform(scaler_methods SM, arma::mat &matrix)
     }
 }
 
+/**
+ * @brief converts the arma::mat type arma::Row with a threshold for 1's and 0's
+ *        mainly used by FFN
+ * 
+ * @param matrix 
+ * @param matrixRow 
+ * @param threshold 
+ */
 void _convertToRow(const arma::mat &matrix, arma::Row<size_t> &matrixRow, double threshold)
 {
     arma::Row<size_t> result(matrix.n_cols);
@@ -246,14 +80,6 @@ void _convertToRow(const arma::mat &matrix, arma::Row<size_t> &matrixRow, double
     }
 
     matrixRow = result;
-}
-
-mlpack::FFN<mlpack::CrossEntropyError, mlpack::HeInitialization> getFFN_CH(
-    std::string modelpath, std::string modelname)
-{
-    mlpack::FFN<mlpack::CrossEntropyError, mlpack::HeInitialization> model;
-    mlpack::data::Load(modelpath, modelname, model);
-    return model;
 }
 
 mlpack::FFN<mlpack::MeanSquaredError, mlpack::HeInitialization> &getFFN_MH(
@@ -271,4 +97,221 @@ mlpack::RandomForest<> &getRF(
     mlpack::RandomForest<> *model = new mlpack::RandomForest<>();
     mlpack::data::Load(modelpath, modelname, (*model));
     return *model;
+}
+
+mlpack::data::BagOfWordsEncoding<mlpack::data::SplitByAnyOf::TokenType> BagOfWordsSplit()
+{
+    mlpack::data::BagOfWordsEncoding<mlpack::data::SplitByAnyOf::TokenType> encoder;
+    mlpack::data::Load("BOW_SPLIT_ENCODER.bin", "encoder-BOW-split", encoder);
+    return encoder;
+}
+
+mlpack::data::TfIdfEncoding<mlpack::data::SplitByAnyOf::TokenType> TfidSplit()
+{
+    mlpack::data::TfIdfEncoding<mlpack::data::SplitByAnyOf::TokenType> encoder(mlpack::data::TfIdfEncodingPolicy::TfTypes::TERM_FREQUENCY, false);
+    mlpack::data::Load("TFID_SPLIT_ENCODER.bin", "encoder-TFID-split", encoder);
+    return encoder;
+}
+
+
+void actualremoveStopWords(std::vector<std::string> &text, std::vector<std::string> &stopWords)
+{
+    for (std::string &str : text)
+    {
+        std::istringstream iss(str);
+        std::string word;
+        std::string modifiedString;
+
+        // Process each word in the string
+        while (iss >> word)
+        {
+            // Remove punctuation or other unwanted characters
+            word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
+
+            // Convert the word to lowercase for case-insensitive comparison
+            std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+
+            // Check if the word is not a stop word and add it to the modified string
+            if (std::find(stopWords.begin(), stopWords.end(), word) == stopWords.end())
+            {
+                modifiedString += word + " ";
+            }
+        }
+
+        // Save the modified string back to the vector
+        str = modifiedString;
+    }
+}
+
+std::string actualremoveCharacters(std::string dirty, std::string &removeCharacters)
+{
+    std::string cleaned;
+
+    // Loop through each character in the input string
+    for (char c : dirty)
+    {
+        // Check if the character is not in the remove characters string
+        if (removeCharacters.find(c) == std::string::npos)
+        {
+            // Append the character to the cleaned string
+            cleaned += c;
+        }
+    }
+
+    return cleaned;
+}
+
+void actualremoveCharactersList(std::vector<std::string> &text, std::string &removecharacters)
+{
+    for (std::string &str : text)
+    {
+        str = actualremoveCharacters(str, removecharacters);
+    }
+}
+
+
+std::string returnRemoveChars(){
+    std::string symbols;
+    std::ifstream rem("../configs/removechars.txt");
+    std::getline(rem, symbols);
+    return symbols;
+}
+
+std::vector<std::string> returnStopWords(){
+    // make stopwords empty
+    std::vector<std::string> stopWords;
+
+    std::ifstream stopWordsFile("../configs/stopwords.txt");
+    if (!stopWordsFile.is_open())
+    {
+        std::cerr << "ERROR OPENING STOPWORDS.TXT" << std::endl;
+    }
+    std::string stopWord;
+    while (stopWordsFile >> stopWord)
+    {
+        stopWords.push_back(stopWord);
+    }
+    stopWordsFile.close();
+    // Convert stop words to lowercase
+    std::transform(stopWords.begin(), stopWords.end(), stopWords.begin(),
+                   [](std::string &str)
+                   {
+                       std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+                       return str;
+                   });
+    return stopWords;
+}
+
+void matrixToString(arma::mat &matrix, std::string &resultString){
+    double a = matrix(0,1);
+    double b = matrix(1,1);
+    double c = a+b;
+    double percenta = 100.0/c*a;
+    double percentb = 100.0/c*b;
+    if(percentb > percenta){
+        resultString = "{ result: 1, positive: "+std::to_string(percentb)+" , negative: "+std::to_string(percenta)+" }";
+    }else{
+        resultString = "{ result: 0, positive: "+std::to_string(percentb)+" , negative: "+std::to_string(percenta)+" }";
+    }
+}
+
+void rowToString(arma::Row<size_t>& row, std::string &resultString){
+    resultString = "{ result: " + std::to_string(row(0,1)) + " }";
+}
+
+void turnFFNMatrixtostring(
+    arma::Row<size_t> &predictionRow, 
+    std::string &value){
+        value = "{ result: "+ std::to_string(predictionRow(0,1)) +"}";
+        return;
+}
+
+void turnRFMatrixtostring(
+    arma::mat &matrix,
+    arma::Row<size_t> &predictionRow, 
+    std::string &value
+){
+    double top = matrix(0,1), bottom = matrix(1,1);
+    double sum = top + bottom;
+    top = 100.0/(sum) * top;
+    bottom = 100.0/(sum) * bottom;
+    value = "{ result: " + std::to_string(predictionRow(0,1)) + ", positive: "+ std::to_string(bottom) +", negative: "+ std::to_string(top) +"}";
+    return;
+}
+
+mlpack::LogisticRegression<> &get_LogReg(){
+    mlpack::LogisticRegression<> *model = new mlpack::LogisticRegression<>();
+    mlpack::data::Load("logreg_bow_minimax.bin", "LogisticRegression", (*model));
+    return *model;
+}
+
+std::string getpositive(){
+    return "Excellent, this was a nice movie";
+}
+
+std::string getnegative(){
+    return "This sucks, bad";
+}
+
+arma::mat tfidStringCleaner(std::string &text,
+std::vector<std::string> &stopwords,
+std::string &removecharacters,
+DictionaryType const &dictionary,
+mlpack::data::SplitByAnyOf &tokenizer,
+mlpack::data::TfIdfEncoding<mlpack::data::SplitByAnyOf::TokenType> &encoder,
+bool addbias){
+    std::vector<std::string> vecString;
+    if(addbias){
+        vecString.push_back(getpositive());
+        vecString.push_back(text);
+        vecString.push_back(getnegative());
+    }else{
+        vecString.push_back(text);
+    }
+    
+    actualremoveStopWords(vecString, stopwords);      // removestoopwords
+    actualremoveCharactersList(vecString, removecharacters); // removechar
+    for (std::string &str : vecString)
+            {
+                cleanTextForPrediction(str, dictionary, tokenizer);
+            }
+    arma::mat textmat;
+    encoder.Encode(vecString, textmat, tokenizer);
+    return textmat;
+}
+
+arma::mat bowStringCleaner(std::string &text,
+std::vector<std::string> &stopwords,
+std::string &removecharacters,
+DictionaryType const &dictionary,
+mlpack::data::SplitByAnyOf &tokenizer,
+mlpack::data::BagOfWordsEncoding<mlpack::data::SplitByAnyOf::TokenType> &encoder,
+bool addbias){
+    std::vector<std::string> vecString;
+    if(addbias){
+        vecString.push_back(getpositive());
+        vecString.push_back(text);
+        vecString.push_back(getnegative());
+   }else{
+        vecString.push_back(text);
+    }
+
+    actualremoveStopWords(vecString, stopwords);      // removestoopwords
+    actualremoveCharactersList(vecString, removecharacters); // removechar
+    for (std::string &str : vecString)
+            {
+                cleanTextForPrediction(str, dictionary, tokenizer);
+            }
+    arma::mat textmat;
+    encoder.Encode(vecString, textmat, tokenizer);
+    return textmat;
+}
+
+
+void convertRowToResult(arma::Row<size_t> &row, arma::mat &prob, std::string &text){
+    if(row(1) == 1) {
+        text =  R"({"result": "1", "probability": ")" + std::to_string(prob(1,1)) + R"("})";
+    }else{
+        text =  R"({"result": "0", "probability": ")" + std::to_string(prob(0,1)) + R"("})";
+    }
 }

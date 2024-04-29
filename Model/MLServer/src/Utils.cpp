@@ -40,6 +40,7 @@ bool checkContentlength(std::string_view strn){
 }
 
 void modelpredToString(int classes, std::string &values){
+    //apparently for just two classes
     if(classes){
         values = R"({"result": "positive"})";
     }else{
