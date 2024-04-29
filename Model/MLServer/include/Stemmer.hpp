@@ -12,7 +12,7 @@
 #ifndef MODEL_FLOW_STEMMER_HPP
 #define MODEL_FLOW_STEMMER_HPP
 
-#include "ModelFlow.hpp"
+#include "MLServer.hpp"
 
 #include "porter_stemmer.h"
 #include <stdio.h>
@@ -29,7 +29,7 @@ static int i_max = 50; /* maximum offset in s */
  * @brief a class for handling porter stemmer
  * 
  */
-class stemm
+class Stemm
 {
 private:
     struct stemmer *z;
@@ -37,8 +37,8 @@ private:
     void processLines(std::vector<std::string> &lines, std::vector<std::string> &result);
 
 public:
-    stemm(/* args */);
-    ~stemm();
+    Stemm(/* args */);
+    ~Stemm();
     std::string stemWord(std::string &str);
     void stemfile(std::string inputFile, std::string outputFile);
 };
@@ -49,9 +49,9 @@ public:
  * @param lines old vector of strings
  * @param result new stemmed vector of strings
  */
-void stemm::processLines(std::vector<std::string> &lines, std::vector<std::string> &result)
+void Stemm::processLines(std::vector<std::string> &lines, std::vector<std::string> &result)
 {
-    stemm s;
+    Stemm s;
     for (const auto &line : lines)
     {
         std::stringstream ss(line);
@@ -69,13 +69,13 @@ void stemm::processLines(std::vector<std::string> &lines, std::vector<std::strin
  * @brief constructs the stem class
  * 
  */
-stemm::stemm(/* args */)
+Stemm::Stemm(/* args */)
 {
     z = create_stemmer();
     s = (char *)malloc(i_max + 1);
 }
 
-stemm::~stemm()
+Stemm::~Stemm()
 {
     free(s);
     free_stemmer(z);
@@ -87,7 +87,7 @@ stemm::~stemm()
  * @param str 
  * @return std::string 
  */
-std::string stemm::stemWord(std::string &str)
+std::string Stemm::stemWord(std::string &str)
 {
     const char *cstr = str.c_str();
     int i = 0;
@@ -118,7 +118,7 @@ std::string stemm::stemWord(std::string &str)
  * @param inputfile 
  * @param outputfile 
  */
-void stemm::stemfile(std::string inputfile, std::string outputfile)
+void Stemm::stemfile(std::string inputfile, std::string outputfile)
 {
     std::ifstream inFile(inputfile);
     if (!inFile)
