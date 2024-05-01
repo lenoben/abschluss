@@ -1,5 +1,5 @@
 # Server CMakeLists.txt
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.10.0)
 project(senti_mlserver VERSION 0.1.0 LANGUAGES C CXX)
 
 # Set required standard to C++20.
@@ -20,6 +20,9 @@ file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 # Build executable
 add_executable(senti_mlserver ${SOURCES})
 
+find_package(Armadillo REQUIRED)
+find_package(cereal REQUIRED)
+
 # Compiler flags for the executable
 target_compile_options(senti_mlserver PRIVATE
     -march=native
@@ -37,10 +40,7 @@ target_link_libraries(senti_mlserver PRIVATE
 )
 
 # Link libraries
-target_link_libraries(senti_mlserver PRIVATE -lz -lpqxx -lpq -larmadillo -lmlpack -fopenmp)
-
-# Set compilation flags
-target_compile_options(senti_mlserver PRIVATE -flto -Wconversion -fopenmp)
+target_link_libraries(senti_mlserver PRIVATE -larmadillo -lmlpack -fopenmp)
 
 # Set output directory
 set_target_properties(senti_mlserver PROPERTIES
