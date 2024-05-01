@@ -57,6 +57,7 @@ e
 each
 efjzsesf
 en
+etc
 even
 ez
 f
@@ -118,6 +119,7 @@ ldskh
 le
 level
 leveling
+like
 ll
 lmao
 lol
@@ -126,6 +128,7 @@ lvl
 lvling
 m
 ma
+maam
 may
 me
 might
@@ -134,6 +137,8 @@ mightn't
 mine
 more
 most
+mr
+mrs
 must
 mustn
 mustn't
@@ -268,5 +273,3 @@ z
 zeet
 zoueso
 zssfs
-etc
-like

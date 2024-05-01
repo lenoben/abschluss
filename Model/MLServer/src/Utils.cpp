@@ -42,8 +42,8 @@ bool checkContentlength(std::string_view strn){
 void modelpredToString(int classes, std::string &values){
     //apparently for just two classes
     if(classes){
-        values = R"({"result": "positive"})";
+        values = R"({"result": "1"})";
     }else{
-        values = R"({"result": "negative"})";
+        values = R"({"result": "0"})";
     }
 }
