@@ -156,8 +156,8 @@ Mein_NMC<arma::sp_mat> &get_NMC_SP(){
     arma::mat trainmatt;
     arma::Row<size_t> trainlabel;
     // mlpack::data::Load("nmc_tfid_matrix.csv", trainmatt);
-    mlpack::data::Load("TFID_train_label.csv", trainlabel);
-    mlpack::data::Load("TFID_train_mat.csv", trainmatt);
+    mlpack::data::Load("/app/out/TFID_train_label.csv", trainlabel);
+    mlpack::data::Load("/app/out/TFID_train_mat.csv", trainmatt);
     arma::sp_mat trainmat(trainmatt);
     // mlpack::data::Load("nmc_tfid_label.csv", trainlabel);
 

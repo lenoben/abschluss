@@ -2,12 +2,16 @@
 
 ---
 
-## COMMIT IN-DEPTH DESCRIPTION
-
-- added my implementation of knn
-- added [K-Nearest Neigbour KNN](./Model/ModelFlow/include/mein_knn.hpp)
-- added [implementation of KNN](./Model/ModelFlow/src/mein_knn.cpp)
-
+## Note
+In this branch, it handles the deployment of the c++ model with docker
+a very crucial thing here is the files needed with the executable to launch properly
+These files can be added manually and automation of adding the files will be done later
+These files include
+* Model/MLServer/out/BOW_SPLIT_ENCODER.bin
+* Model/MLServer/out/logreg_bow_minimax.bin
+* Model/MLServer/out/TFID_train_label.csv
+* Model/MLServer/out/TFID_train_mat.csv
+* Model/MLServer/out/TFID_SPLIT_ENCODER.bin
 
 ## Discussions and insights
 

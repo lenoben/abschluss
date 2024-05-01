@@ -2,7 +2,42 @@
 
 This directory houses the codebase for preprocessing, model building, training and evaluation.
 
+## TODO
+- add runtime errors in both all the .cpp loaders
+- add different cmake configs for release and debug builds
+- add the modelflow directory independent development setup(with and without docker)
+
+## Table of Contents
+- [Getting Started](#getting-started)
+- [FileFormat during preprocessing](#fileformat-during-preprocessing)
+- [Smooth preprocessing path](#smooth-preprocessing-path)
+  - [Snooth preprocessing path output lookalike](#outputsh)
+- [Notes](#notes)
+- [Dependencies, Sources and References](#dependencies-sources-and-references)
+  - [References](#references)
+
+## Getting started
+
+###### [Table of contents](#table-of-contents)
+
+### Build the project
+#### Requirements
+- mlpack, ensmallen and cereal installed libraries
+```.bash
+mkdir build; cd build
+cmake ..; make
+cd ../out; ./senti_model_flow
+```
+
+### Executable assets
+- To get the dataset file run
+```.sh
+cd data/raw; ./data_install.sh
+```
+
 ## FileFormat during preprocessing
+
+###### [Table of contents](#table-of-contents)
 
 There are 2 major file format, `FileType::TXTGZ` is there if we do not whant to use the python script to parse it into Json, _*Highly not recommended, convert it to Json first then txt*_
 
@@ -62,6 +97,8 @@ review/summary: Good Addition to a Bead Kit
 
 ## Smooth preprocessing path
 
+###### [Table of contents](#table-of-contents)
+
 - Get the individual filename with extension on hopefully it is .txt.gz in a list
 - initiate a preprocessor class with the list and associated filetype
 - convert .txt.gz to json
@@ -102,7 +139,9 @@ review.saveEqualdivided();
 review.Combine();
 ```
 
-# output.sh
+### output.sh
+
+###### [Table of contents](#table-of-contents)
 
 ```sh
 [INFO]     TXTGZ FileType
@@ -201,24 +240,30 @@ Preprocessor review = Preprocessor(FileType::JSON,newlist);
 review.Combine();
 review.ConvertJsonToTxt();
 review.dividePostiveandNegative(3);
-// review.removeStopWords();
-// review.removech();
+review.removeStopWords();
+review.removech();
 review.saveEqualdivided();
 review.Combine();
 ```
 
 ## NOTES
 
+###### [Table of contents](#table-of-contents)
+
 - After using `data/parser.py` some Json line field may be null
 - Currently only Random Forest is showing promising results but issue is its promising results are with huge memory, might reduce the dataset size
 
 ## Dependencies, Sources and References
+
+###### [Table of contents](#table-of-contents)
 
 ### [Json.hpp](./include/json.hpp)
 
 - [nlohmann Json](https://github.com/nlohmann/json/blob/develop/single_include/nlohmann/json.hpp)
 - [nlohmann Json Documentation](https://json.nlohmann.me/api/basic_json/)
 
-## Ref
+### References
 
 - Dataset source “SNAP: Web data: Amazon reviews,” Stanford.edu, 2024. https://snap.stanford.edu/data/web-Amazon-links.html (accessed Jan. 24, 2024).
+
+- [classification Report Function](https://github.com/mlpack/examples/blob/master/rainfall_prediction_with_random_forest/rainfall-prediction-with-random-forest-cpp.ipynb) source was gotten from mlpack's examples repository

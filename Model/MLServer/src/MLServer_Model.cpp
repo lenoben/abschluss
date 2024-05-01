@@ -102,14 +102,14 @@ mlpack::RandomForest<> &getRF(
 mlpack::data::BagOfWordsEncoding<mlpack::data::SplitByAnyOf::TokenType> BagOfWordsSplit()
 {
     mlpack::data::BagOfWordsEncoding<mlpack::data::SplitByAnyOf::TokenType> encoder;
-    mlpack::data::Load("BOW_SPLIT_ENCODER.bin", "encoder-BOW-split", encoder);
+    mlpack::data::Load("/app/out/BOW_SPLIT_ENCODER.bin", "encoder-BOW-split", encoder);
     return encoder;
 }
 
 mlpack::data::TfIdfEncoding<mlpack::data::SplitByAnyOf::TokenType> TfidSplit()
 {
     mlpack::data::TfIdfEncoding<mlpack::data::SplitByAnyOf::TokenType> encoder(mlpack::data::TfIdfEncodingPolicy::TfTypes::TERM_FREQUENCY, false);
-    mlpack::data::Load("TFID_SPLIT_ENCODER.bin", "encoder-TFID-split", encoder);
+    mlpack::data::Load("/app/out/TFID_SPLIT_ENCODER.bin", "encoder-TFID-split", encoder);
     return encoder;
 }
 
@@ -172,7 +172,7 @@ void actualremoveCharactersList(std::vector<std::string> &text, std::string &rem
 
 std::string returnRemoveChars(){
     std::string symbols;
-    std::ifstream rem("../configs/removechars.txt");
+    std::ifstream rem("/app/configs/removechars.txt");
     std::getline(rem, symbols);
     return symbols;
 }
@@ -181,7 +181,7 @@ std::vector<std::string> returnStopWords(){
     // make stopwords empty
     std::vector<std::string> stopWords;
 
-    std::ifstream stopWordsFile("../configs/stopwords.txt");
+    std::ifstream stopWordsFile("/app/configs/stopwords.txt");
     if (!stopWordsFile.is_open())
     {
         std::cerr << "ERROR OPENING STOPWORDS.TXT" << std::endl;
