@@ -1,0 +1,1 @@
+export const modelurl: string | undefined = process.env.MODEL_SERVER_URL;

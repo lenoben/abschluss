@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model error_log {
+  error_log_id Int        @id @default(autoincrement())
+  error_date   DateTime   @default(now()) @db.Timestamp
+  name         String?
+  message      String?
+  user_id      Int?
+  site_user    site_user? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_error_log_user")
+}
+
+model ffn {
+  ffn_id            Int         @id @default(autoincrement())
+  text_id           Int?
+  probability       Decimal?    @db.Decimal(3, 1)
+  result            Int?
+  model_text        model_text? @relation(fields: [text_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_ffn_model_text")
+}
+
+model nmc {
+  nmc_id            Int         @id @default(autoincrement())
+  text_id           Int?
+  result            Int?
+  model_text        model_text? @relation(fields: [text_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_nmc_model_text")
+}
+
+model logreg {
+  logreg_id         Int         @id @default(autoincrement())
+  text_id           Int?
+  probability       Decimal?    @db.Decimal(3, 1)
+  result            Int?
+  model_text        model_text? @relation(fields: [text_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_logreg_model_text")
+}
+
+model model_text {
+  id            Int             @id @default(autoincrement())
+  content       String?
+  user_id       Int?
+  ffn           ffn[]
+  site_user     site_user?      @relation(fields: [user_id], references: [id], onUpdate: NoAction, map: "fk_model_text_user")
+  random_forest random_forest[]
+  nmc           nmc[]
+  logreg        logreg[]
+}
+
+model random_forest {
+  random_forest_id  Int         @id @default(autoincrement())
+  text_id           Int?
+  probability       Decimal?    @db.Decimal(3, 1)
+  result            Int?
+  model_text        model_text? @relation(fields: [text_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_random_forest_model_text")
+}
+
+model site_user {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(255)
+  email       String        @unique @db.VarChar(255)
+  error_log   error_log[]
+  model_text  model_text[]
+}
