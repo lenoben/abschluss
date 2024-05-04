@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>senml().</title>
+    <!-- Include Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <!-- Include Font Awesome for icons (optional) -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="index.css" rel="stylesheet" />
+    
+    <% const scriptSrc = scriptLabel + '.js'; %> 
+    <!-- Set the script source dynamically -->
+    <script defer src="<%= scriptSrc %>" type="module"></script>
+  </head>
+
+  <body class="bg-gray-900 text-white h-screen flex flex-col justify-between">
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800 py-4">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between">
+          <!-- Logo -->
+          <div class="flex-shrink-0">
+            <a href="/" class="text-white text-xl font-bold flex items-center">
+              <img src="logo.png" alt="Logo" class="h-16 w-16 mr-2">
+              Senml().
+            </a>
+          
+          </div>
+          <!-- Logo end -->
+
+          <!-- Navigation Links -->
+          <div class="flex items-center pt-1">
+            <ul class="flex space-x-4">
+              <% if (scriptLabel === "404"){ %>
+                <li>
+                  <a href="/" class="text-white hover:text-blue-400 md:text-xl sm:text-xs">Home</a>
+                </li>
+                <% } else { %>
+                  <li>
+                    <a href="/about" class="text-white hover:text-blue-400 md:text-xl sm:text-xs">About</a>
+                  </li>
+                  <li>
+                    <a href="/service" class="text-white hover:text-blue-400 md:text-xl sm:text-xs">Services</a>
+                  </li>
+                  <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
