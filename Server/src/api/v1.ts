@@ -3,6 +3,7 @@ const router = Router();
 import { saveText, SaveText } from '../controllers/database';
 import axios from 'axios';
 import { modelurl } from '../controllers/model';
+import { saveError } from '../controllers/errors';
 
 // localhost:8080/api/v1/
 
@@ -25,8 +26,8 @@ router.get('/', async (_req, res) => {
             return;
         }
     }else{
-        // 🚫 send the error message to the database??
-        res.status(403).json({"error": "model server not up"});
+        saveError("MLServer", "model server down");        
+        res.status(500).json({"error": "model server not up"});
         return;
     }
 });
@@ -42,13 +43,12 @@ router.post("/nmc", async (req, res) => {
             saveText(modeldata, req.body.data);
             res.json(modeldata);
         } else {
-            // 🚫 send the error message to the database??
-            console.error("Request failed or no data received.");
+            saveError("POST nmc","no data received.");
+            res.status(500).json({"error": "Request failed or No data received"});
         }
     } catch (error: any) {
-        // 🚫 send the error message to the database??
-        console.error("An error occurred:", error);
-        res.json({"error": error.message})
+        saveError(error.name, error.message);
+        res.status(500).json({"error": error.message})
     }
 })
 
@@ -63,13 +63,12 @@ router.post("/logreg", async (req, res) => {
             saveText(modeldata, req.body.data);
             res.json(modeldata);
         } else {
-            // 🚫 send the error message to the database??
-            console.error("Request failed or no data received.");
+            saveError("POST logreg","no data received.");
+            res.status(500).json({"error": "Request failed or No data received"});
         }
     } catch (error: any) {
-        // 🚫 send the error message to the database??
-        console.error("An error occurred:", error);
-        res.json({"error": error.message})
+        saveError(error.name, error.message);
+        res.status(500).json({"error": error.message})
     }
 })
 

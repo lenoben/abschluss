@@ -85,11 +85,25 @@ function decentCard(text, model){
      cardList.insertBefore(card, cardList.firstChild);
 }
 
+function showError(error) {
+    document.getElementById('error').classList.add('block');
+    document.getElementById('error').classList.remove('hidden');
+    const errorhandle = document.getElementById("error-span");
+    errorhandle.textContent = error;
+}
+
+function turnErrorOff(){
+    document.getElementById('error').classList.remove('block');
+    document.getElementById('error').classList.add('hidden');
+}
+
+
 document.addEventListener("DOMContentLoaded", function() {
     const submitButton = document.getElementById("submit-btn");
     const inputText = document.getElementById("r1");
 
     submitButton.addEventListener("click", async () => {
+        turnErrorOff();
         const inputValue = inputText.value.trim();
         if (inputValue === '') {
             return;
@@ -119,8 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 decentCard(inputValue, responseData);
 
             } else {
-                // 🚫 send the error message to the database??
-                console.error('Error sending data:', responseLog.status);
+                showError("Error sending text to server");
             }
 
             if (responseLog2.ok) {
@@ -129,12 +142,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 decentCard(inputValue, responseData2);
 
             } else {
-                // 🚫 send the error message to the database??
-                console.error('Error sending data:', responseLog2.status);
+                showError("Error sending text to server");
             }
         } catch (error) {
-            // 🚫 send the error message to the database??
-            console.error('An error occurred:', error);
+            showError(error);
         }
     });
 });
