@@ -11,8 +11,9 @@
         "dev": "npm run build && tsc-watch --onSuccess \"node ./dist/app.js\"",
         "dev-win": "npm run build-win && tsc-watch --onSuccess \"node ./dist/app.js\"",
         "start": "node dist/app.js",
-        "postinstall": "prisma generate && npm run build",
+        "postinstall": "prisma generate && npm run build && npm run gen",
         "hellnopostinstall-win": "prisma generate && npm run build-win",
+        "gen": "npx prisma db push",
         "just-dev": "tsc-watch --onSuccess \"node ./dist/app.js\""
     },
     "keywords": [
