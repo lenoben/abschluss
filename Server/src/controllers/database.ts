@@ -50,7 +50,6 @@ const getIndexForm = async (userid: number) => {
                 id: 'desc'
             }
         });
-        console.log(JSON.stringify(data));
         return data;
 }
 
@@ -59,8 +58,7 @@ const getIndex = async () => {
         select:{
             content: true,
         }
-});
-    console.log(JSON.stringify(data));
+    });
     return data;
 }
 

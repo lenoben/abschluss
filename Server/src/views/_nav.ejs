@@ -19,12 +19,14 @@
     <% const scriptSrc = scriptLabel + '.js'; %> 
     <!-- Set the script source dynamically -->
     <script defer src="<%= scriptSrc %>" type="module"></script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description" content="A text sentiment analysis graduation project website where different models are used to predict the sentiments in the texts, built with mlpack c++ and hosted with uwebsockets.">
   </head>
 
   <body class="bg-gray-900 text-white h-screen flex flex-col justify-between">
     <!-- Navigation Bar -->
     <nav class="bg-gray-800 py-4">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between">
           <!-- Logo -->
           <div class="flex-shrink-0">
