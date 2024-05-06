@@ -4,16 +4,16 @@
     "description": "This is the nodeJs project that serves as the frontend of the model",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc && cp -r src/public/ dist/ && cp -r src/views/ dist/ && npm run tailwind",
-        "build-win": "tsc && copy src\\views\\* dist\\views && copy src\\public\\* dist\\public && npm run tailwind",
-        "tailwind": "npx tailwindcss -i ./src/index.css -o ./dist/public/index.css",
+        "build": "tsc && cp -r Server/src/public/ dist/ && cp -r Server/src/views/ dist/ && npm run tailwind",
+        "build-win": "tsc && copy Server\\src\\views\\* dist\\views && copy Server\\src\\public\\* dist\\public && npm run tailwind",
+        "tailwind": "npx tailwindcss -i ./Server/src/index.css -o ./dist/public/index.css",
         "clean": "rm -rf dist/",
         "dev": "npm run build && tsc-watch --onSuccess \"node ./dist/app.js\"",
         "dev-win": "npm run build-win && tsc-watch --onSuccess \"node ./dist/app.js\"",
         "start": "npm run build && node dist/app.js",
-        "for-parcel": "parcel build src/public/index.html --dist-dir dist/public/index.html",
         "hellnopostinstall": "prisma generate && npm run build",
-        "just": "tsc-watch --onSuccess \"node ./dist/app.js\""
+        "hellnopostinstall-win": "prisma generate && npm run build-win",
+        "just-dev": "tsc-watch --onSuccess \"node ./dist/app.js\""
     },
     "keywords": [
         "sentiment",
@@ -41,4 +41,5 @@
         "tsc-watch": "^6.0.4",
         "typescript": "^5.3.3"
     }
-}
+  }
+  
