@@ -18,6 +18,10 @@ const config = {
 headers: headers,
 };
 
+router.get("/modeluri", async (_req, res) =>{
+    res.json({ "modeluri": modelurl});
+})
+
 router.get('/', async (_req, res) => {
     if(modelurl){
         const data = await axios.get(modelurl);

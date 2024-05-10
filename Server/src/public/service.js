@@ -28,13 +28,43 @@ function copygetfunc(){
     })
 }
 
-
-document.getElementById('copyButton').addEventListener('click', function () {
+document.getElementById('NmccopyButton').addEventListener('click', async function () {
     // Get the current URL
     const currentURL = window.location.href;
     
     // Concatenate the URL with "/home/api"
-    const concatenatedURL = currentURL + "/home/api";
+    // const response = await fetch('/api/v1/modeluri');
+    // if(response.ok){
+    //     const data = response.json();
+    //     const concatenatedURL = data.modeluri + '/logreg'
+    // }
+    const concatenatedURL = currentURL + "/api/v1/nmc";
+    
+    // Get the input element
+    const textInput = document.getElementById('textInput');
+    
+    // Set the value of the input element to the concatenated URL
+    textInput.value = concatenatedURL;
+    
+    // Select the text inside the input element
+    textInput.select();
+    
+    // Copy the selected text to the clipboard
+    document.execCommand('copy');
+});
+
+
+document.getElementById('LogregcopyButton').addEventListener('click', async function () {
+    // Get the current URL
+    const currentURL = window.location.href;
+    
+    // Concatenate the URL with "/home/api"
+    // const response = await fetch('/api/v1/modeluri');
+    // if(response.ok){
+    //     const data = response.json();
+    //     const concatenatedURL = data.modeluri + '/logreg'
+    // }
+    const concatenatedURL = currentURL + "/api/v1/logreg";
     
     // Get the input element
     const textInput = document.getElementById('textInput');
