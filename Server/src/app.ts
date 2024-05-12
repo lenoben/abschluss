@@ -25,20 +25,30 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.get('/', async (_req, res) => {
     const cardlist = await getIndexForm(1);
-    console.log(cardlist);
     res.render(path.join(__dirname, './views/index'),{
         scriptLabel: 'index',
-        cards : cardlist,
+        cards :cardlist,
     });
 });
 
 //home redirects
-app.get("/index*", (_req, res) => {
+app.get("/index*", (req, res) => {
     res.redirect("/");
 })
+
+app.get('/service', (_req, res) => {
+    res.render(path.join(__dirname, './views/service'),{
+        scriptLabel: 'service'
+    });
+});
+
+app.get('/about', (_req, res) => {
+    res.render(path.join(__dirname, './views/about'),{
+        scriptLabel: 'about'
+    });
+});
 
 app.use('/api', apiRouter);
 
