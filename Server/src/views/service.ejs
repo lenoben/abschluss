@@ -4,24 +4,22 @@
     code {
         display: block;
         padding: 1.5rem;
-        background-color: #f7fafc;
+        background-color: #000000;
         border-radius: 0.5rem;
         margin-bottom: 1rem;
         overflow-x: auto;
-        color: black;
+        color: rgb(255, 255, 255);
     }
 </style>
 
 <div class="container mx-auto py-8 p-8">
     <h1 class="text-4xl font-bold mb-4">Nmc model api</h1>
-    <div class="bg-transparent pb-6 rounded-lg shadow-lg flex lg:items-center lg:flex-row flex-col">
-        <input id="textInput" type="text" placeholder="Get URL" class="border border-gray-300 rounded-md px-4 py-2 mr-4 focus:outline-none focus:border-blue-500 text-black lg:w-9/12 w-full">
+    <div class="bg-transparent pb-6 lg:pl-3 rounded-lg shadow-lg flex lg:items-center lg:flex-row flex-col">
+        <input id="textInputNMC" type="text" placeholder="Get URL" class="border border-gray-300 rounded-md px-4 py-2 mr-4 focus:outline-none focus:border-blue-500 text-black lg:w-2/3 w-full">
         <button id="NmccopyButton" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 lg:m-0">Click to get and copy URL</button>
     </div>
     <!-- -->
     <div class="mx-auto">
-        <h1 class="text-3xl font-bold mb-4">Example Code</h1>
-
         <div>
             <h2 class="lg:text-xl font-semibold mb-2">JavaScript Code</h2>
             <code class="mt-6 mb-6 text-sm lg:text-base">
@@ -30,16 +28,16 @@
                     'Content-Type': 'application/json',
                     'whoami': 'senml().'
                 }
-                };
-
+                };<br/><br/>
                 const data = {
                 "nmc": your-text-data
-                }
+                };<br/><br/>
+                await axios.post(`${modelurl}/nmc`, data, config);
             </code>
         </div>
 
         <div>
-            <h2 class="text-xl font-semibold mb-2">POST Request</h2>
+            <h2 class="text-xl font-semibold mb-2">Reponse</h2>
             <code class="mt-6 mb-6 text-sm lg:text-base">
                 result : {
                 "result": Number,
@@ -50,16 +48,16 @@
     </div>
     <!-- -->
     <h1 class="text-4xl font-bold mb-4">Logreg model api</h1>
-    <div class="bg-transparent pb-6 rounded-lg shadow-lg flex lg:items-center lg:flex-row flex-col">
-        <input id="textInput" type="text" placeholder="Get URL" class="border border-gray-300 rounded-md px-4 py-2 mr-4 focus:outline-none focus:border-blue-500 text-black lg:w-9/12 w-full">
+    <div class="bg-transparent pb-6 lg:pl-3 rounded-lg shadow-lg flex lg:items-center lg:flex-row flex-col">
+        <input id="textInputLOG" type="text" placeholder="Get URL" class="border border-gray-300 rounded-md px-4 py-2 mr-6 focus:outline-none focus:border-blue-500 text-black lg:w-9/12 w-full">
         <button id="LogregcopyButton" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 lg:m-0">Click to get and copy URL</button>
     </div>
-    <p class="text-2xl">
+    <!-- <p class="text-2xl">
         Note
       </p>
       <p class="text-lg mb-4 text-white lg:text-justify">
         The aim is to address the challenge of analysing the sentiment in text data. Sentiment analysis involves determining the emotional tone expressed in a piece of text, classifying it as positive or negative. This is crucial for understanding user and public opinions, customer feedback and social media sentiment. Where the problem lies is in accurately categorizing diverse textual inputs which may contain subtle nuances and context-dependent sentiments. The challenge is to develop a robust system that can with less issues discern sentiments effectively and provide valuable insights into the emotional tone of the text. Large text volumes are time consuming to analysis and very easily prone to bias.
-      </p>
+      </p> -->
     <!-- -->
     <div class="mx-auto">
         <div>
@@ -70,16 +68,17 @@
                     'Content-Type': 'application/json',
                     'whoami': 'senml().'
                 }
-                };
-
+                };<br/><br/>
                 const data = {
                 "logreg": your-text-data
-                }
+                };
+                <br/><br/>
+                await axios.post(`${modelurl}/logreg`, data, config);
             </code>
         </div>
 
         <div>
-            <h2 class="text-xl font-semibold mb-2">POST Request</h2>
+            <h2 class="text-xl font-semibold mb-2">Reponse</h2>
             <code class="mt-6 mb-6 text-sm lg:text-base">
                 result : {
                 "result": Number,
