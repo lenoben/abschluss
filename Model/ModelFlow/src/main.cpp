@@ -14,6 +14,8 @@
 #include "MF_RandomForest.hpp"
 #include "MF_Fnn.hpp"
 #include "MF_LogisticRegression.hpp"
+#include "MF_mein_nmc.hpp"
+#include "MF_mein_knn.hpp"
 
 std::vector<std::string> mod(std::vector<std::string> notmod)
 {
@@ -30,9 +32,11 @@ void Vmain(bool fromStart = false);
 
 int main()
 {
-    Vmain(false);
+    // std::cout << "🧩" << std::endl;
+    Vmain(true);
+    // Vmain();
 
-    // ? could use a nested for loop, looping through a container/vector of values to be inserted into the model parameter
+    // // // ? could use a nested for loop, looping through a container/vector of values to be inserted into the model parameter
 
     std::cout << "[[[[[[[[[[[------------FFN-----------]]]]]]]]]]]]]]]" << std::endl;
     mf::fnnSetup(EncoderType::TFID, scaler_methods::MINMAX_SCALAR, 1);
@@ -40,11 +44,11 @@ int main()
     mf::fnnSetup(EncoderType::BOW, scaler_methods::MINMAX_SCALAR, 1);
     mf::fnnSetup(EncoderType::BOW, scaler_methods::STANDARD_SCALAR, 1);
 
-    std::cout << "[[[[[[[[[[[------------RF-----------]]]]]]]]]]]]]]]" << std::endl;
-    mf::randomForestSetup(EncoderType::TFID, scaler_methods::MINMAX_SCALAR, 2);
-    mf::randomForestSetup(EncoderType::BOW, scaler_methods::MINMAX_SCALAR, 2);
-    mf::randomForestSetup(EncoderType::BOW, scaler_methods::STANDARD_SCALAR, 2);
-    mf::randomForestSetup(EncoderType::TFID, scaler_methods::STANDARD_SCALAR, 2);
+    // std::cout << "[[[[[[[[[[[------------RF-----------]]]]]]]]]]]]]]]" << std::endl;
+    // mf::randomForestSetup(EncoderType::TFID, scaler_methods::MINMAX_SCALAR, 2);
+    // mf::randomForestSetup(EncoderType::BOW, scaler_methods::MINMAX_SCALAR, 2);
+    // mf::randomForestSetup(EncoderType::BOW, scaler_methods::STANDARD_SCALAR, 2);
+    // mf::randomForestSetup(EncoderType::TFID, scaler_methods::STANDARD_SCALAR, 2);
 
     std::cout << "[[[[[[[[[[[------------LOGR-----------]]]]]]]]]]]]]]]" << std::endl;
     double boundDecision = 0.5;
@@ -63,6 +67,57 @@ int main()
     boundDecision = 0.51;
     mf::logRegressionSetup(EncoderType::TFID, scaler_methods::MINMAX_SCALAR, boundDecision, intercept, penalty);
     mf::logRegressionSetup(EncoderType::BOW, scaler_methods::MINMAX_SCALAR, boundDecision, intercept, penalty);
+
+    std::cout << "[[[[[[[[[[[------------NMC-----------]]]]]]]]]]]]]]]" << std::endl;
+    mf::mein_nmc(EncoderType::BOW, scaler_methods::MINMAX_SCALAR);
+    mf::mein_nmc(EncoderType::BOW, scaler_methods::STANDARD_SCALAR);
+    mf::mein_nmc(EncoderType::BOW, scaler_methods::MAX_ABS_SCALAR);
+    mf::mein_nmc(EncoderType::BOW, scaler_methods::MEAN_NORM);
+    mf::mein_nmc(EncoderType::BOW);
+    mf::mein_nmc(EncoderType::TFID);
+    mf::mein_nmc(EncoderType::TFID, scaler_methods::MEAN_NORM);
+    mf::mein_nmc(EncoderType::TFID, scaler_methods::MAX_ABS_SCALAR);
+    mf::mein_nmc(EncoderType::TFID, scaler_methods::MINMAX_SCALAR);
+    mf::mein_nmc(EncoderType::TFID, scaler_methods::STANDARD_SCALAR);
+
+    std::cout << "[[[[[[[[[[[------------KNN-----------]]]]]]]]]]]]]]]" << std::endl;
+    mf::mein_knn(EncoderType::BOW, scaler_methods::MINMAX_SCALAR);
+    mf::mein_knn(EncoderType::BOW, scaler_methods::STANDARD_SCALAR);
+    mf::mein_knn(EncoderType::BOW, scaler_methods::MEAN_NORM);
+    mf::mein_knn(EncoderType::BOW, scaler_methods::MAX_ABS_SCALAR);
+    mf::mein_knn(EncoderType::BOW);
+    mf::mein_knn(EncoderType::TFID);
+    mf::mein_knn(EncoderType::TFID, scaler_methods::MAX_ABS_SCALAR);
+    mf::mein_knn(EncoderType::TFID, scaler_methods::MEAN_NORM);
+    mf::mein_knn(EncoderType::TFID, scaler_methods::MINMAX_SCALAR);
+    mf::mein_knn(EncoderType::TFID, scaler_methods::STANDARD_SCALAR);
+
+    if (false)
+    {
+        std::cout << "[[[[[[[[[[[------------NMC-----------]]]]]]]]]]]]]]]" << std::endl;
+        mf::mein_nmc2(EncoderType::BOW, scaler_methods::MINMAX_SCALAR);
+        mf::mein_nmc2(EncoderType::BOW, scaler_methods::STANDARD_SCALAR);
+        mf::mein_nmc2(EncoderType::BOW, scaler_methods::MAX_ABS_SCALAR);
+        mf::mein_nmc2(EncoderType::BOW, scaler_methods::MEAN_NORM);
+        mf::mein_nmc2(EncoderType::BOW);
+        mf::mein_nmc2(EncoderType::TFID);
+        mf::mein_nmc2(EncoderType::TFID, scaler_methods::MEAN_NORM);
+        mf::mein_nmc2(EncoderType::TFID, scaler_methods::MAX_ABS_SCALAR);
+        mf::mein_nmc2(EncoderType::TFID, scaler_methods::MINMAX_SCALAR);
+        mf::mein_nmc2(EncoderType::TFID, scaler_methods::STANDARD_SCALAR);
+
+        std::cout << "[[[[[[[[[[[------------KNN-----------]]]]]]]]]]]]]]]" << std::endl;
+        mf::mein_knn2(EncoderType::BOW, scaler_methods::MINMAX_SCALAR);
+        mf::mein_knn2(EncoderType::BOW, scaler_methods::STANDARD_SCALAR);
+        mf::mein_knn2(EncoderType::BOW, scaler_methods::MEAN_NORM);
+        mf::mein_knn2(EncoderType::BOW, scaler_methods::MAX_ABS_SCALAR);
+        mf::mein_knn2(EncoderType::BOW);
+        mf::mein_knn2(EncoderType::TFID);
+        mf::mein_knn2(EncoderType::TFID, scaler_methods::MAX_ABS_SCALAR);
+        mf::mein_knn2(EncoderType::TFID, scaler_methods::MEAN_NORM);
+        mf::mein_knn2(EncoderType::TFID, scaler_methods::MINMAX_SCALAR);
+        mf::mein_knn2(EncoderType::TFID, scaler_methods::STANDARD_SCALAR);
+    };
 
     return 0;
 }
@@ -109,6 +164,8 @@ void Vmain(bool fromStart)
         full.printType();
         full.viewList();
 
+        full.stem(full.getList()[1]);
+
         // removes unwanted characters from [1] or text.tx or nostopword.txt to cleaned.txt
         full.removech();
         full.printType();
@@ -125,7 +182,9 @@ void Vmain(bool fromStart)
         full.printType();
         full.viewList();
 
-        //
+        // set a limit
+        full.setLimit(1288);
+
         full.Combine();
         full.printType();
         full.viewList();
@@ -146,6 +205,7 @@ void Vmain(bool fromStart)
 
         full.ConvertJsonToTxt();
         full.removeStopWords();
+        full.stem(full.getList()[1]);
         full.removech();
         full.printType();
         full.viewList();
