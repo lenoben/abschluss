@@ -6,13 +6,13 @@
     <h1 class="text-lg lg:text-4xl font-bold text-center text-white">About The Project</h1>
     
     <h1 class="text-lg lg:text-4xl font-bold m-3 lg:m-6 text-white">Introduction:</h1>
-    <p class="text-base text-white leading-relaxed ml-3 lg:ml-6">
+    <p class="text-base lg:text-lg text-white leading-relaxed ml-3 lg:ml-6">
       Problem definition
     </p>
-    <p class="text-sm text-white m-3 lg:m-6 lg:text-justify">
+    <p class="text-sm lg:text-lg text-white m-3 lg:m-6 lg:text-justify">
       The aim is to address the challenge of analyzing the sentiment in text data. Sentiment analysis involves determining the emotional tone expressed in a piece of text, classifying it as positive or negative. This is crucial for understanding user and public opinions, customer feedback, and social media sentiment. Where the problem lies is in accurately categorizing diverse textual inputs which may contain subtle nuances and context-dependent sentiments. The challenge is to develop a robust system that can with less issues discern sentiments effectively and provide valuable insights into the emotional tone of the text. Large text volumes are time-consuming to analyze and very easily prone to bias.
     </p>
-    <p class="text-sm text-white m-3 lg:m-6 lg:text-justify">
+    <p class="text-sm lg:text-lg text-white m-3 lg:m-6 lg:text-justify">
       The complexity of this problem arises from the inherent subjectivity and variability of human language. Different people may express the same sentiment in different ways and a single individual may express their sentiments differently at different times.
       The project's objective is to create an accurate text classification system with a user interface that can easily integrate with third party platforms.
       The project follows four stages; data collection, cleaning and preprocessing where feature engineering techniques are applied; building and comparing machine learning models using ML methods supported by Mlpack.
@@ -20,27 +20,27 @@
     </p>
     <!-- -->
     <h1 class="text-lg lg:text-4xl font-bold m-3 lg:m-6 text-white">Result and Experiments:</h1>
-    <p class="text-sm text-white m-3 lg:m-6 lg:text-justify">
+    <p class="text-sm lg:text-lg text-white m-3 lg:m-6 lg:text-justify">
       These were the few models tested on the train dataset and looking at it raw in this form may not be the best way to get insights on which models perform better therefore a chart depicting them will be better.
       From the graph above FFN TFID MINMAX is the best performing model I have trained for this project. But even if the FFN model was the best one, the logistic regression model TFID MINMAX 0.52 was second place in terms of how high is evaluations are and some might say it's the better one as all the evaluation metrics are closer to each other than the FFN model. The caveat of the FFN model is that its binary size is too large compared to what the logistic regression model leaves behind and due to the low memory of the cloud provider the logistic model will be picked.
     </p>
-    <p class="text-sm text-white m-3 lg:m-6 lg:text-justify">
+    <p class="text-sm lg:text-lg text-white m-3 lg:m-6 lg:text-justify">
       The models NMC and KNN was rebuilt by me from scratch so therefore one of them needs to be shipped for end-users to use and the choice of which gets picked is very clear. The KNN model performed poorly while NMC performed above the 80% threshold.
     </p>
     <!-- -->
     <h1 class="text-lg lg:text-4xl font-bold m-3 lg:m-6 text-white">Graph:</h1>
-    <p class="text-base text-white leading-relaxed ml-3 lg:ml-6">
+    <p class="text-base lg:text-lg text-white leading-relaxed ml-3 lg:ml-6">
       Models result chart
     </p>
     <p class="m-3 lg:m-6">
       <img src="img/model_results_chart.png" alt="model chart">
     </p>
-    <p class="text-sm text-white m-3 lg:m-6 lg:text-justify">
+    <p class="text-sm lg:text-lg text-white m-3 lg:m-6 lg:text-justify">
       The aim is to address the challenge of analyzing the sentiment in text data. Sentiment analysis involves determining the emotional tone expressed in a piece of text, classifying it as positive or negative. This is crucial for understanding user and public opinions, customer feedback, and social media sentiment. Where the problem lies is in accurately categorizing diverse textual inputs which may contain subtle nuances and context-dependent sentiments. The challenge is to develop a robust system that can with less issues discern sentiments effectively and provide valuable insights into the emotional tone of the text. Large text volumes are time-consuming to analyze and very easily prone to bias.
     </p>
-    <p class="text-lg text-white ml-3 lg:ml-6 text-justify">
+    <p class="text-lg lg:text-4xl text-white ml-3 lg:ml-6 text-justify">
       <strong>Type of models built;</strong>
-      <ul class="ml-3 lg:ml-6 text-sm">
+      <ul class="ml-3 lg:ml-6 text-sm lg:text-lg">
         <li>
           FFN
         </li>
@@ -61,9 +61,9 @@
         </li>
       </ul>
     </p>
-    <p class="text-lg text-white mt-6 ml-3 lg:ml-6 text-justify">
+    <p class="text-lg lg:text-4xl text-white mt-6 ml-3 lg:ml-6 text-justify">
       <strong>Models Supported at the moment;</strong>
-      <ul class="ml-3 lg:ml-6 text-sm">
+      <ul class="ml-3 lg:ml-6 text-sm lg:text-lg">
         <li>
           Logreg
         </li>
