@@ -8,7 +8,7 @@ import errLogEvents from './middleware/errorHandle';
 import { modelurl } from './controllers/model';
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 10000;
 
 //shuts down if crucial envs are not given
 if(port == undefined || modelurl == undefined){
