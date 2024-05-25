@@ -15,7 +15,7 @@ function probs(btndiv, model){
                 model_btn.textContent = "negative";
                 model_btn_div.appendChild(model_btn);
                 model_btn2.classList.add("w-24","h-9","flex","items-center","justify-center","bg-red-950","rounded");
-                model_btn2.textContent = model.probability * 100 + "%";
+                model_btn2.textContent = Math.round(model.probability*10)/10 * 100 + "%";
                 model_btn_div.appendChild(model_btn2);
             }
             btndiv.appendChild(model_btn_div);
