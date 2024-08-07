@@ -97,3 +97,4 @@ C++ gitignore
 **/json/*.json
 # ignore the output data files
 *.bin
+*.env
