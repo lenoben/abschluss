@@ -247,7 +247,7 @@ namespace mf
         mlpack::data::Save(modelname + "_pred.csv", pred);
         mlpack::data::Save(modelname + "_test.csv", FNN_testLabel);
 
-        double decisonboundary = 0.54;
+        double decisonboundary = 0.5;
 
         arma::Row<size_t> predl = _convertToRow(pred, decisonboundary);
         arma::mat thre = arma::zeros<arma::mat>(pred.n_rows, pred.n_cols);

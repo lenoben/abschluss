@@ -89,6 +89,7 @@ C++ gitignore
 **/out
 **/ModelFlow/tests/**
 **/ModelFlow/temp/**
+**/demo/**
 # This is needed but it is here as a shellscript will do the installation of this
 **/MLServer/include/uWebSockets/** 
 **/.venv
@@ -97,3 +98,12 @@ C++ gitignore
 **/json/*.json
 # ignore the output data files
 *.bin
+
+/forconvience/**
+/inlinux-server/**
+/learnDeploy/**
+/temp-server/**
+/.vscode/**
+**/hold/**
+/snserver/**
+**/deep/**

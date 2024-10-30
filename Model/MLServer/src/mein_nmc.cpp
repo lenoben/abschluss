@@ -132,7 +132,7 @@ int Mein_NMC<MatrixType>::Predict(MatrixType &matx)
  * @return int : class from the label
  */
 template <typename MatrixType>
-int Mein_NMC<MatrixType>::RPredict(MatrixType &matx)
+int Mein_NMC<MatrixType>::RPredict2(MatrixType &matx)
 {
     double min_distance = std::numeric_limits<double>::max();
         int predicted_class = -1;
@@ -149,6 +149,37 @@ int Mein_NMC<MatrixType>::RPredict(MatrixType &matx)
         return predicted_class;
 };
 
+template <typename MatrixType>
+int Mein_NMC<MatrixType>::RPredict(MatrixType &matx){
+    // Ensure matx has exactly 3 vectors (i.e., 3 columns)
+    if (matx.n_cols != 3)
+    {
+        throw std::invalid_argument("matx must contain exactly 3 vectors (columns).");
+    }
+
+    std::vector<int> predictions;
+
+    for (size_t col = 0; col < matx.n_cols; ++col)
+    {
+        double min_distance = std::numeric_limits<double>::max();
+        int predicted_class = -1;
+
+        for (const auto& class_mean : vect_pair_mat) {
+            // Compute the distance between the current vector (column) and the class mean
+            double distance = arma::norm(class_mean.second - matx.col(col), 2);
+
+            if (distance < min_distance) {
+                min_distance = distance;
+                predicted_class = class_mean.first;
+            }
+        }
+
+        predictions.push_back(predicted_class);
+    }
+
+    // Return the predicted class of the middle vector (the second vector)
+    return predictions[1];
+}
 
 Mein_NMC<arma::sp_mat> &get_NMC_SP(){
     //NMC. TFID NONE

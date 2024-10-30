@@ -6,6 +6,9 @@
 // Load Logreg
 mlpack::LogisticRegression<> &modelLogreg = get_LogReg();
 
+// Load RandomForest
+mlpack::RandomForest<> &modelRF = getRF();
+
 // load tokenizers
 mlpack::data::SplitByAnyOf tokenizers(" .,\"");
 
@@ -66,6 +69,58 @@ int main()
                 return;
             }); // onAborted
         }) // post "/""
+        .post("/rf", [](uWS::HttpResponse<false> *res, uWS::HttpRequest *req){
+            if(checkCustomheader(req->getHeader("whoami"))){
+                std::string jsonData = R"({"error": "who are you??"})";
+                res->writeHeader("Content-Type", "application/json")->writeStatus("403")->end(jsonData.data());
+                return;
+            }
+            if (std::string(req->getHeader("content-type")) == "application/json")
+            {
+                if(checkContentlength(req->getHeader("content-length"))){
+                std::string headervalue = R"({"error":"echo - request needs a payload"})";
+                res->writeStatus("400")->writeHeader("Content-Type", "application/json")->end(headervalue.data());
+                }
+
+                res->onData([res](std::string_view data, bool last){
+                    if(last){
+                        std::string value(data.data(), data.size());
+                        try{
+                            Json receivedJson = Json::parse(value);
+                            if (receivedJson["rf"].is_null()){
+                                //null ffn
+                                value = R"({"error":"Invalid JSON - error parsing Json"})";
+                                res->writeStatus("400")->writeHeader("Content-Type", "application/json");
+                                res->end(value.data());
+                                return;
+                            }
+                            value = receivedJson["rf"];
+                            arma::mat valuemat = tfidStringCleaner(value, stopWords,  removecharacters, TFID_encoder.Dictionary(), tokenizers, TFID_encoder, true);
+                            scalerTransform(scaler_methods::MINMAX_SCALAR, valuemat);
+                            arma::Row<size_t> label;
+                            arma::mat prob;
+                            modelRF.Classify(valuemat, label, prob);
+                            convertRowToResult(label, prob, value);
+                            res->writeStatus("200")->writeHeader("Content-Type", "application/json");
+                            res->end(value.data());
+                            return;
+                            // rowToString()
+                        }catch (const std::exception &e){
+                            std::string errorMessage = "Error: ";
+                            errorMessage += e.what();
+                            std::string value = R"({"error": ")" + errorMessage + R"("})";
+                            res->writeStatus("400")->writeHeader("Content-Type", "application/json");
+                            res->end(value.data());
+                            return;
+                        } //try-catch
+                    } //last
+                }); //onData
+                res->onAborted([res](){
+                    res->writeStatus("500")->end("request aborted");
+                    return;
+                }); // onAborted
+            }// if application/json
+        })
         .post("/logreg",[](uWS::HttpResponse<false> *res, uWS::HttpRequest *req){
             if(checkCustomheader(req->getHeader("whoami"))){
                 std::string jsonData = R"({"error": "who are you??"})";
@@ -111,12 +166,6 @@ int main()
                             res->end(value.data());
                             return;
                         } //try-catch
-                        // on everything successful
-                        value = R"({"success":"FFN - success parsing Json"})";
-						res->writeStatus("200");
-						res->writeHeader("Content-Type", "application/json");
-                        res->end(value.data());
-                        return;
                     } //last
                 }); //onData
                 res->onAborted([res](){
@@ -142,7 +191,7 @@ int main()
                     try{
                         Json receivedJson = Json::parse(value);
                         std::string nmc = receivedJson["nmc"];
-                        arma::sp_mat matText(tfidStringCleaner(nmc, stopWords,  removecharacters, TFID_encoder.Dictionary(), tokenizers, TFID_encoder, false));
+                        arma::sp_mat matText(tfidStringCleaner(nmc, stopWords,  removecharacters, TFID_encoder.Dictionary(), tokenizers, TFID_encoder, true));
                     modelpredToString(modelNMC.RPredict(matText), nmc);
                     res->writeStatus("200");
                             res->writeHeader("Content-Type", "application/json");

@@ -93,7 +93,7 @@
 - C++
 - Visual Studio Code
 - PostgreSQL
-- Fl0.com
+- Render.com
 - Python3
 
 ## TODO:
@@ -111,10 +111,10 @@
 - [x] Evaluate the classification model
 - [x] Train a test model
 - [x] Evaluate the test model
-- [ ] Save the model
-- [ ] Build uWebSockets server
-- [ ] Test server
-- [ ] Build the server with model hosting capabilities
+- [x] Save the model
+- [x] Build uWebSockets server
+- [x] Test server
+- [x] Build the server with model hosting capabilities
 - [ ] Add the specific file download uri
 
 ## REFERENCES

@@ -91,6 +91,26 @@ std::tuple<arma::mat, arma::mat, arma::Row<size_t>, arma::Row<size_t>> getMatrix
     return std::make_tuple(trainMat, testMat, trainLabel, testLabel);
 }
 
+std::tuple<arma::sp_mat, arma::sp_mat, arma::Row<size_t>, arma::Row<size_t>> getMatrixDataset_sp(EncoderType ET){
+    arma::sp_mat trainMat, testMat;
+    arma::Row<size_t> trainLabel, testLabel;
+    if (ET == EncoderType::BOW)
+    {
+        mlpack::data::Load("BOW_train_mat.csv", trainMat);
+        mlpack::data::Load("BOW_test_mat.csv", testMat);
+        mlpack::data::Load("BOW_train_label.csv", trainLabel);
+        mlpack::data::Load("BOW_test_label.csv", testLabel);
+    }
+    if (ET == EncoderType::TFID)
+    {
+        mlpack::data::Load("TFID_train_mat.csv", trainMat);
+        mlpack::data::Load("TFID_test_mat.csv", testMat);
+        mlpack::data::Load("TFID_train_label.csv", trainLabel);
+        mlpack::data::Load("TFID_test_label.csv", testLabel);
+    }
+    return std::make_tuple(trainMat, testMat, trainLabel, testLabel);
+}
+
 /**
  * @brief Perform encoding on the vector of strings and returns a row major matrix
  * @param vector_of_strings The string corpus it will encode

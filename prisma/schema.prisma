@@ -32,7 +32,7 @@ model nmc {
 }
 
 model logreg {
-  logreg_id         Int         @id @default(autoincrement())
+  logreg_id            Int         @id @default(autoincrement())
   text_id           Int?
   probability       Decimal?    @db.Decimal(3, 1)
   result            Int?
@@ -53,9 +53,19 @@ model model_text {
 model random_forest {
   random_forest_id  Int         @id @default(autoincrement())
   text_id           Int?
-  probability       Decimal?    @db.Decimal(3, 1)
+  probability Decimal?    @db.Decimal(3, 1)
   result            Int?
   model_text        model_text? @relation(fields: [text_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_random_forest_model_text")
+}
+
+model request_log {
+  request_log_id Int        @id @default(autoincrement())
+  req_date        DateTime   @default(now()) @db.Timestamp
+  method         String?    @db.VarChar(10)
+  headers        String?
+  url            String?
+  user_id        Int?
+  site_user      site_user? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_request_log_user")
 }
 
 model site_user {
@@ -64,4 +74,5 @@ model site_user {
   email       String        @unique @db.VarChar(255)
   error_log   error_log[]
   model_text  model_text[]
+  request_log request_log[]
 }

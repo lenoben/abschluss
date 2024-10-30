@@ -70,6 +70,8 @@ public:
      * @return int : class from the label
      */
     
+    int RPredict2(MatrixType &matx);
+
     int RPredict(MatrixType &matx);
 };
 

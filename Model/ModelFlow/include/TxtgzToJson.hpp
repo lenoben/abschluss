@@ -28,7 +28,10 @@ namespace gzTojson
     {
         if (!goon)
         {
-            const char *command = "sudo apt install -y python3-pip && pip3 install -r ../data/requirements.txt";
+            // as non root
+            //  const char *command = "sudo apt install -y python3-pip && pip3 install -r ../data/requirements.txt";
+            // as root
+            const char *command = "apt install -y python3-pip && pip3 install -r ../data/requirements.txt";
 
             // Run the command using the system function
             int result = system(command);
