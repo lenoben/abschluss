@@ -1,108 +1,161 @@
-function probs(btndiv, model){
-            const model_btn_div = document.createElement('div');
-            model_btn_div.classList.add("flex","gap-2","mt-2");
-            const model_btn = document.createElement('button');
-            const model_btn2 = document.createElement('button');
-            if(model.result == 1){
-                model_btn.classList.add("w-24","h-9","flex","items-center","justify-center","bg-green-950","rounded");
-                model_btn.textContent = "positive";
-                model_btn_div.appendChild(model_btn);
-                model_btn2.classList.add("w-24","h-9","flex","items-center","justify-center","bg-green-950","rounded");
-                model_btn2.textContent = model.probability * 100 + "%";
-                model_btn_div.appendChild(model_btn2);
-            }else{
-                model_btn.classList.add("w-24","h-9","flex","items-center","justify-center","bg-red-950","rounded");
-                model_btn.textContent = "negative";
-                model_btn_div.appendChild(model_btn);
-                model_btn2.classList.add("w-24","h-9","flex","items-center","justify-center","bg-red-950","rounded");
-                model_btn2.textContent = model.probability * 100 + "%";
-                model_btn_div.appendChild(model_btn2);
-            }
-            btndiv.appendChild(model_btn_div);
+function probs(btndiv, model) {
+    const model_btn_div = document.createElement('div');
+    model_btn_div.classList.add('flex', 'gap-2', 'mt-2');
+    const model_btn = document.createElement('button');
+    const model_btn2 = document.createElement('button');
+    if (model.result == 1) {
+        model_btn.classList.add(
+            'w-24',
+            'h-9',
+            'flex',
+            'items-center',
+            'justify-center',
+            'bg-green-950',
+            'rounded'
+        );
+        model_btn.textContent = 'positive';
+        model_btn_div.appendChild(model_btn);
+        model_btn2.classList.add(
+            'w-24',
+            'h-9',
+            'flex',
+            'items-center',
+            'justify-center',
+            'bg-green-950',
+            'rounded'
+        );
+        model_btn2.textContent = Math.floor(model.probability * 100) + '%';
+        model_btn_div.appendChild(model_btn2);
+    } else {
+        model_btn.classList.add(
+            'w-24',
+            'h-9',
+            'flex',
+            'items-center',
+            'justify-center',
+            'bg-red-950',
+            'rounded'
+        );
+        model_btn.textContent = 'negative';
+        model_btn_div.appendChild(model_btn);
+        model_btn2.classList.add(
+            'w-24',
+            'h-9',
+            'flex',
+            'items-center',
+            'justify-center',
+            'bg-red-950',
+            'rounded'
+        );
+        model_btn2.textContent = Math.floor(model.probability * 100) + '%';
+        model_btn_div.appendChild(model_btn2);
+    }
+    btndiv.appendChild(model_btn_div);
 }
 
-function nonprob(btndiv, model){
+function nonprob(btndiv, model) {
     const modeldoc_btn = document.createElement('button');
-    if(model.result == 1){
-        modeldoc_btn.classList.add("w-24","h-9","flex","items-center","justify-center","bg-green-950","rounded");
-        modeldoc_btn.textContent = "positive";
-    }else{
-        modeldoc_btn.classList.add("w-24","h-9","flex","items-center","justify-center","bg-red-950","rounded");
-        modeldoc_btn.textContent = "negative";
+    if (model.result == 1) {
+        modeldoc_btn.classList.add(
+            'w-24',
+            'h-9',
+            'flex',
+            'items-center',
+            'justify-center',
+            'bg-green-950',
+            'rounded'
+        );
+        modeldoc_btn.textContent = 'positive';
+    } else {
+        modeldoc_btn.classList.add(
+            'w-24',
+            'h-9',
+            'flex',
+            'items-center',
+            'justify-center',
+            'bg-red-950',
+            'rounded'
+        );
+        modeldoc_btn.textContent = 'negative';
     }
-    
+
     btndiv.appendChild(modeldoc_btn);
 }
 
-
 /**
- * 
- * @param { actual text } text 
+ *
+ * @param { actual text } text
  * @param {* object.{type, user, result, probability}} model
  */
-function decentCard(text, model){
-    const cardList = document.getElementById("card-list");
+function decentCard(text, model) {
+    const cardList = document.getElementById('card-list');
     //create new card element
     const card = document.createElement('div');
-    card.classList.add("shadow-lg", "rounded-lg", "p-2", "w-3/4", "text-white", "bg-transparent");
+    card.classList.add(
+        'shadow-lg',
+        'rounded-lg',
+        'p-2',
+        'w-3/4',
+        'text-white',
+        'bg-transparent'
+    );
     // Set text content
     const textElement = document.createElement('p');
     textElement.classList.add('text-lg');
     textElement.textContent = text;
     card.appendChild(textElement);
 
-     // Set user content
-     const userElement = document.createElement('p');
-     userElement.classList.add('text-lg', 'mb-2', 'text-blue-500');
-     userElement.textContent = 'User: ' + model.user;
-     card.appendChild(userElement);
+    // Set user content
+    const userElement = document.createElement('p');
+    userElement.classList.add('text-lg', 'mb-2', 'text-blue-500');
+    userElement.textContent = 'User: ' + model.user;
+    card.appendChild(userElement);
 
-    const btndiv = document.createElement('div');     
+    const btndiv = document.createElement('div');
     const modeldoc = document.createElement('p');
 
-    modeldoc.classList.add('text-lg','font-bold','mt-2');
+    modeldoc.classList.add('text-lg', 'font-bold', 'mt-2');
 
     // 🚫 Supports only NMC and Logreg, modify to support more
     switch (model.type) {
-        case "logreg":
-            modeldoc.textContent = "Logistic regression";
+        case 'logreg':
+            modeldoc.textContent = 'Logistic regression';
             btndiv.appendChild(modeldoc);
             probs(btndiv, model);
             break;
-        case "nmc":
-            modeldoc.textContent = "NMC";
+        case 'nmc':
+            modeldoc.textContent = 'NMC';
             btndiv.appendChild(modeldoc);
             nonprob(btndiv, model);
             break;
-    
+
         default:
-            modeldoc.textContent = "unknown";
+            modeldoc.textContent = 'unknown';
             btndiv.appendChild(modeldoc);
             nonprob(btndiv, model);
             break;
     }
-     card.appendChild(btndiv);
-     cardList.insertBefore(card, cardList.firstChild);
+    card.appendChild(btndiv);
+    cardList.insertBefore(card, cardList.firstChild);
 }
 
 function showError(error) {
     document.getElementById('error').classList.add('block');
     document.getElementById('error').classList.remove('hidden');
-    const errorhandle = document.getElementById("error-span");
+    const errorhandle = document.getElementById('error-span');
     errorhandle.textContent = error;
 }
 
-function turnErrorOff(){
+function turnErrorOff() {
     document.getElementById('error').classList.remove('block');
     document.getElementById('error').classList.add('hidden');
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    const submitButton = document.getElementById('submit-btn');
+    const inputText = document.getElementById('r1');
 
-document.addEventListener("DOMContentLoaded", function() {
-    const submitButton = document.getElementById("submit-btn");
-    const inputText = document.getElementById("r1");
-
-    submitButton.addEventListener("click", async () => {
+    submitButton.addEventListener('click', async () => {
         turnErrorOff();
         const inputValue = inputText.value.trim();
         if (inputValue === '') {
@@ -115,34 +168,32 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: 'POST',
                 body: JSON.stringify({ data: inputValue }),
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+                    'Content-Type': 'application/json',
+                },
+            });
 
             const responseLog2 = await fetch('/api/v1/nmc', {
                 method: 'POST',
                 body: JSON.stringify({ data: inputValue }),
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+                    'Content-Type': 'application/json',
+                },
+            });
 
             if (responseLog.ok) {
                 const responseData = await responseLog.json();
                 console.log(responseData);
                 decentCard(inputValue, responseData);
-
             } else {
-                showError("Error sending text to server");
+                showError('Error sending text to server');
             }
 
             if (responseLog2.ok) {
                 const responseData2 = await responseLog2.json();
                 console.log(responseData2);
                 decentCard(inputValue, responseData2);
-
             } else {
-                showError("Error sending text to server");
+                showError('Error sending text to server');
             }
         } catch (error) {
             showError(error);
