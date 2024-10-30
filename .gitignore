@@ -98,7 +98,6 @@ C++ gitignore
 **/json/*.json
 # ignore the output data files
 *.bin
-
 /forconvience/**
 /inlinux-server/**
 /learnDeploy/**
@@ -107,3 +106,4 @@ C++ gitignore
 **/hold/**
 /snserver/**
 **/deep/**
+*.env

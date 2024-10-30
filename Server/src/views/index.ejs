@@ -1,50 +1,59 @@
 <%- include('_nav', { scriptLabel: scriptLabel }); %>
 <style>
-    #r1 {
-          border-radius: 12px;
-          background: linear-gradient(#303133, #303133) padding-box,
-          linear-gradient(90deg, #ed6e61, #6359e1) border-box;
-          border: 3px solid transparent;
-          padding: 0rem 0.25rem !important;
-          /* margin-bottom: 2.5em !important; */
-        }
-        input::placeholder {
-          padding-left: 0.5rem; /* Adjust the left padding as needed */
-        }
+  #r1 {
+    border-radius: 12px;
+    background: linear-gradient(#303133, #303133) padding-box,
+      linear-gradient(90deg, #ed6e61, #6359e1) border-box;
+    border: 3px solid transparent;
+    padding: 1.25rem 1.25rem !important;
+  }
+  input::placeholder {
+    padding-left: 0.5rem; /* Adjust the left padding as needed */
+  }
 </style>
 <div class="container mx-auto py-8">
-    <!-- Form -->
-    <div class="mt-8 flex justify-center items-center flex-col">
-        <div class="w-3/4">
-            <h1 class="text-3xl font-bold text-center" style="letter-spacing: 1.5px;">Hallo und willkomenn</h1>
-            <p class="text-lg text-white m-2 mb-4">
-            Sentiment analysis of textual data used to assess products in discussion forums and e-commerce settings is the main objective of this web-based platform project. It makes an effort to perform a thorough text classification. It will be used to help arrange text based on sentimental significance in order to quickly support the clients who are providing feedback. Finding the text's emotions, whether favourable or negative, is the goal.
-            </p>
-            <input
-                type="text"
-                class="w-full bg-gray-700 text-white py-2 px-4 rounded-lg mb-4 h-16"
-                id="r1"
-                placeholder="Enter your text..."
-            />
-            <button class="bg-gray-600 hover:bg-red-600 text-white py-2 px-4 rounded-lg mt-4 mb-4"
-            id="submit-btn">
-                Submit.
-            </button>
-        </div>
-        <div id="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded w-3/4 relative m-4 hidden" role="alert">
-            <strong class="font-bold">Error!</strong>
-            <span id="error-span" class="block sm:inline"></span>
-        </div>  
+  <!-- Form -->
+  <div class="mt-8 flex justify-center items-center flex-col">
+    <div class="w-3/4">
+      <h1 class="text-3xl font-bold text-center" style="letter-spacing: 1.5px">
+        Hallo und willkommen
+      </h1>
+      <p class="text-lg text-white m-2 mb-4">
+        Sentiment analysis of textual data used to assess products in discussion
+        forums and e-commerce settings is the main objective of this web-based
+        platform project. It makes an effort to perform a thorough text
+        classification. It will be used to help arrange text based on
+        sentimental significance in order to quickly support the clients who are
+        providing feedback. Finding the text's emotions, whether favourable or
+        negative, is the goal.
+      </p>
+      <input
+        type="text"
+        class="w-full bg-gray-700 text-white py-2 px-4 rounded-lg mb-4 h-16"
+        id="r1"
+        placeholder="Enter your text..."
+      />
+      <button
+        class="bg-gray-600 hover:bg-red-600 text-white py-2 px-4 rounded-lg mt-4 mb-4"
+        id="submit-btn"
+      >
+        Submit.
+      </button>
     </div>
-    <div class="flex flex-col gap-4 items-center m-0" id="card-list">
-        <% if(cards && cards.length > 0) { %>
-            <% cards.forEach(element => { %>
-                <%- include('_cards_main', { card: element }); %>
-            <% }) %>
-        <% } else { %>
-            <div></div>
-        <% } %>
+    <div
+      id="error"
+      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded w-3/4 relative m-4 hidden"
+      role="alert"
+    >
+      <strong class="font-bold">Error!</strong>
+      <span id="error-span" class="block sm:inline"></span>
     </div>
-    
+  </div>
+  <div class="flex flex-col gap-4 items-center m-0" id="card-list">
+    <% if(cards && cards.length > 0) { %> <% cards.forEach(element => { %> <%-
+    include('_cards_main', { card: element }); %> <% }) %> <% } else { %>
+    <div></div>
+    <% } %>
+  </div>
 </div>
 <%- include('_footer') %>
